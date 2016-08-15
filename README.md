@@ -1,4 +1,4 @@
-# Open Raadsinformatie API
+# DUO API
 
 
 
