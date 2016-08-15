@@ -2,7 +2,7 @@
 
 source /opt/bin/activate
 
-cd /opt/ori
+cd /opt/duo
 
 service elasticsearch restart
 service redis-server restart

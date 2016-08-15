@@ -179,15 +179,15 @@ RUN git clone git://source.ffmpeg.org/ffmpeg.git \
     && ldconfig
 ##########
 
-WORKDIR /opt/ori
+WORKDIR /opt/duo
 # Create a virtualenv project
 RUN echo 'ok'
 RUN virtualenv -q /opt
-RUN echo "source /opt/bin/activate; cd /opt/ori;" >> ~/.bashrc
+RUN echo "source /opt/bin/activate; cd /opt/duo;" >> ~/.bashrc
 
 # Temporarily add all NPO Backstage files on the host to the container
 # as it contains files needed to finish the base installation
-ADD . /opt/ori
+ADD . /opt/duo
 
 # Install Python requirements
 RUN source ../bin/activate \
@@ -208,4 +208,4 @@ RUN find . -delete
 
 # When the container is created or started run start.sh which starts
 # all required services and supervisor which starts celery and celerycam
-# CMD /opt/ori/start.sh
+# CMD /opt/duo/start.sh
