@@ -89,6 +89,7 @@ class RestApiSearchTestCase(OcdRestTestCaseMixin, TestCase):
         facets are actually present in the response."""
         url = url_for(self.endpoint_url, **self.endpoint_url_args)
         available_facets = current_app.config['AVAILABLE_FACETS']
+        available_facets['items'].update(current_app.config['COMMON_FACETS'])
         facet_keys = random.sample(available_facets['items'].keys(), 1)
         facets = {fk: available_facets['items'][fk] for fk in facet_keys}
 
