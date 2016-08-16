@@ -136,7 +136,7 @@ class RestApiSearchTestCase(OcdRestTestCaseMixin, TestCase):
         url = url_for(self.endpoint_url, **self.endpoint_url_args)
 
         facets = {
-            'classification': {
+            'source': {
                 'size': 10
             }
         }
@@ -463,7 +463,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
         url = url_for('api.similar', object_id=doc_id)
 
         facets = {
-            'classification': {
+            'source': {
                 'size': 10
             }
         }
