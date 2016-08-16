@@ -196,15 +196,16 @@ def format_search_results(results, doc_type='items'):
             except KeyError as e:
                 pass
 
-    formatted_results = {}
+    formatted_results = {
+        'hits': {'hits': []}
+    }
     for hit in results['hits']['hits']:
-        formatted_results.setdefault(hit['_type'], [])
         for fld in ['_score', '_type', '_index', 'highlight']:
             try:
                 hit['_source']['meta'][fld] = hit[fld]
             except Exception as e:
-                pass 
-        formatted_results[hit['_type']].append(hit['_source'])
+                pass
+        formatted_results['hits']['hits'].append(hit['_source'])
         del hit['_type']
         del hit['_index']
 
