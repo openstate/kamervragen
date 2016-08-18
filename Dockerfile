@@ -40,7 +40,7 @@ RUN apt-get install -y redis-server
 RUN service redis-server start
 
 # Install elasticsearch
-ENV ES_VERSION 1.4.2
+ENV ES_VERSION 1.7.5
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${ES_VERSION}.deb
 RUN dpkg -i elasticsearch-${ES_VERSION}.deb > /dev/null
 RUN sed -i 's/#discovery.zen.ping.multicast.enabled: false/discovery.zen.ping.multicast.enabled: false/' /etc/elasticsearch/elasticsearch.yml
