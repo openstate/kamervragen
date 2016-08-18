@@ -4,7 +4,7 @@ import re
 
 from ocd_backend.extractors import BaseExtractor, HttpRequestMixin
 from ocd_backend.exceptions import ConfigurationError
-from ocd_backend.utils.unicode_csv import UnicodeReader
+from ocd_backend.utils.unicode_csv import UnicodeReaderAsDict
 
 from ocd_backend import settings
 
@@ -16,7 +16,7 @@ class DownloadExtractor(BaseExtractor, HttpRequestMixin):
     """
     def run(self):
         with open(self.source_definition['csv_file']) as csvfile:
-            reader = UnicodeReader(csvfile)
+            reader = UnicodeReaderAsDict(csvfile)
             for row in reader:
                 pprint(row)
         return []

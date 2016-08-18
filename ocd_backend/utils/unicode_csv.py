@@ -1,6 +1,6 @@
 import csv, codecs, cStringIO
 
-class UTF8Recoder:
+class UTF8Recoder(object):
     """
     Iterator that reads an encoded stream and reencodes the input to UTF-8
     """
@@ -13,7 +13,7 @@ class UTF8Recoder:
     def next(self):
         return self.reader.next().encode("utf-8")
 
-class UnicodeReader:
+class UnicodeReader(object):
     """
     A CSV reader which will iterate over lines in the CSV file "f",
     which is encoded in the given encoding.
@@ -30,7 +30,21 @@ class UnicodeReader:
     def __iter__(self):
         return self
 
-class UnicodeWriter:
+class UnicodeReaderAsDict(UnicodeReader):
+    """
+    A CSV reader which will iterate over lines in the CSV file "f",
+    which is encoded in the given encoding. The rows will be return as
+    a dict. The first row is assumed to be the header definition.
+    """
+
+    def __init__(self, f, dialect='excel', encoding="utf-8", **kwds):
+        super(UnicodeReaderAsDict, self).__init__(f, dialect, encoding, **kwds)
+        self.header = self.reader.next()
+
+    def next(self):
+        return dict(zip(self.header, super(UnicodeReaderAsDict, self).next()))
+
+class UnicodeWriter(object):
     """
     A CSV writer which will write rows to CSV file "f",
     which is encoded in the given encoding.
