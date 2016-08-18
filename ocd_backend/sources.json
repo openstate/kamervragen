@@ -1,1 +1,18 @@
-[]
+[
+  {
+      "id": "download",
+      "extractor": "ocd_backend.extractors.duo.DownloadExtractor",
+      "transformer": "ocd_backend.transformers.BaseTransformer",
+      "item": "ocd_backend.items.BaseItem",
+      "enrichers": [],
+      "loader": "ocd_backend.loaders.ElasticsearchLoader",
+      "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
+      "hidden": true,
+      "index_name": "duo_downloads",
+      "doc_type": "files",
+      "keep_index_on_update": true,
+      "csv_file": "/opt/duo/files.csv",
+      "csv_url_field": "bestand",
+      "csv_download_path": "/opt/duo/downloads"
+  }
+]
