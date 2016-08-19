@@ -38,7 +38,8 @@ class DuoItem(DuoBaseItem):
             'hidden': self.source_definition['hidden'],
             'fields': [],
             'data': [],
-            'media_urls': []
+            'media_urls': [],
+            'all_text': self.get_all_text()
         }
 
         return combined_index_data
