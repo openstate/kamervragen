@@ -1,6 +1,7 @@
 import datetime
 import json
 import re
+import hashlib
 
 import translitcodec
 
@@ -158,3 +159,11 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
+
+def make_hash(contents):
+    m = hashlib.md5()
+    m.update(contents)
+    return m.hexdigest()
+
+def make_hash_filename(url, extension='.csv'):
+    return u'%s%s' % (make_hash(url), extension,)
