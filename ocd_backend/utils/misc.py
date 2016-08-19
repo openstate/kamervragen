@@ -6,6 +6,7 @@ import urllib2
 
 import translitcodec
 import requests
+from chardet.universaldetector import UniversalDetector
 
 from elasticsearch.helpers import scan, bulk
 
@@ -180,3 +181,12 @@ def download_file(url, local_filename):
 
 def get_file_id(url):
     return urllib2.unquote(url).rsplit('/')[-1].replace('.csv', '')
+
+def get_file_encoding(filename):
+    detector = UniversalDetector()
+    detector.reset()
+    for line in file(filename, 'rb'):
+        detector.feed(line)
+        if detector.done: break
+    detector.close()
+    print detector.result

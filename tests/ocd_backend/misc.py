@@ -2,7 +2,8 @@ import os
 from unittest import TestCase
 
 from ocd_backend.utils.unicode_csv import UnicodeReaderAsDict
-from ocd_backend.utils.misc import make_hash, make_hash_filename, get_file_id
+from ocd_backend.utils.misc import (
+    make_hash, make_hash_filename, get_file_id, get_file_encoding)
 
 class UnicodeReaderAsDictTestCase(TestCase):
     def setUp(self):
@@ -55,3 +56,12 @@ class FileIdTestCase(TestCase):
     def test_percent_get_file_id(self):
         file_id = get_file_id(self.percent_url)
         self.assertEqual(file_id, self.percent_id)
+
+class GetFileEncodingTestCase(TestCase):
+    def setUp(self):
+        self.filename = "/opt/duo/tests/ocd_backend/test_dumps/65a66c84f4a9a78fcfbf47d4170240ba.csv"
+        self.encoding = 'windows-1252'
+
+    def test_get_file_encoding(self):
+        encoding = get_file_encoding(self.filename)
+        self.assertEqual(encoding['encoding'], self.encoding)
