@@ -33,7 +33,14 @@ class DuoItem(DuoBaseItem):
         return u'DUO'  # not used
 
     def get_combined_index_data(self):
-        combined_index_data = {}
+        combined_index_data = {
+            'id': self.original_item['id'],
+            'hidden': self.source_definition['hidden'],
+            'fields': [],
+            'data': [],
+            'media_urls': []
+        }
+
         return combined_index_data
 
     def get_index_data(self):

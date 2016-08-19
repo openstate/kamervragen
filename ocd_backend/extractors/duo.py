@@ -59,6 +59,7 @@ class DUOCSVListExtractor(CSVExtractor):
                 'page': row[self.source_definition['csv_page_field']],
                 'local_filename': local_filename
             }
+            print json.dumps(record)
 
             # only yield items if we have the download ....
             if os.path.exists(local_filename):
