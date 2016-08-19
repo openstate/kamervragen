@@ -184,9 +184,8 @@ def get_file_id(url):
 
 def get_file_encoding(filename):
     detector = UniversalDetector()
-    detector.reset()
     for line in file(filename, 'rb'):
         detector.feed(line)
         if detector.done: break
     detector.close()
-    print detector.result
+    return detector.result
