@@ -1,8 +1,10 @@
 import datetime
 import json
 import re
+import hashlib
 
 import translitcodec
+import requests
 
 from elasticsearch.helpers import scan, bulk
 
@@ -158,3 +160,19 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
+
+def make_hash(contents):
+    m = hashlib.md5()
+    m.update(contents)
+    return m.hexdigest()
+
+def make_hash_filename(url, extension='.csv'):
+    return u'%s%s' % (make_hash(url), extension,)
+
+def download_file(url, local_filename):
+    # NOTE the stream=True parameter
+    r = requests.get(url, stream=True)
+    with open(local_filename, 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
