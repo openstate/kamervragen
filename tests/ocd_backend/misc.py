@@ -1,9 +1,11 @@
 import os
 from unittest import TestCase
+from pprint import pprint
 
 from ocd_backend.utils.unicode_csv import UnicodeReaderAsDict
 from ocd_backend.utils.misc import (
-    make_hash, make_hash_filename, get_file_id, get_file_encoding)
+    make_hash, make_hash_filename, get_file_id, get_file_encoding, slugify)
+from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs
 
 class UnicodeReaderAsDictTestCase(TestCase):
     def setUp(self):
@@ -65,3 +67,45 @@ class GetFileEncodingTestCase(TestCase):
     def test_get_file_encoding(self):
         encoding = get_file_encoding(self.filename)
         self.assertEqual(encoding['encoding'], self.encoding)
+
+class DuoCSVTestCase(TestCase):
+    def setUp(self):
+        self.filename = "/opt/duo/tests/ocd_backend/test_dumps/65a66c84f4a9a78fcfbf47d4170240ba.csv"
+
+    def test_header(self):
+        with open(self.filename) as csvfile:
+            reader = UnicodeReaderAsSlugs(csvfile, delimiter=';')
+            # FIXME: this is not ok ;)
+            self.header_map = {
+                "PROVINCIE":"provincie",
+                "BEVOEGD GEZAG NUMMER":"bevoegd gezag nummer",
+                "BRIN NUMMER":"brin nummer",
+                "INSTELLINGSNAAM":"instellingsnaam",
+                "STRAATNAAM":"straatnaam",
+                "HUISNUMMER-TOEVOEGING":"huisnummer-toevoeging",
+                "POSTCODE":"postcode",
+                "PLAATSNAAM":"plaatsnaam",
+                "GEMEENTENUMMER":"gemeentenummer",
+                "GEMEENTENAAM":"gemeentenaam",
+                "DENOMINATIE":"denominatie",
+                "TELEFOONNUMMER":"telefoonnummer",
+                "INTERNETADRES":"internetadres",
+                "ONDERWIJSSTRUCTUUR":"onderwijsstructuur",
+                "STRAATNAAM CORRESPONDENTIEADRES":"straatnaam-correspondentieadres",
+                "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES":"huisnummer-toevoeging-correspondentieadres",
+                "POSTCODE CORRESPONDENTIEADRES":"postcode-correspondentieadres",
+                "PLAATSNAAM CORRESPONDENTIEADRES":"plaatsnaam-correspondentieadres",
+                "NODAAL GEBIED CODE":"nodaal-gebied-code",
+                "NODAAL GEBIED NAAM":"nodaal-gebied-naam",
+                "RPA-GEBIED CODE":"rpa-gebied-code",
+                "RPA-GEBIED NAAM":"rpa-gebied-naam",
+                "WGR-GEBIED CODE":"wgr-gebied-code",
+                "WGR-GEBIED NAAM":"wgr-gebied-naam",
+                "COROPGEBIED CODE":"coropgebied-code",
+                "COROPGEBIED NAAM":"coropgebied-naam",
+                "ONDERWIJSGEBIED CODE":"onderwijsgebied-code",
+                "ONDERWIJSGEBIED NAAM":"onderwijsgebied-naam",
+                "RMC-REGIO CODE":"rmc-regio-code",
+                "RMC-REGIO NAAM":"rmc-regio-naam"
+            }
+            self.assertDictEqual(self.header_map, reader.header_map)
