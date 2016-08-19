@@ -2,6 +2,7 @@ import datetime
 import json
 import re
 import hashlib
+import urllib2
 
 import translitcodec
 import requests
@@ -176,3 +177,6 @@ def download_file(url, local_filename):
         for chunk in r.iter_content(chunk_size=1024):
             if chunk: # filter out keep-alive new chunks
                 f.write(chunk)
+
+def get_file_id(url):
+    return urllib2.unquote(url).rsplit('/')[-1].replace('.csv', '')

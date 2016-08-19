@@ -6,7 +6,8 @@ import re
 from ocd_backend.extractors import BaseExtractor, HttpRequestMixin
 from ocd_backend.exceptions import ConfigurationError
 from ocd_backend.utils.unicode_csv import UnicodeReaderAsDict
-from ocd_backend.utils.misc import make_hash_filename, download_file
+from ocd_backend.utils.misc import (
+    make_hash_filename, download_file, get_file_id)
 
 from ocd_backend import settings
 
@@ -53,6 +54,7 @@ class DUOCSVListExtractor(CSVExtractor):
                 make_hash_filename(url)
             )
             record = {
+                'id': get_file_id(url),
                 'file': url,
                 'page': row[self.source_definition['csv_page_field']],
                 'local_filename': local_filename
