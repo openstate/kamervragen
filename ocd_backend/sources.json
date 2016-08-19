@@ -8,11 +8,29 @@
       "loader": "ocd_backend.loaders.ElasticsearchLoader",
       "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
       "hidden": true,
-      "index_name": "duo_downloads",
+      "index_name": "downloads",
       "doc_type": "files",
       "keep_index_on_update": true,
       "csv_file": "/opt/duo/files.csv",
       "csv_url_field": "bestand",
+      "csv_page_field": "pagina",
+      "csv_download_path": "/opt/duo/downloads"
+  },
+  {
+      "id": "update",
+      "extractor": "ocd_backend.extractors.duo.DUOCSVListExtractor",
+      "transformer": "ocd_backend.transformers.BaseTransformer",
+      "item": "ocd_backend.items.duo.DuoItem",
+      "enrichers": [],
+      "loader": "ocd_backend.loaders.DummyLoader",
+      "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
+      "hidden": true,
+      "index_name": "data",
+      "doc_type": "files",
+      "keep_index_on_update": true,
+      "csv_file": "/opt/duo/files.csv",
+      "csv_url_field": "bestand",
+      "csv_page_field": "pagina",
       "csv_download_path": "/opt/duo/downloads"
   }
 ]
