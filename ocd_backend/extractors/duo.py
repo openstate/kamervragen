@@ -18,5 +18,6 @@ class DownloadExtractor(BaseExtractor, HttpRequestMixin):
         with open(self.source_definition['csv_file']) as csvfile:
             reader = UnicodeReaderAsDict(csvfile)
             for row in reader:
-                pprint(row)
+                #pprint(row)
+                print row[self.source_definition['csv_url_field']]
         return []

@@ -39,7 +39,7 @@ class UnicodeReaderAsDict(UnicodeReader):
 
     def __init__(self, f, dialect='excel', encoding="utf-8", **kwds):
         super(UnicodeReaderAsDict, self).__init__(f, dialect, encoding, **kwds)
-        self.header = self.reader.next()
+        self.header = [unicode(s, "utf-8") for s in self.reader.next()]
 
     def next(self):
         return dict(zip(self.header, super(UnicodeReaderAsDict, self).next()))
