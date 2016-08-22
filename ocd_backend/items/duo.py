@@ -1,3 +1,6 @@
+from pprint import pprint
+from copy import deepcopy
+
 from ocd_backend.items import BaseItem
 from ocd_backend.utils.misc import slugify, make_hash, get_file_encoding
 from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs
@@ -15,15 +18,33 @@ class DuoBaseItem(BaseItem):
 
 
 class DuoItem(DuoBaseItem):
+    def _process_row(self, row):
+        """
+        Adds the uni fields from the row data that was given. The uni fields are
+        defined in the source definition.
+        """
+        for uni_field in self.source_definition['fields_mapping']:
+            for source_field in self.source_definition['fields_mapping'][uni_field]:
+                try:
+                    row[uni_field] = row[source_field]
+                except LookupError as e:
+                    pass
+        return deepcopy(row)
+
     def _get_data(self):
+        """
+        Loads the data from the CSV file (on disk) and returns the data
+        structure for the data itself and the field definitions.
+        """
         fields = []
         data = []
+        # FIXME: this way of getting the encoding is way to slow
         # encoding = get_file_encoding(self.original_item['local_filename'])['encoding']
         encoding= 'iso-8859-1'
         with open(self.original_item['local_filename']) as csvfile:
             reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
             fields = [{'key': k, 'label': l} for k,l in reader.header_map.iteritems()]
-            data = [r for r in reader]
+            data = [self._process_row(r) for r in reader]
         return fields, data
 
     def get_original_object_id(self):

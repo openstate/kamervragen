@@ -25,7 +25,10 @@ class DuoItemTestCase(ItemTestCase):
             "csv_file": "/opt/duo/files.csv",
             "csv_url_field": "bestand",
             "csv_page_field": "pagina",
-            "csv_download_path": "/opt/duo/downloads"
+            "csv_download_path": "/opt/duo/downloads",
+            "fields_mapping": {
+                "uni_brin": ["brin_nummer", "brin_code"]
+            }
         }
 
 
@@ -74,7 +77,13 @@ class DuoItemTestCase(ItemTestCase):
             {'key': u"RMC-REGIO CODE", 'label': "rmc_regio_code"},
             {'key': u"RMC-REGIO NAAM", 'label': "rmc_regio_naam"}
         ]
-
+        self.processed_row = {
+            u'brin_nummer': u'18BR',
+            u'uni_brin': u'18BR'
+        }
+        self.processed_row_no_brin = {
+            u'gemeentenaam': u'UTRECHT'
+        }
     def _instantiate_item(self):
         return DuoItem(self.source_definition, 'application/json',
                              self.raw_item, self.item)
@@ -82,6 +91,13 @@ class DuoItemTestCase(ItemTestCase):
     def test_item_collection(self):
         item = self._instantiate_item()
         self.assertEqual(item.get_collection(), self.collection)
+
+    def test_process_row(self):
+        item = self._instantiate_item()
+        processed_row = item._process_row({u'brin_nummer': u'18BR'})
+        self.assertDictEqual(processed_row, self.processed_row)
+        processed_row_no_brin = item._process_row({u'gemeentenaam': u'UTRECHT'})
+        self.assertDictEqual(processed_row_no_brin, self.processed_row_no_brin)
 
     def test_get_data(self):
         item = self._instantiate_item()

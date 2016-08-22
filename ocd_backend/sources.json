@@ -31,6 +31,9 @@
       "csv_file": "/opt/duo/files.csv",
       "csv_url_field": "bestand",
       "csv_page_field": "pagina",
-      "csv_download_path": "/opt/duo/downloads"
+      "csv_download_path": "/opt/duo/downloads",
+      "fields_mapping": {
+        "uni_brin": ["brin_nummer", "brin_code"]
+      }
   }
 ]
