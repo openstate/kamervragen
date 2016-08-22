@@ -90,37 +90,23 @@
                     "type": "string",
                     "analyzer": "text_nl"
                 },
-                "title": {
-                    "type": "string",
-                    "analyzer": "text_nl"
+                "id": {
+                  "type": "string",
+                  "index": "not_analyzed"
                 },
-                "description": {
-                    "type": "string",
-                    "analyzer": "text_nl"
-                },
-                "classification": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "date": {
-                    "type": "date",
-                    "format": "dateOptionalTime"
-                },
-                "date_granularity": {
-                    "type": "short"
-                },
-                "authors": {
-                    "type": "multi_field",
-                    "fields": {
-                        "authors": {
-                            "type" : "string",
-                            "analyzer": "text_nl"
-                        },
-                        "untouched": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        }
+                "fields": {
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "index": "not_analyzed"
+                    },
+                    "label": {
+                      "type": "string"
                     }
+                  }
+                },
+                "data": {
+                  "type": "nested"
                 },
                 "media_urls": {
                     "index_name": "media_url",

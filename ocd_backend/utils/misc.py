@@ -2,9 +2,11 @@ import datetime
 import json
 import re
 import hashlib
+import urllib2
 
 import translitcodec
 import requests
+from chardet.universaldetector import UniversalDetector
 
 from elasticsearch.helpers import scan, bulk
 
@@ -176,3 +178,14 @@ def download_file(url, local_filename):
         for chunk in r.iter_content(chunk_size=1024):
             if chunk: # filter out keep-alive new chunks
                 f.write(chunk)
+
+def get_file_id(url):
+    return urllib2.unquote(url).rsplit('/')[-1].replace('.csv', '')
+
+def get_file_encoding(filename):
+    detector = UniversalDetector()
+    for line in file(filename, 'rb'):
+        detector.feed(line)
+        if detector.done: break
+    detector.close()
+    return detector.result

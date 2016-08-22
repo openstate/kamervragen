@@ -1,0 +1,18 @@
+{
+  "query": {
+    "filtered": {
+      "query": {"match_all": {}},
+      "filter": {
+        "nested": {
+          "path": "data",
+          "filter": {
+            "term": {
+              "data.brin_nummer": "18br"
+            }
+          },
+          "inner_hits" : {}
+        }
+      }
+    }
+  }
+}
