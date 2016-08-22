@@ -71,41 +71,46 @@ class GetFileEncodingTestCase(TestCase):
 class DuoCSVTestCase(TestCase):
     def setUp(self):
         self.filename = "/opt/duo/tests/ocd_backend/test_dumps/65a66c84f4a9a78fcfbf47d4170240ba.csv"
+        self.header_map = {
+            u"PROVINCIE":u"provincie",
+            u"BEVOEGD GEZAG NUMMER":u"bevoegd_gezag_nummer",
+            u"BRIN NUMMER":u"brin_nummer",
+            u"INSTELLINGSNAAM":u"instellingsnaam",
+            u"STRAATNAAM":u"straatnaam",
+            u"HUISNUMMER-TOEVOEGING":u"huisnummer_toevoeging",
+            u"POSTCODE":u"postcode",
+            u"PLAATSNAAM":u"plaatsnaam",
+            u"GEMEENTENUMMER":u"gemeentenummer",
+            u"GEMEENTENAAM":u"gemeentenaam",
+            u"DENOMINATIE":u"denominatie",
+            u"TELEFOONNUMMER":u"telefoonnummer",
+            u"INTERNETADRES":u"internetadres",
+            u"ONDERWIJSSTRUCTUUR":u"onderwijsstructuur",
+            u"STRAATNAAM CORRESPONDENTIEADRES":u"straatnaam_correspondentieadres",
+            u"HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES":u"huisnummer_toevoeging_correspondentieadres",
+            u"POSTCODE CORRESPONDENTIEADRES":u"postcode_correspondentieadres",
+            u"PLAATSNAAM CORRESPONDENTIEADRES":u"plaatsnaam_correspondentieadres",
+            u"NODAAL GEBIED CODE":u"nodaal_gebied_code",
+            u"NODAAL GEBIED NAAM":u"nodaal_gebied_naam",
+            u"RPA-GEBIED CODE":u"rpa_gebied_code",
+            u"RPA-GEBIED NAAM":u"rpa_gebied_naam",
+            u"WGR-GEBIED CODE":u"wgr_gebied_code",
+            u"WGR-GEBIED NAAM":u"wgr_gebied_naam",
+            u"COROPGEBIED CODE":u"coropgebied_code",
+            u"COROPGEBIED NAAM":u"coropgebied_naam",
+            u"ONDERWIJSGEBIED CODE":u"onderwijsgebied_code",
+            u"ONDERWIJSGEBIED NAAM":u"onderwijsgebied_naam",
+            u"RMC-REGIO CODE":u"rmc_regio_code",
+            u"RMC-REGIO NAAM":u"rmc_regio_naam"
+        }
 
     def test_header(self):
         with open(self.filename) as csvfile:
             reader = UnicodeReaderAsSlugs(csvfile, delimiter=';')
-            # FIXME: this is not ok ;)
-            self.header_map = {
-                "PROVINCIE":"provincie",
-                "BEVOEGD GEZAG NUMMER":"bevoegd gezag nummer",
-                "BRIN NUMMER":"brin nummer",
-                "INSTELLINGSNAAM":"instellingsnaam",
-                "STRAATNAAM":"straatnaam",
-                "HUISNUMMER-TOEVOEGING":"huisnummer-toevoeging",
-                "POSTCODE":"postcode",
-                "PLAATSNAAM":"plaatsnaam",
-                "GEMEENTENUMMER":"gemeentenummer",
-                "GEMEENTENAAM":"gemeentenaam",
-                "DENOMINATIE":"denominatie",
-                "TELEFOONNUMMER":"telefoonnummer",
-                "INTERNETADRES":"internetadres",
-                "ONDERWIJSSTRUCTUUR":"onderwijsstructuur",
-                "STRAATNAAM CORRESPONDENTIEADRES":"straatnaam-correspondentieadres",
-                "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES":"huisnummer-toevoeging-correspondentieadres",
-                "POSTCODE CORRESPONDENTIEADRES":"postcode-correspondentieadres",
-                "PLAATSNAAM CORRESPONDENTIEADRES":"plaatsnaam-correspondentieadres",
-                "NODAAL GEBIED CODE":"nodaal-gebied-code",
-                "NODAAL GEBIED NAAM":"nodaal-gebied-naam",
-                "RPA-GEBIED CODE":"rpa-gebied-code",
-                "RPA-GEBIED NAAM":"rpa-gebied-naam",
-                "WGR-GEBIED CODE":"wgr-gebied-code",
-                "WGR-GEBIED NAAM":"wgr-gebied-naam",
-                "COROPGEBIED CODE":"coropgebied-code",
-                "COROPGEBIED NAAM":"coropgebied-naam",
-                "ONDERWIJSGEBIED CODE":"onderwijsgebied-code",
-                "ONDERWIJSGEBIED NAAM":"onderwijsgebied-naam",
-                "RMC-REGIO CODE":"rmc-regio-code",
-                "RMC-REGIO NAAM":"rmc-regio-naam"
-            }
             self.assertDictEqual(self.header_map, reader.header_map)
+
+    def test_keys_for_row(self):
+        with open(self.filename) as csvfile:
+            reader = UnicodeReaderAsSlugs(csvfile, delimiter=';')
+            row = reader.next()
+            self.assertListEqual(sorted(row.keys()), sorted(self.header_map.values()))
