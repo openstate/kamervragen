@@ -42,6 +42,39 @@ class DuoItemTestCase(ItemTestCase):
             u'csv': u'https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv'
         }
 
+        self.fields = [
+            {'key': u"PROVINCIE", 'label': "provincie"},
+            {'key': u"BEVOEGD GEZAG NUMMER", 'label': "bevoegd_gezag_nummer"},
+            {'key': u"BRIN NUMMER", 'label': "brin_nummer"},
+            {'key': u"INSTELLINGSNAAM", 'label': "instellingsnaam"},
+            {'key': u"STRAATNAAM", 'label': "straatnaam"},
+            {'key': u"HUISNUMMER-TOEVOEGING", 'label': "huisnummer_toevoeging"},
+            {'key': u"POSTCODE", 'label': "postcode"},
+            {'key': u"PLAATSNAAM", 'label': "plaatsnaam"},
+            {'key': u"GEMEENTENUMMER", 'label': "gemeentenummer"},
+            {'key': u"GEMEENTENAAM", 'label': "gemeentenaam"},
+            {'key': u"DENOMINATIE", 'label': "denominatie"},
+            {'key': u"TELEFOONNUMMER", 'label': "telefoonnummer"},
+            {'key': u"INTERNETADRES", 'label': "internetadres"},
+            {'key': u"ONDERWIJSSTRUCTUUR", 'label': "onderwijsstructuur"},
+            {'key': u"STRAATNAAM CORRESPONDENTIEADRES", 'label': "straatnaam_correspondentieadres"},
+            {'key': u"HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES", 'label': "huisnummer_toevoeging_correspondentieadres"},
+            {'key': u"POSTCODE CORRESPONDENTIEADRES", 'label': "postcode_correspondentieadres"},
+            {'key': u"PLAATSNAAM CORRESPONDENTIEADRES", 'label': "plaatsnaam_correspondentieadres"},
+            {'key': u"NODAAL GEBIED CODE", 'label': "nodaal_gebied_code"},
+            {'key': u"NODAAL GEBIED NAAM", 'label': "nodaal_gebied_naam"},
+            {'key': u"RPA-GEBIED CODE", 'label': "rpa_gebied_code"},
+            {'key': u"RPA-GEBIED NAAM", 'label': "rpa_gebied_naam"},
+            {'key': u"WGR-GEBIED CODE", 'label': "wgr_gebied_code"},
+            {'key': u"WGR-GEBIED NAAM", 'label': "wgr_gebied_naam"},
+            {'key': u"COROPGEBIED CODE", 'label': "coropgebied_code"},
+            {'key': u"COROPGEBIED NAAM", 'label': "coropgebied_naam"},
+            {'key': u"ONDERWIJSGEBIED CODE", 'label': "onderwijsgebied_code"},
+            {'key': u"ONDERWIJSGEBIED NAAM", 'label': "onderwijsgebied_naam"},
+            {'key': u"RMC-REGIO CODE", 'label': "rmc_regio_code"},
+            {'key': u"RMC-REGIO NAAM", 'label': "rmc_regio_naam"}
+        ]
+
     def _instantiate_item(self):
         return DuoItem(self.source_definition, 'application/json',
                              self.raw_item, self.item)
@@ -49,6 +82,13 @@ class DuoItemTestCase(ItemTestCase):
     def test_item_collection(self):
         item = self._instantiate_item()
         self.assertEqual(item.get_collection(), self.collection)
+
+    def test_get_data(self):
+        item = self._instantiate_item()
+        fields, data = item._get_data()
+        self.assertListEqual(
+            sorted(fields, key=lambda x: x['key']),
+            sorted(self.fields, key=lambda x: x['key']))
 
     def test_get_rights(self):
         item = self._instantiate_item()
@@ -58,12 +98,10 @@ class DuoItemTestCase(ItemTestCase):
         item = self._instantiate_item()
         self.assertEqual(item.get_original_object_id(), self.original_object_id)
 
-
     def test_get_original_object_urls(self):
         item = self._instantiate_item()
         self.assertDictEqual(item.get_original_object_urls(),
                              self.original_object_urls)
-
 
     def test_get_combined_index_data(self):
         item = self._instantiate_item()
