@@ -1,17 +1,19 @@
 {
   "query": {
     "filtered": {
-      "query": {"match_all": {}},
-      "filter": {
+      "query": {
         "nested": {
           "path": "data",
-          "filter": {
+          "query": {
             "term": {
-              "data.brin_nummer": "18br"
+              "data.uni_brin": "18br"
             }
           },
-          "inner_hits" : {}
+          "inner_hits": {}
         }
+      },
+      "filter": {
+        "term": { "_type": "items" }
       }
     }
   }
