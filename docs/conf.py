@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Open Raadsinformatie API documentation build configuration file, created by
+# DUO API documentation build configuration file, created by
 # sphinx-quickstart
 
 import sys
@@ -30,7 +30,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Open Raadsinformatie API'
+project = u'DUO API'
 copyright = u'2015, Breyten Ernsting, Sicco van Sas, Bart de Goede and Justin van Wees; documentation is released under Creative Commons Attribution 4.0'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -81,7 +81,7 @@ pygments_style = 'sphinx'
 
 
 extlinks = {
-    'rest_api_v0': ('http://api.openraadsinformatie.nl/%s', None)
+    'rest_api_v0': ('https://api.duo.nl/%s', None)
 }
 
 # -- Options for HTML output ----------------------------------------------
@@ -158,7 +158,7 @@ html_show_sphinx = False
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OpenRaadsinformatieAPIdoc'
+htmlhelp_basename = 'DUOAPIdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -178,7 +178,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'OpenRaadsinformatieAPI.tex', u'Open Raadsinformatie API',
+  ('index', 'DUOAPI.tex', u'DUO API',
    u'Sicco van Sas', 'manual'),
 ]
 
@@ -208,7 +208,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openraadsinformatieapi', u'Open Raadsinformatie API',
+    ('index', 'duoapi', u'DUO API',
      [u'Sicco van Sas'], 1)
 ]
 
@@ -222,8 +222,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'OpenRaadsinformatieAPI', u'Open Raadsinformatie API',
-   u'Sicco van Sas', 'OpenRaadsinformatieAPI', 'Documentation of the pen Raadsinformatie API.',
+  ('index', 'DUOAPI', u'DUO API',
+   u'Sicco van Sas', 'DUOAPI', 'Documentation of the DUO API.',
    'documentation'),
 ]
 
