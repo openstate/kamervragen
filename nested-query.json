@@ -5,8 +5,9 @@
         "nested": {
           "path": "data",
           "query": {
-            "term": {
-              "data.uni_brin": "18br"
+            "simple_query_string" : {
+              "query": "data.uni_brin:18BR",
+              "fields": ["data.*"]
             }
           },
           "inner_hits": {}
