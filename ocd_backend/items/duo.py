@@ -45,6 +45,7 @@ class DuoItem(DuoBaseItem):
         with open(self.original_item['local_filename']) as csvfile:
             reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
             fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
+            fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
             data = [self._process_row(r) for r in reader]
         return fields, data
 

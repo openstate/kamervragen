@@ -79,7 +79,8 @@ class DuoItemTestCase(ItemTestCase):
             {'key': u"ONDERWIJSGEBIED CODE", 'name': u"ONDERWIJSGEBIED CODE", 'label': "onderwijsgebied_code"},
             {'key': u"ONDERWIJSGEBIED NAAM", 'name': u"ONDERWIJSGEBIED NAAM", 'label': "onderwijsgebied_naam"},
             {'key': u"RMC-REGIO CODE", 'name': u"RMC-REGIO CODE", 'label': "rmc_regio_code"},
-            {'key': u"RMC-REGIO NAAM", 'name': u"RMC-REGIO NAAM", 'label': "rmc_regio_naam"}
+            {'key': u"RMC-REGIO NAAM", 'name': u"RMC-REGIO NAAM", 'label': "rmc_regio_naam"},
+            {'name': u'uni_brin', 'key': u'uni_brin', 'label': u'uni_brin'}
         ]
         self.processed_row = {
             u'brin_nummer': u'18BR',
