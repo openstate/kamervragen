@@ -994,6 +994,26 @@ class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
         self.assertFalse(mocked_log_task.called)
 
 
+class RestApiNestedSearchTestCase(OcdRestTestCaseMixin, TestCase):
+    endpoint_url = 'api.search'
+    endpoint_url_args = {
+    }
+    required_indexes = [
+        'duo_test_nested_index'
+    ]
+
+    def test_not_nested_data(self):
+        """Tests if a valid non-nested search request responds with a JSON and
+        status 200 OK."""
+
+        # no idea why this is needed but ok
+        current_app.config['COMBINED_INDEX'] = 'duo_test_nested_index'
+        url = url_for(self.endpoint_url, **self.endpoint_url_args)
+        response = self.post(url, content_type='application/json',
+                             data=json.dumps({'query': 'vo'}))
+        self.assert_ok_json(response)
+
+
 class LogEventTaskTestCase(UnittestTestCase):
     default_args = {
         'user_agent': 'abc',
