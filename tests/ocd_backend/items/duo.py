@@ -45,6 +45,10 @@ class DuoItemTestCase(ItemTestCase):
             u'csv': u'https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv'
         }
 
+
+        self.duo_id = u'01.-hoofdvestigingen-vo'
+        self.duo_name = u'01.-hoofdvestigingen-vo'
+
         self.fields = [
             {'key': u"PROVINCIE", 'label': "provincie"},
             {'key': u"BEVOEGD GEZAG NUMMER", 'label': "bevoegd_gezag_nummer"},
@@ -122,6 +126,16 @@ class DuoItemTestCase(ItemTestCase):
     def test_get_combined_index_data(self):
         item = self._instantiate_item()
         self.assertIsInstance(item.get_combined_index_data(), dict)
+
+    def test_get_duo_id(self):
+        item = self._instantiate_item()
+        data = item.get_combined_index_data()
+        self.assertEqual(data['id'], self.duo_id)
+
+    def test_get_duo_name(self):
+        item = self._instantiate_item()
+        data = item.get_combined_index_data()
+        self.assertEqual(data['name'], self.duo_name)
 
     def test_get_index_data(self):
         item = self._instantiate_item()

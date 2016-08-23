@@ -10,6 +10,7 @@ class DuoBaseItem(BaseItem):
     combined_index_fields = {
         'hidden': bool,
         'id': unicode,
+        'name': unicode,
         'fields': list,
         'data': list,
         'media_urls': list,
@@ -74,6 +75,7 @@ class DuoItem(DuoBaseItem):
 
         combined_index_data = {
             'id': self.original_item['id'],
+            'name': self.original_item['id'],
             'hidden': self.source_definition['hidden'],
             'fields': fields,
             'data': data,
