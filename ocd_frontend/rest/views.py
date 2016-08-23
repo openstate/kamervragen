@@ -329,6 +329,7 @@ def search(doc_type=u'items'):
     # parameter. The value is assumed to be the path of the nested query
     nested = data.get('nested', None)
     if nested is not None:
+        del sqs['simple_query_string']['default_operator']  # not sure why, but ok
         sqs = {
             'nested': {
                 'path': nested,
