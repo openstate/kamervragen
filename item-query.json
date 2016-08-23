@@ -1,0 +1,14 @@
+{
+  "query": {
+    "filtered": {
+      "query": {
+        "simple_query_string" : {
+          "query": "vo",
+          "fields": ["name"]
+        }
+      },
+      "filter": {
+      }
+    }
+  }
+}

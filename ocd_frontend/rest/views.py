@@ -38,11 +38,7 @@ def validate_from_and_size(data):
 
 
 def parse_search_request(data, doc_type, mlt=False):
-    # Return an error when no query or an empty query string is provied
     query = data.get('query', None)
-
-    # if not query and not mlt:
-    #     raise OcdApiError('Missing \'query\'', 400)
 
     # Additional fields requested to include in the response
     include_fields = [
@@ -125,27 +121,34 @@ def parse_search_request(data, doc_type, mlt=False):
 
         f_type = available_facets[r_filter].keys()[0]
         if f_type == 'terms':
-            if 'terms' not in filter_opts:
-                raise OcdApiError(
-                    'Missing \'filters.%s.terms\'' % r_filter, 400)
+            # we need to support nested filters also ...
+            # curl -XPOST 'http://localhost:5000/v0/search' -d '{"filters":{"fields":{"nested":{"path":"fields","filter":{"bool":{"must": [{"term": {"fields.key": "BRIN NUMMER2"}}]}}}}}}'
+            if 'nested' not in filter_opts:
+                if 'terms' not in filter_opts:
+                    raise OcdApiError(
+                        'Missing \'filters.%s.terms\'' % r_filter, 400)
 
-            if type(filter_opts['terms']) is not list:
-                raise OcdApiError('\'filters.%s.terms\' should be an array'
-                                  % r_filter, 400)
-
-            # Check the type of each item in the list
-            for term in filter_opts['terms']:
-                if type(term) is not unicode and type(term) is not int:
-                    raise OcdApiError('\'filters.%s.terms\' should only '
-                                      'contain strings and integers'
+                if type(filter_opts['terms']) is not list:
+                    raise OcdApiError('\'filters.%s.terms\' should be an array'
                                       % r_filter, 400)
 
-            filters.append({
-                'terms': {
-                    available_facets[r_filter]['terms']['field']: filter_opts[
-                        'terms']
+                # Check the type of each item in the list
+                for term in filter_opts['terms']:
+                    if type(term) is not unicode and type(term) is not int:
+                        raise OcdApiError('\'filters.%s.terms\' should only '
+                                          'contain strings and integers'
+                                          % r_filter, 400)
+
+            if 'nested' in filter_opts:
+                current_filter = {'nested': filter_opts['nested']}
+            else:
+                current_filter = {
+                    'terms': {
+                        available_facets[r_filter]['terms']['field']: filter_opts[
+                            'terms']
+                    }
                 }
-            })
+            filters.append(current_filter)
         elif f_type == 'date_histogram':
             if type(filter_opts) is not dict:
                 raise OcdApiError('\'filters.%s\' should be an object'
@@ -200,7 +203,7 @@ def format_search_results(results, doc_type='items'):
         'hits': {'hits': []}
     }
     for hit in results['hits']['hits']:
-        for fld in ['_score', '_type', '_index', 'highlight']:
+        for fld in ['_score', '_type', '_index', 'highlight', 'inner_hits']:
             try:
                 hit['_source']['meta'][fld] = hit[fld]
             except Exception as e:
@@ -318,18 +321,37 @@ def search(doc_type=u'items'):
     highlighted_fields.update(
         current_app.config['AVAILABLE_HIGHLIGHTS'][doc_type])
 
+
+    # start with the simple query string
+    sqs = {
+        'simple_query_string': {
+            'query': search_req['query'],
+            'default_operator': 'AND',
+            'fields':current_app.config[
+                'SIMPLE_QUERY_FIELDS'][doc_type]
+        }
+    }
+
+    # We can have nested queries. To keep things simple, add nested as a
+    # parameter. The value is assumed to be the path of the nested query
+    nested = data.get('nested', None)
+    if nested is not None:
+        del sqs['simple_query_string']['default_operator']  # not sure why, but ok
+        sqs = {
+            'nested': {
+                'path': nested,
+                'query': sqs,
+                'inner_hits': {}
+            }
+        }
+        sqs['nested']['query']['simple_query_string']['fields'] = [
+            u'%s.*' % (nested,)]
+
     # Construct the query we are going to send to Elasticsearch
     es_q = {
         'query': {
             'filtered': {
-                'query': {
-                    'simple_query_string': {
-                        'query': search_req['query'],
-                        'default_operator': 'AND',
-                        'fields':current_app.config[
-                            'SIMPLE_QUERY_FIELDS'][doc_type]
-                    }
-                },
+                'query': sqs,
                 'filter': {}
             }
         },

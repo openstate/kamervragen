@@ -1,0 +1,21 @@
+{
+  "query": {
+    "filtered": {
+      "query": {
+        "nested": {
+          "path": "data",
+          "query": {
+            "simple_query_string" : {
+              "query": "data.uni_brin:18BR",
+              "fields": ["data.*"]
+            }
+          },
+          "inner_hits": {}
+        }
+      },
+      "filter": {
+        "term": { "_type": "items" }
+      }
+    }
+  }
+}

@@ -97,6 +97,13 @@ COMMON_FACETS = {
             'size': 10
         }
     },
+    'fields': {
+        'nested': 'fields',
+        'terms': {
+            'field': 'fields.key',
+            'size': 10
+        }
+    }
 }
 
 AVAILABLE_FACETS = {
