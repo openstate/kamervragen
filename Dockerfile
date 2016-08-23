@@ -185,7 +185,7 @@ RUN echo 'ok'
 RUN virtualenv -q /opt
 RUN echo "source /opt/bin/activate; cd /opt/duo;" >> ~/.bashrc
 
-# Temporarily add all NPO Backstage files on the host to the container
+# Temporarily add all DUO API files on the host to the container
 # as it contains files needed to finish the base installation
 ADD . /opt/duo
 
@@ -203,9 +203,9 @@ RUN source ../bin/activate \
 
 RUN apt-get install supervisor
 
-# Delete all NPO Bastage files again
+# Delete all DUO API files again
 RUN find . -delete
 
 # When the container is created or started run start.sh which starts
 # all required services and supervisor which starts celery and celerycam
-# CMD /opt/duo/start.sh
+CMD /opt/duo/start.sh
