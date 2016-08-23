@@ -121,27 +121,37 @@ def parse_search_request(data, doc_type, mlt=False):
 
         f_type = available_facets[r_filter].keys()[0]
         if f_type == 'terms':
-            if 'terms' not in filter_opts:
-                raise OcdApiError(
-                    'Missing \'filters.%s.terms\'' % r_filter, 400)
+            # we need to support nested filters also ...
+            # curl -XPOST 'http://localhost:5000/v0/search' -d '{"filters":{"fields":{"nested":{"path":"fields","filter":{"bool":{"must": [{"term": {"fields.key": "BRIN NUMMER2"}}]}}}}}}'
+            if 'nested' in filter_opts:
+                actual_filter_opts = filter_opts['nested']
+            else:
+                actual_filter_opts = filter_opts
+                if 'terms' not in actual_filter_opts:
+                    raise OcdApiError(
+                        'Missing \'filters.%s.terms\'' % r_filter, 400)
 
-            if type(filter_opts['terms']) is not list:
-                raise OcdApiError('\'filters.%s.terms\' should be an array'
-                                  % r_filter, 400)
-
-            # Check the type of each item in the list
-            for term in filter_opts['terms']:
-                if type(term) is not unicode and type(term) is not int:
-                    raise OcdApiError('\'filters.%s.terms\' should only '
-                                      'contain strings and integers'
+                if type(actual_filter_opts['terms']) is not list:
+                    raise OcdApiError('\'filters.%s.terms\' should be an array'
                                       % r_filter, 400)
 
-            filters.append({
-                'terms': {
-                    available_facets[r_filter]['terms']['field']: filter_opts[
-                        'terms']
+                # Check the type of each item in the list
+                for term in actual_filter_opts['terms']:
+                    if type(term) is not unicode and type(term) is not int:
+                        raise OcdApiError('\'filters.%s.terms\' should only '
+                                          'contain strings and integers'
+                                          % r_filter, 400)
+
+            if 'nested' in filter_opts:
+                current_filter = {'nested': filter_opts['nested']}
+            else:
+                current_filter = {
+                    'terms': {
+                        available_facets[r_filter]['terms']['field']: actual_filter_opts[
+                            'terms']
+                    }
                 }
-            })
+            filters.append(current_filter)
         elif f_type == 'date_histogram':
             if type(filter_opts) is not dict:
                 raise OcdApiError('\'filters.%s\' should be an object'
