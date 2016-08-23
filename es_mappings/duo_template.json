@@ -99,10 +99,15 @@
                   "analyzer": "text_nl"
                 },
                 "fields": {
+                  "type": "nested",
                   "properties": {
                     "key": {
                       "type": "string",
                       "index": "not_analyzed"
+                    },
+                    "name": {
+                      "type": "string",
+                      "analyzer": "text_nl"
                     },
                     "label": {
                       "type": "string"
