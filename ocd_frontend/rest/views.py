@@ -38,11 +38,7 @@ def validate_from_and_size(data):
 
 
 def parse_search_request(data, doc_type, mlt=False):
-    # Return an error when no query or an empty query string is provied
     query = data.get('query', None)
-
-    # if not query and not mlt:
-    #     raise OcdApiError('Missing \'query\'', 400)
 
     # Additional fields requested to include in the response
     include_fields = [
@@ -200,7 +196,7 @@ def format_search_results(results, doc_type='items'):
         'hits': {'hits': []}
     }
     for hit in results['hits']['hits']:
-        for fld in ['_score', '_type', '_index', 'highlight']:
+        for fld in ['_score', '_type', '_index', 'highlight', 'inner_hits']:
             try:
                 hit['_source']['meta'][fld] = hit[fld]
             except Exception as e:
@@ -318,18 +314,36 @@ def search(doc_type=u'items'):
     highlighted_fields.update(
         current_app.config['AVAILABLE_HIGHLIGHTS'][doc_type])
 
+
+    # start with the simple query string
+    sqs = {
+        'simple_query_string': {
+            'query': search_req['query'],
+            'default_operator': 'AND',
+            'fields':current_app.config[
+                'SIMPLE_QUERY_FIELDS'][doc_type]
+        }
+    }
+
+    # We can have nested queries. To keep things simple, add nested as a
+    # parameter. The value is assumed to be the path of the nested query
+    nested = data.get('nested', None)
+    if nested is not None:
+        sqs = {
+            'nested': {
+                'path': nested,
+                'query': sqs,
+                'inner_hits': {}
+            }
+        }
+        sqs['nested']['query']['simple_query_string']['fields'] = [
+            u'%s.*' % (nested,)]
+
     # Construct the query we are going to send to Elasticsearch
     es_q = {
         'query': {
             'filtered': {
-                'query': {
-                    'simple_query_string': {
-                        'query': search_req['query'],
-                        'default_operator': 'AND',
-                        'fields':current_app.config[
-                            'SIMPLE_QUERY_FIELDS'][doc_type]
-                    }
-                },
+                'query': sqs,
                 'filter': {}
             }
         },
