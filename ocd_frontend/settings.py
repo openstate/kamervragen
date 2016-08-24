@@ -103,6 +103,12 @@ COMMON_FACETS = {
             'field': 'fields.key',
             'size': 10
         }
+    },
+    'id': {
+        'terms': {
+            'field': 'id',
+            'size': 10
+        }
     }
 }
 
