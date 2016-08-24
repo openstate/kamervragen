@@ -1,9 +1,7 @@
-Open Raadsinformatie Documentation
+DUO API Documentation
 ===================================
 
-Welcome to the documentation of the Open Raadsinformatie API. The Open Raadsinformatie API is the place where data from dutch municipalities is made available for others to reuse. For more general information about the Open Raadsinformatie project, see the main website: http://www.openraadsinformatie.nl/.
-
-There is an example application available which allows you to browse and query the data easily: http://zoek.openraadsinformatie.nl/
+Welcome to the documentation of the DUO API. The API makes a selection of datasets from https://data.duo.nl/ available as JSON.
 
 Background
 ----------
@@ -12,11 +10,10 @@ Background
    :maxdepth: 2
 
    intro
-   faq
    changes
 
 
-Using the Open Raadsinformatie API
+Using the DUO API
 ----------------------------------
 
 .. toctree::
@@ -24,4 +21,3 @@ Using the Open Raadsinformatie API
 
    user/quickstart
    user/api
-   user/datasets
