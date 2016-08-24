@@ -233,10 +233,12 @@ def validate_included_fields(include_fields, excluded_fields,
     :param allowed_to_include: Fields that the user is allowed include
     :return:
     """
+
+    actual_excluded_fields = copy.deepcopy(excluded_fields)
     for field in include_fields:
-        if field and field in excluded_fields and field in allowed_to_include:
-            excluded_fields.remove(field)
-    return excluded_fields
+        if field and field in actual_excluded_fields and field in allowed_to_include:
+            actual_excluded_fields.remove(field)
+    return actual_excluded_fields
 
 
 def format_sources_results(results):
