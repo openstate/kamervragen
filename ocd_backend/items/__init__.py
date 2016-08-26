@@ -138,8 +138,8 @@ class BaseItem(object):
         raise NotImplementedError
 
     def get_object_id(self):
-        """Generates a new object ID which is used within OCD to identify
-        the item.
+        """Generates a new object ID which is used within the DUO API to
+        identify the item.
 
         By default, we use a hash containing the id of the source, the
         original object id of the item (:meth:`~.get_original_object_id`)
@@ -167,8 +167,8 @@ class BaseItem(object):
         return sha1(hash_content.decode('utf8')).hexdigest()
 
     def get_combined_object_id(self):
-        """Generates a new object ID which is used within OCD to identify
-        the item in the combined index.
+        """Generates a new object ID which is used within the DUO API to
+        identify the item in the combined index.
 
         By default the ID is the same as the object ID generated for the
         source's individual index using (:meth:`~.get_object_id`).

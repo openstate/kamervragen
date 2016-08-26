@@ -847,20 +847,3 @@ def resolve(url_id):
         return '<html><body>There is no original url available. You may '\
                'have an outdated URL, or the resolve id is incorrect.</body>'\
                '</html>', 404
-
-
-@bp.route('/dumps', methods=['GET'])
-def list_dumps():
-    dump_list = glob.glob('%s/*/*.gz' % current_app.config.get('DUMPS_DIR'))
-    dumps = {}
-
-    for dump in dump_list:
-        index_name, dump_file = dump.replace('%s/' % current_app.config
-                                                 .get('DUMPS_DIR'), '')\
-                                                 .split('/')
-        if index_name not in dumps:
-            dumps[index_name] = []
-        dumps[index_name].append(urljoin(current_app.config['DUMP_URL'],
-                                         dump_file))
-
-    return jsonify({'dumps': dumps})

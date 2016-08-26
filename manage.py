@@ -81,7 +81,7 @@ def _write_chunks(chunks, f):
 
 def _download_dump(dump_url, collection, target_dir=DUMPS_DIR):
     """
-    Download a Gzipped dump of a OpenCultuurData collection to disk. Compares
+    Download a Gzipped dump of the DUO API datasets to disk. Compares
     the SHA1 checksum of the dump with the dump files already available
     locally, and skips downloading if the file is already available.
 
@@ -159,7 +159,7 @@ def _process_choices(val):
 @click.group()
 @click.version_option()
 def cli():
-    """Open Cultuur Data"""
+    """DUO API"""
 
 
 @cli.group()
@@ -258,7 +258,7 @@ def create_indexes(mapping_dir):
 @click.option('--delete-template', is_flag=True, expose_value=True)
 def delete_indexes(delete_template):
     """
-    Delete all Open Cultuur Data indices. If option ``--delete-template`` is
+    Delete all DUO API indices. If option ``--delete-template`` is
     provided, delete the index template too (index template contains default
     index configuration and mappings).
 
@@ -267,7 +267,7 @@ def delete_indexes(delete_template):
     index_glob = '%s_*' % DEFAULT_INDEX_PREFIX
     indices = es.indices.status(index=index_glob, human=True)
 
-    click.echo('Open Cultuur Data indices:')
+    click.echo('DUO API indices:')
     for index, stats in indices['indices'].iteritems():
         click.echo('- %s (%s docs, %s)' % (index, stats['docs']['num_docs'],
                                            stats['index']['size']))
@@ -437,8 +437,7 @@ def create_dump(ctx, index):
 def list_dumps(api_url):
     """
     List available dumps of API instance at ``api_address``. Use this option to
-    obtain information about dumps available at other OpenCultuurData API
-    instances.
+    obtain information about dumps available at other DUO API instances.
 
     :param api_url: URL of API location
     """
@@ -447,7 +446,7 @@ def list_dumps(api_url):
     try:
         r = requests.get(url)
     except:
-        click.secho('No OCD API instance with dumps available at {url}'
+        click.secho('No DUO API instance with dumps available at {url}'
                     .format(url=url), fg='red')
         return
 
@@ -471,9 +470,9 @@ def list_dumps(api_url):
               help='Download latest version of all collections available')
 def download_dumps(api_url, destination, collections, all_collections):
     """
-    Download dumps of OCD collections to your machine, for easy ingestion.
+    Download dumps of DUO API datasets to your machine, for easy ingestion.
 
-    :param api_url: URL to API instance to fetch dumps from. Defaults to ``ocd_frontend.settings.API_URL``, which is set to the API instance hosted by OpenCultuurData itself.
+    :param api_url: URL to API instance to fetch dumps from. Defaults to ``ocd_frontend.settings.API_URL``, which is set to the API instance hosted by the DUO API itself.
     :param destination: path to local directory where dumps should be stored. Defaults to ``ocd_frontend.settings.LOCAL_DUMPS_DIR``.
     :param collections: Names of collections to fetch dumps for. Optional; you will be prompted to select collections when not provided.
     :param all_collections: If this flag is set, download all available dumps. Optional; you will be prompted to select collections when not provided.

@@ -49,7 +49,7 @@ class BaseTransformer(OCDBackendTaskFailureMixin, celery_app.Task):
 
     def add_resolveable_media_urls(self, item):
         """For each item in ``media_urls``, add a ``url`` variant that
-        can be resolved by the OCD REST API."""
+        can be resolved by the DUO REST API."""
         if 'media_urls' in item.combined_index_data:
             for media_url in item.combined_index_data['media_urls']:
                 hashed_url = sha1(media_url['original_url']).hexdigest()
