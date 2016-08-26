@@ -92,10 +92,6 @@ Once started, the API can be accessed on port 5000 (again either locally or from
 Automatic updating using cron
 ------------
 
-The ``update.sh`` script contains the instructions to update indices. In the case of docker it is the easiest to add this script to the crontab on the host machine. Using ``sudo crontab -e``, add the following line when using ``docker-enter``::
+The ``bin/update.sh`` script contains the instructions to update indices. In the case of docker it is the easiest to add this script to the crontab on the host machine. Using ``sudo crontab -e``, add the following line::
 
-   $ 0 1,7,13,19 * * * sudo docker-enter c-npo-backstage ./opt/duo/bin/update.sh
-
-Or the following line if your docker version has the ``exec`` command::
-
-   $ 0 1,7,13,19 * * * sudo docker exec c-npo-backstage ./opt/duo/bin/update.sh
+   $ 0 1,7,13,19 * * * sudo docker exec docker_c-duo-api_1 /opt/duo/bin/update.sh

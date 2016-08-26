@@ -135,7 +135,7 @@ def _generate_for_msi(name, almanak):
 @click.group()
 @click.version_option()
 def cli():
-    """Open Raads Informatie Data"""
+    """DUO API Data"""
 
 
 @cli.group()
