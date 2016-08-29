@@ -26,11 +26,23 @@ class ESLoaderTestCase(LoaderTestCase):
             'transformer': 'ocd_backend.transformers.BaseTransformer',
             'item': 'ocd_backend.items.LocalDumpItem',
             'loader': 'ocd_backend.loaders.ElasticsearchLoader',
+            'alt_doc_type': '01.-hoofdvestigingen-vo',
             'dump_path': dump_path
         }
         self.loader = ElasticsearchLoader()
+
+        self.doc_type_default = 'items'
+        self.doc_type = '01_hoofdvestigingen_vo'
 
     def test_throws_configuration_error_without_index_name(self):
         # self.loader.run(source_definition=self.source_definition)
         self.assertRaises(ConfigurationError, self.loader.run,
                           source_definition=self.source_definition)
+
+    def test_get_doc_type(self):
+        """Tests getting the doc_type from the source config. It can be a name
+        or a reference to a field of an object."""
+        result = self.loader._get_doc_type(self.source_definition, 'items')
+        self.assertEqual(result, self.doc_type_default)
+        result = self.loader._get_doc_type(self.source_definition, '@alt_doc_type')
+        self.assertEqual(result, self.doc_type)

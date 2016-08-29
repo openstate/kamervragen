@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import re
 from pprint import pprint
 
 import requests
@@ -12,6 +13,7 @@ from ocd_backend.exceptions import ConfigurationError
 from ocd_backend.log import get_source_logger
 from ocd_backend.mixins import (OCDBackendTaskSuccessMixin,
                                 OCDBackendTaskFailureMixin)
+from ocd_backend.utils.misc import slugify
 
 log = get_source_logger('loader')
 
@@ -72,16 +74,26 @@ class ElasticsearchLoader(BaseLoader):
 
         return super(ElasticsearchLoader, self).run(*args, **kwargs)
 
+    def _get_doc_type(self, doc, doc_type_spec):
+        m = re.match(r'^@([\w_]+)', doc_type_spec)
+        if m is not None:
+            doc_field = m.group(1)
+            return slugify(doc[doc_field], '_')
+        else:
+            return doc_type_spec
+
     def load_item(
         self, combined_object_id, object_id, combined_index_doc, doc
     ):
         log.info('Indexing documents...')
+        doc_type = self._get_doc_type(combined_index_doc, self.doc_type)
         elasticsearch.index(index=settings.COMBINED_INDEX,
-                            doc_type=self.doc_type, id=combined_object_id,
+                            doc_type=doc_type, id=combined_object_id,
                             body=combined_index_doc)
 
         # Index documents into new index
-        elasticsearch.index(index=self.index_name, doc_type=self.doc_type,
+        doc_type = self._get_doc_type(doc, self.doc_type)
+        elasticsearch.index(index=self.index_name, doc_type=doc_type,
                             body=doc, id=object_id)
 
         m_url_content_types = {}
