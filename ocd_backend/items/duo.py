@@ -70,7 +70,7 @@ class DuoItem(DuoBaseItem):
     def get_combined_index_data(self):
         try:
             fields, data = self._get_data()
-        except LookupError as e:  # TODO: what kind of errors could there be?
+        except (ValueError, LookupError) as e:  # TODO: what kind of errors could there be?
             fields = []
             data = []
 
