@@ -659,7 +659,6 @@ class RestApiSourcesTestCase(OcdRestTestCaseMixin, TestCase):
         if len(response.json['sources']) > 0:
             source_attrs = response.json['sources'][0].keys()
             self.assertIn('id', source_attrs)
-            self.assertIn('items', source_attrs)
 
     @mock.patch('ocd_frontend.rest.tasks.log_event.delay')
     def test_logging_called_if_enabled(self, mocked_log_task):
