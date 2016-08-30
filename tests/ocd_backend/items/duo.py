@@ -89,6 +89,8 @@ class DuoItemTestCase(ItemTestCase):
         self.processed_row_no_brin = {
             u'gemeentenaam': u'UTRECHT'
         }
+        self.bad_filename = "/opt/duo/tests/ocd_backend/test_dumps/badly-formatted.csv"
+
     def _instantiate_item(self):
         return DuoItem(self.source_definition, 'application/json',
                              self.raw_item, self.item)
@@ -110,6 +112,18 @@ class DuoItemTestCase(ItemTestCase):
         self.assertListEqual(
             sorted(fields, key=lambda x: x['key']),
             sorted(self.fields, key=lambda x: x['key']))
+
+    def test_get_data_lookup_error(self):
+        del self.item['local_filename']
+        item = self._instantiate_item()
+        with self.assertRaises(LookupError):
+            fields, data = item._get_data()
+
+    def test_get_data_value_error(self):
+        self.item['local_filename'] = self.bad_filename
+        item = self._instantiate_item()
+        with self.assertRaises(ValueError):
+            fields, data = item._get_data()
 
     def test_get_rights(self):
         item = self._instantiate_item()
