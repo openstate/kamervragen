@@ -114,3 +114,15 @@ class DuoCSVTestCase(TestCase):
             reader = UnicodeReaderAsSlugs(csvfile, delimiter=';')
             row = reader.next()
             self.assertListEqual(sorted(row.keys()), sorted(self.header_map.values()))
+
+class BadCSVTestCase(TestCase):
+    def setUp(self):
+        super(BadCSVTestCase, self).setUp()
+        self.filename = "/opt/duo/tests/ocd_backend/test_dumps/badly-formatted.csv"
+
+    def test_bad_row(self):
+        with open(self.filename) as csvfile:
+            reader = UnicodeReaderAsSlugs(csvfile, delimiter=';')
+            row = reader.next()
+            with self.assertRaises(ValueError):
+                row = reader.next()
