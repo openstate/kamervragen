@@ -16,3 +16,19 @@ class UnicodeReaderAsSlugs(UnicodeReaderAsDict):
             raise ValueError("The number of values in this row does not match the number of headers")
 
         return {self.header_map[k.strip()]: v for k,v in row.iteritems()}
+
+
+def check_csv(local_filename):
+    # encoding = get_file_encoding(self.original_item['local_filename'])['encoding']
+    encoding= 'iso-8859-1'
+    with open(local_filename) as csvfile:
+        reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
+        try:
+            while True:
+                try:
+                    row = reader.next()
+                except StopIteration as e:
+                    break
+        except ValueError as e:
+            return False
+    return True

@@ -6,10 +6,12 @@ import re
 from ocd_backend.extractors import BaseExtractor, HttpRequestMixin
 from ocd_backend.exceptions import ConfigurationError
 from ocd_backend.utils.unicode_csv import UnicodeReaderAsDict
+from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs, check_csv
 from ocd_backend.utils.misc import (
-    make_hash_filename, download_file, get_file_id)
+    make_hash_filename, download_file, get_file_id, get_file_encoding)
 
 from ocd_backend import settings
+
 
 
 class CSVExtractor(BaseExtractor):
@@ -62,5 +64,8 @@ class DUOCSVListExtractor(CSVExtractor):
             print json.dumps(record)
 
             # only yield items if we have the download ....
-            if os.path.exists(local_filename):
-                yield 'application/json', json.dumps(record)
+            try:
+                if os.path.exists(local_filename) and check_csv(local_filename):
+                    yield 'application/json', json.dumps(record)
+            except Exception as e:
+                print e

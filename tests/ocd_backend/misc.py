@@ -5,7 +5,7 @@ from pprint import pprint
 from ocd_backend.utils.unicode_csv import UnicodeReaderAsDict
 from ocd_backend.utils.misc import (
     make_hash, make_hash_filename, get_file_id, get_file_encoding, slugify)
-from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs
+from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs, check_csv
 
 class UnicodeReaderAsDictTestCase(TestCase):
     def setUp(self):
@@ -126,3 +126,17 @@ class BadCSVTestCase(TestCase):
             row = reader.next()
             with self.assertRaises(ValueError):
                 row = reader.next()
+
+class CheckCSVTestCase(TestCase):
+    def setUp(self):
+        super(CheckCSVTestCase, self).setUp()
+        self.bad_filename = "/opt/duo/tests/ocd_backend/test_dumps/badly-formatted.csv"
+        self.good_filename = "/opt/duo/tests/ocd_backend/test_dumps/65a66c84f4a9a78fcfbf47d4170240ba.csv"
+
+    def test_csv_good(self):
+        result = check_csv(self.good_filename)
+        self.assertTrue(result)
+
+    def test_csv_bad(self):
+        result = check_csv(self.bad_filename)
+        self.assertFalse(result)
