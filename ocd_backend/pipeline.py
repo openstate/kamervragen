@@ -23,13 +23,14 @@ def get_timed_index_name_for_alias(index_alias,index_date=datetime.utcnow()):
     return '{index_alias}_{now}'.format(
         index_alias=index_alias, now=index_date.strftime('%Y%m%d%H%M%S'))
 
-def initialize_index(source_definition):
+def initialize_index(source_definition, current_date_and_time):
     # index_name is an alias of the current version of the index
     index_alias = get_alias_for_source(source_definition)
 
     # initialize an index if it does not exist yet
     if not es.indices.exists(index_alias):
-        index_name = get_timed_index_name_for_alias(index_alias)
+        index_name = get_timed_index_name_for_alias(
+            index_alias, current_date_and_time)
 
         es.indices.create(index_name)
         es.indices.put_alias(name=index_alias, index=index_name)
@@ -46,19 +47,22 @@ def get_current_index(index_alias):
 
     return current_index_aliases.keys()[0]
 
-def setup_pipeline(source_definition):
-    index_alias = initialize_index(source_definition)
-    current_index_name = get_current_index(index_alias)
-
+def get_new_index(source_definition, current_index_name, index_alias, current_date_and_time):
     # Check if the source specifies that any update should be added to
     # the current index instead of a new one
     if source_definition['keep_index_on_update']:
-        new_index_name = current_index_name
+        return current_index_name
     else:
-        new_index_name = '{index_alias}_{now}'.format(
+        return '{index_alias}_{now}'.format(
             index_alias=index_alias,
-            now=datetime.utcnow().strftime('%Y%m%d%H%M%S')
-        )
+            now=current_date_and_time.strftime('%Y%m%d%H%M%S'))
+
+def setup_pipeline(source_definition):
+    current_date_and_time = datetime.utcnow()
+    index_alias = initialize_index(source_definition, current_date_and_time)
+    current_index_name = get_current_index(index_alias)
+    new_index_name = get_new_index(
+        source_definition, current_index_name, index_alias, current_date_and_time)
 
     extractor = load_object(source_definition['extractor'])(source_definition)
     transformer = load_object(source_definition['transformer'])()

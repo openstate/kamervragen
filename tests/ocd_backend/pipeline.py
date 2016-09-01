@@ -5,7 +5,7 @@ from unittest import TestCase
 from ocd_backend.es import elasticsearch as es
 from ocd_backend.pipeline import (
     get_alias_for_source, get_timed_index_name_for_alias, get_current_index,
-    initialize_index)
+    initialize_index, get_new_index)
 from ocd_backend.exceptions import ConfigurationError
 
 class PipelineMiscTestCase(TestCase):
@@ -13,7 +13,8 @@ class PipelineMiscTestCase(TestCase):
         super(PipelineMiscTestCase, self).setUp()
         self.source_definition = {
             'id': 'test_source',
-            'index_name': 'test_data'
+            'index_name': 'test_data',
+            'keep_index_on_update': False
         }
         self.index_alias = 'duo_test_data'
         self.index_no_index_name = 'duo_test_source'
@@ -48,9 +49,23 @@ class PipelineMiscTestCase(TestCase):
             result = get_current_index(self.index_alias)
 
     def test_initialize_index(self):
-        result = initialize_index(self.source_definition)
+        result = initialize_index(self.source_definition, self.dated)
         self.assertEqual(result, self.index_alias)
         current_index = get_current_index(self.index_alias)
+        self.assertEqual(current_index, self.dated_index_name)
         # cleanup
         es.indices.delete_alias(name=self.index_alias, index=current_index)
         es.indices.delete(current_index)
+
+    def test_get_new_index(self):
+        result = get_new_index(
+            self.source_definition, self.index_alias, self.index_alias,
+            self.dated)
+        self.assertEqual(result, self.dated_index_name)
+
+    def test_get_new_index_keep(self):
+        self.source_definition['keep_index_on_update'] = True
+        result = get_new_index(
+            self.source_definition, self.index_alias, self.index_alias,
+            self.dated)
+        self.assertEqual(result, self.index_alias)
