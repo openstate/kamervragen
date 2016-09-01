@@ -19,18 +19,24 @@ def get_alias_for_source(source_definition):
         index_name=source_definition.get(
             'index_name', source_definition.get('id')))
 
-def setup_pipeline(source_definition):
+def get_timed_index_name_for_alias(index_alias,index_date=datetime.utcnow()):
+    return '{index_alias}_{now}'.format(
+        index_alias=index_alias, now=index_date.strftime('%Y%m%d%H%M%S'))
+
+def initialize_index(source_definition):
     # index_name is an alias of the current version of the index
     index_alias = get_alias_for_source(source_definition)
 
+    # initialize an index if it does not exist yet
     if not es.indices.exists(index_alias):
-        index_name = '{index_alias}_{now}'.format(index_alias=index_alias,
-                                                  now=datetime.utcnow()
-                                                  .strftime('%Y%m%d%H%M%S'))
+        index_name = get_timed_index_name_for_alias(index_alias)
 
         es.indices.create(index_name)
         es.indices.put_alias(name=index_alias, index=index_name)
 
+    return index_alias
+
+def get_current_index(index_alias):
     # Find the current index name behind the alias specified in the config
     try:
         current_index_aliases = es.indices.get_alias(name=index_alias)
@@ -38,7 +44,12 @@ def setup_pipeline(source_definition):
         raise ConfigurationError('Index with alias "{index_alias}" does '
                                  'not exist'.format(index_alias=index_alias))
 
-    current_index_name = current_index_aliases.keys()[0]
+    return current_index_aliases.keys()[0]
+
+def setup_pipeline(source_definition):
+    index_alias = initialize_index(source_definition)
+    current_index_name = get_current_index(index_alias)
+
     # Check if the source specifies that any update should be added to
     # the current index instead of a new one
     if source_definition['keep_index_on_update']:
