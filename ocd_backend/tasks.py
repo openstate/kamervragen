@@ -40,14 +40,32 @@ class CleanupElasticsearch(BaseCleanup):
         current_index_name = kwargs.get('current_index_name')
         new_index_name = kwargs.get('new_index_name')
         alias = kwargs.get('index_alias')
+        current_combined_index_name = kwargs.get('current_combined_index_name')
+        new_combined_index_name = kwargs.get('new_combined_index_name')
 
         log.info('Finished run {}. Removing alias "{}" from "{}", and '
                  'applying it to "{}"'.format(run_identifier, alias,
                                               current_index_name,
                                               new_index_name))
+        log.info('Finished run {}. Removing alias "{}" from "{}", and '
+                 'applying it to "{}"'.format(run_identifier, settings.COMBINED_INDEX,
+                                              current_combined_index_name,
+                                              new_combined_index_name))
 
         actions = {
             'actions': [
+                {
+                    'remove': {
+                        'index': current_combined_index_name,
+                        'alias': settings.COMBINED_INDEX
+                    }
+                },
+                {
+                    'add': {
+                        'index': new_combined_index_name,
+                        'alias': settings.COMBINED_INDEX
+                    }
+                },
                 {
                     'remove': {
                         'index': current_index_name,
@@ -67,5 +85,6 @@ class CleanupElasticsearch(BaseCleanup):
         es.indices.update_aliases(body=actions)
 
         # Remove old index
+        # FIXME: do we want to keep old indexes? If so how many?
         if current_index_name != new_index_name:
             es.indices.delete(index=current_index_name)
