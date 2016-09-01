@@ -13,13 +13,15 @@ from ocd_backend.exceptions import ConfigurationError
 logger = get_source_logger('pipeline')
 
 
+def get_alias_for_source(source_definition):
+    return '{prefix}_{index_name}'.format(
+        prefix=settings.DEFAULT_INDEX_PREFIX,
+        index_name=source_definition.get(
+            'index_name', source_definition.get('id')))
+
 def setup_pipeline(source_definition):
     # index_name is an alias of the current version of the index
-    index_alias = '{prefix}_{index_name}'.format(
-        prefix=settings.DEFAULT_INDEX_PREFIX,
-        index_name=source_definition.get('index_name',
-                                         source_definition.get('id'))
-    )
+    index_alias = get_alias_for_source(source_definition)
 
     if not es.indices.exists(index_alias):
         index_name = '{index_alias}_{now}'.format(index_alias=index_alias,
