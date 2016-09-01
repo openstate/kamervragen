@@ -27,7 +27,7 @@
       "hidden": false,
       "index_name": "data",
       "doc_type": "@id",
-      "keep_index_on_update": true,
+      "keep_index_on_update": false,
       "csv_file": "/opt/duo/files.csv",
       "csv_url_field": "bestand",
       "csv_page_field": "pagina",

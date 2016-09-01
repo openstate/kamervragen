@@ -67,6 +67,8 @@ class ElasticsearchLoader(BaseLoader):
         self.current_index_name = kwargs.get('current_index_name')
         self.index_name = kwargs.get('new_index_name')
         self.alias = kwargs.get('index_alias')
+        self.combined_index_name = kwargs.get(
+            'new_combined_index_name', settings.COMBINED_INDEX)
         self.doc_type = kwargs['source_definition'].get('doc_type', 'item')
 
         if not self.index_name:
@@ -87,7 +89,7 @@ class ElasticsearchLoader(BaseLoader):
     ):
         log.info('Indexing documents...')
         doc_type = self._get_doc_type(combined_index_doc, self.doc_type)
-        elasticsearch.index(index=settings.COMBINED_INDEX,
+        elasticsearch.index(index=self.combined_index_name,
                             doc_type=doc_type, id=combined_object_id,
                             body=combined_index_doc)
 
@@ -138,7 +140,7 @@ class ElasticsearchUpdateOnlyLoader(ElasticsearchLoader):
             return
 
         log.info('Indexing documents...')
-        elasticsearch.update(index=settings.COMBINED_INDEX,
+        elasticsearch.update(index=self.combined_index_name,
                             doc_type=self.doc_type, id=combined_object_id,
                             body={'doc': combined_index_doc['doc']})
 
