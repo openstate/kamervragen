@@ -67,6 +67,8 @@ class ElasticsearchLoader(BaseLoader):
         self.current_index_name = kwargs.get('current_index_name')
         self.index_name = kwargs.get('new_index_name')
         self.alias = kwargs.get('index_alias')
+        self.combined_index_name = kwargs.get(
+            'new_combined_index_name', settings.COMBINED_INDEX)
         self.doc_type = kwargs['source_definition'].get('doc_type', 'item')
 
         if not self.index_name:
@@ -87,7 +89,7 @@ class ElasticsearchLoader(BaseLoader):
     ):
         log.info('Indexing documents...')
         doc_type = self._get_doc_type(combined_index_doc, self.doc_type)
-        elasticsearch.index(index=settings.COMBINED_INDEX,
+        elasticsearch.index(index=self.combined_index_name,
                             doc_type=doc_type, id=combined_object_id,
                             body=combined_index_doc)
 
@@ -138,7 +140,7 @@ class ElasticsearchUpdateOnlyLoader(ElasticsearchLoader):
             return
 
         log.info('Indexing documents...')
-        elasticsearch.update(index=settings.COMBINED_INDEX,
+        elasticsearch.update(index=self.combined_index_name,
                             doc_type=self.doc_type, id=combined_object_id,
                             body={'doc': combined_index_doc['doc']})
 
@@ -171,53 +173,3 @@ class DummyLoader(BaseLoader):
         print 'Finished run {}'.format(run_identifier)
         print
         print '*' * 50
-
-
-from datetime import datetime
-
-def json_serial(obj):
-    """JSON serializer for objects not serializable by default json code"""
-
-    if isinstance(obj, datetime):
-        serial = obj.isoformat()
-        return serial
-    raise TypeError ("Type not serializable")
-
-class PopitLoader(BaseLoader):
-    """
-    Loads data to a Popit instance.
-    """
-
-    def _create_or_update_item(self, item, item_id):
-        """
-        First tries to post (aka create) a new item. If that does not work,
-        do an update (aka put).
-        """
-
-        headers = {
-            "Apikey": self.source_definition['popit_api_key'],
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
-
-        popit_url = "%s/%s" % (
-            self.source_definition['popit_base_url'],
-            self.source_definition['doc_type'],)
-        resp = requests.post(
-            popit_url,
-            headers=headers, data=json.dumps(item, default=json_serial))
-
-        # popit update controls where we should update the data from ibabs (overwriting our own data)
-        # or whether we should only add things when there's new information.
-        if ((not self.source_definition.get('popit_update', False)) or (resp.status_code != 500)):
-            return resp
-
-        return requests.put(
-            "%s/%s" % (popit_url, item_id,),
-            headers=headers, data=json.dumps(item, default=json_serial))
-
-    def load_item(
-        self, combined_object_id, object_id, combined_index_doc, doc
-    ):
-        resp = self._create_or_update_item(
-            combined_index_doc, combined_object_id)
