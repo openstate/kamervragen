@@ -47,6 +47,7 @@ class DuoItem(DuoBaseItem):
             fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
             fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
             data = [self._process_row(r) for r in reader]
+        data = []
         return fields, data
 
     def get_original_object_id(self):

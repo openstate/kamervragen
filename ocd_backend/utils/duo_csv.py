@@ -22,7 +22,10 @@ def check_csv(local_filename):
     # encoding = get_file_encoding(self.original_item['local_filename'])['encoding']
     encoding= 'iso-8859-1'
     with open(local_filename) as csvfile:
-        reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
+        try:
+            reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
+        except Exception as e:
+            return False
         try:
             while True:
                 try:

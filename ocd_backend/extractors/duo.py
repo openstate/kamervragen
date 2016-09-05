@@ -67,4 +67,4 @@ class DUOCSVListExtractor(CSVExtractor):
                 print "Adding %s" % (local_filename,)
                 yield 'application/json', json.dumps(record)
             else:
-                print "Skipping %s" % (local_filename,)
+                print "Skipping %s (%s)" % (url, local_filename,)
