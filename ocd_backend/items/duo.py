@@ -1,6 +1,11 @@
 from pprint import pprint
 from copy import deepcopy
+import urlparse
+import json
 
+import redis
+
+from ocd_backend import settings
 from ocd_backend.items import BaseItem
 from ocd_backend.utils.misc import slugify, make_hash, get_file_encoding
 from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs
@@ -19,6 +24,16 @@ class DuoBaseItem(BaseItem):
 
 
 class DuoItem(DuoBaseItem):
+    def _get_redis_client(self):
+        """
+        Gets a redis client.
+        """
+        url_info = urlparse.urlparse(settings.CELERY_CONFIG['BROKER_URL'])
+        return redis.StrictRedis(
+            host=url_info.hostname, port=url_info.port,
+            db=int(url_info.path[1:])
+        )
+
     def _process_row(self, row):
         """
         Adds the uni fields from the row data that was given. The uni fields are
@@ -47,6 +62,9 @@ class DuoItem(DuoBaseItem):
             fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
             fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
             data = [self._process_row(r) for r in reader]
+        redis = self._get_redis_client()
+        redis.set('duo-redis-tmp', json.dumps(data))
+        redis.expire('duo-redis-tmp', 10)
         data = []
         return fields, data
 
