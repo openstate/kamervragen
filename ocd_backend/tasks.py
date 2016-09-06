@@ -52,6 +52,13 @@ class CleanupElasticsearch(BaseCleanup):
                                               current_combined_index_name,
                                               new_combined_index_name))
 
+        # enable index refresh again
+        #if source_definition['keep_index_on_update']:
+        es.indices.put_settings(index='%s,%s' % (
+            new_index_name, new_combined_index_name),
+            body={"index" : {"refresh_interval" : "1s"}})
+
+
         actions = {
             'actions': [
                 {

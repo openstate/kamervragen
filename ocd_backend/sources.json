@@ -22,7 +22,7 @@
       "transformer": "ocd_backend.transformers.BaseTransformer",
       "item": "ocd_backend.items.duo.DuoItem",
       "enrichers": [],
-      "loader": "ocd_backend.loaders.ElasticsearchLoader",
+      "loader": "ocd_backend.loaders.ElasticsearchWithRedisDataLoader",
       "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
       "hidden": false,
       "index_name": "data",

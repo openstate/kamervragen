@@ -35,6 +35,10 @@ def initialize_index(source_definition, current_date_and_time):
         es.indices.create(index_name)
         es.indices.put_alias(name=index_alias, index=index_name)
 
+    # disable index refresh
+    if source_definition['keep_index_on_update']:
+        es.indices.put_settings(index=index_name, body={"index" : {"refresh_interval" : "-1"}})
+
     return index_alias
 
 def get_current_index(index_alias):

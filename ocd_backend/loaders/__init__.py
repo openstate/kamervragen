@@ -2,7 +2,9 @@ from datetime import datetime
 import json
 import re
 from pprint import pprint
+import urlparse
 
+import redis
 import requests
 from elasticsearch import ConflictError
 
@@ -126,6 +128,35 @@ class ElasticsearchLoader(BaseLoader):
                     log.debug('Resolver document %s already exists' % url_hash)
 
 
+class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
+    """
+    Stores data in Elasticsearch but gets external data from redis.
+    """
+
+    def _get_redis_client(self):
+        """
+        Gets a redis client.
+        """
+        url_info = urlparse.urlparse(settings.CELERY_CONFIG['BROKER_URL'])
+        return redis.StrictRedis(
+            host=url_info.hostname, port=url_info.port,
+            db=int(url_info.path[1:])
+        )
+
+    def load_item(
+        self, combined_object_id, object_id, combined_index_doc, doc
+    ):
+        redis_client = self._get_redis_client()
+        redis_key = 'duo-data-%s' % (combined_index_doc['id'],)
+        print "Getting from redis: %s" % (redis_key,)
+        data = json.loads(redis_client.get(redis_key))
+        redis_client.delete(redis_key)
+        combined_index_doc['data'] = data
+        doc['data'] = data
+        super(ElasticsearchWithRedisDataLoader, self).load_item(
+            combined_object_id, object_id, combined_index_doc, doc)
+
+
 class ElasticsearchUpdateOnlyLoader(ElasticsearchLoader):
     """
     Updates elasticsearch items using the update method. Use with caution.
@@ -142,11 +173,13 @@ class ElasticsearchUpdateOnlyLoader(ElasticsearchLoader):
         log.info('Indexing documents...')
         elasticsearch.update(index=self.combined_index_name,
                             doc_type=self.doc_type, id=combined_object_id,
-                            body={'doc': combined_index_doc['doc']})
+                            body={'doc': combined_index_doc['doc']},
+                            request_timeout=600)
 
         # Index documents into new index
         elasticsearch.update(index=self.index_name, doc_type=self.doc_type,
-                            body={'doc': doc['doc']}, id=object_id)
+                            body={'doc': doc['doc']}, id=object_id,
+                            request_timeout=600)
         # remember, resolver URLs are not update here to prevent too complex
         # things
 

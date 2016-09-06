@@ -63,8 +63,10 @@ class DuoItem(DuoBaseItem):
             fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
             data = [self._process_row(r) for r in reader]
         redis = self._get_redis_client()
-        redis.set('duo-redis-tmp', json.dumps(data))
-        redis.expire('duo-redis-tmp', 10)
+        redis_key = 'duo-data-%s' % (self.original_item['id'],)
+        print "Putting on redis: %s" % (redis_key,)
+        redis.set(redis_key, json.dumps(data))
+        redis.expire(redis_key, 1000)
         data = []
         return fields, data
 
