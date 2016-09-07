@@ -2,6 +2,7 @@ import os
 import json
 from pprint import pprint
 import re
+from time import sleep
 
 from ocd_backend.extractors import BaseExtractor, HttpRequestMixin
 from ocd_backend.exceptions import ConfigurationError
@@ -68,3 +69,5 @@ class DUOCSVListExtractor(CSVExtractor):
                 yield 'application/json', json.dumps(record)
             else:
                 print "Skipping %s (%s)" % (url, local_filename,)
+            "Waiting %s seconds" % (self.source_definition['wait'],)
+            sleep(self.source_definition['wait'])

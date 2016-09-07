@@ -34,6 +34,7 @@
       "csv_download_path": "/opt/duo/downloads",
       "fields_mapping": {
         "uni_brin": ["brin_nummer", "brin_code"]
-      }
+      },
+      "wait": 5
   }
 ]
