@@ -24,52 +24,6 @@ class DuoBaseItem(BaseItem):
 
 
 class DuoItem(DuoBaseItem):
-    def _get_redis_client(self):
-        """
-        Gets a redis client.
-        """
-        url_info = urlparse.urlparse(settings.CELERY_CONFIG['BROKER_URL'])
-        return redis.StrictRedis(
-            host=url_info.hostname, port=url_info.port,
-            db=int(url_info.path[1:])
-        )
-
-    def _process_row(self, row):
-        """
-        Adds the uni fields from the row data that was given. The uni fields are
-        defined in the source definition.
-        """
-        for uni_field in self.source_definition['fields_mapping']:
-            for source_field in self.source_definition['fields_mapping'][uni_field]:
-                try:
-                    row[uni_field] = row[source_field]
-                except LookupError as e:
-                    pass
-        return deepcopy(row)
-
-    def _get_data(self):
-        """
-        Loads the data from the CSV file (on disk) and returns the data
-        structure for the data itself and the field definitions.
-        """
-        fields = []
-        data = []
-        # FIXME: this way of getting the encoding is way to slow
-        # encoding = get_file_encoding(self.original_item['local_filename'])['encoding']
-        encoding= 'iso-8859-1'
-        with open(self.original_item['local_filename']) as csvfile:
-            reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
-            fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
-            fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
-            data = [self._process_row(r) for r in reader]
-        redis = self._get_redis_client()
-        redis_key = 'duo-data-%s' % (self.original_item['id'],)
-        print "Putting on redis: %s" % (redis_key,)
-        redis.set(redis_key, json.dumps(data))
-        redis.expire(redis_key, 1000)
-        data = []
-        return fields, data
-
     def get_original_object_id(self):
         return unicode(make_hash(self.original_item['id']))
 
@@ -89,11 +43,9 @@ class DuoItem(DuoBaseItem):
         return u'DUO'  # not used
 
     def get_combined_index_data(self):
-        try:
-            fields, data = self._get_data()
-        except (ValueError, LookupError) as e:  # TODO: what kind of errors could there be?
-            fields = []
-            data = []
+        # moved to the loader due to big (nested) files
+        fields = []
+        data = []
 
         combined_index_data = {
             'id': self.original_item['id'],

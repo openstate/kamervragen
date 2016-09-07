@@ -3,6 +3,8 @@ import json
 import re
 from pprint import pprint
 import urlparse
+from copy import deepcopy
+import os
 
 import redis
 import requests
@@ -15,7 +17,9 @@ from ocd_backend.exceptions import ConfigurationError
 from ocd_backend.log import get_source_logger
 from ocd_backend.mixins import (OCDBackendTaskSuccessMixin,
                                 OCDBackendTaskFailureMixin)
-from ocd_backend.utils.misc import slugify
+from ocd_backend.utils.misc import (
+    slugify, get_file_encoding, make_hash_filename)
+from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs
 
 log = get_source_logger('loader')
 
@@ -133,26 +137,54 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
     Stores data in Elasticsearch but gets external data from redis.
     """
 
-    def _get_redis_client(self):
+    def _process_row(self, row):
         """
-        Gets a redis client.
+        Adds the uni fields from the row data that was given. The uni fields are
+        defined in the source definition.
         """
-        url_info = urlparse.urlparse(settings.CELERY_CONFIG['BROKER_URL'])
-        return redis.StrictRedis(
-            host=url_info.hostname, port=url_info.port,
-            db=int(url_info.path[1:])
-        )
+        for uni_field in self.source_definition['fields_mapping']:
+            for source_field in self.source_definition['fields_mapping'][uni_field]:
+                try:
+                    row[uni_field] = row[source_field]
+                except LookupError as e:
+                    pass
+        return deepcopy(row)
+
+    def _get_data(self, csv_url):
+        """
+        Loads the data from the CSV file (on disk) and returns the data
+        structure for the data itself and the field definitions.
+        """
+        fields = []
+        data = []
+        # FIXME: move this to the loader.
+        # FIXME: this way of getting the encoding is way to slow
+        # encoding = get_file_encoding(self.original_item['local_filename'])['encoding']
+        encoding= 'iso-8859-1'
+        local_filename = os.path.join(
+            self.source_definition['csv_download_path'],
+            make_hash_filename(csv_url))
+        with open(local_filename) as csvfile:
+            reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
+            fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
+            fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
+            data = [self._process_row(r) for r in reader]
+        return fields, data
 
     def load_item(
         self, combined_object_id, object_id, combined_index_doc, doc
     ):
-        redis_client = self._get_redis_client()
-        redis_key = 'duo-data-%s' % (combined_index_doc['id'],)
-        print "Getting from redis: %s" % (redis_key,)
-        data = json.loads(redis_client.get(redis_key))
-        redis_client.delete(redis_key)
+        try:
+            fields, data = self._get_data(combined_index_doc['meta']['original_object_urls']['csv'])
+        except (ValueError, LookupError) as e:  # TODO: what kind of errors could there be?
+            fields = []
+            data = []
+
         combined_index_doc['data'] = data
+        combined_index_doc['fields'] = fields
         doc['data'] = data
+        doc['fields'] = fields
+
         super(ElasticsearchWithRedisDataLoader, self).load_item(
             combined_object_id, object_id, combined_index_doc, doc)
 
