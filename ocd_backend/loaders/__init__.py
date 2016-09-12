@@ -151,8 +151,9 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
                     pass
         row['@row'] = row_index
         return [{
+            '_id': u'%s-%s' % (slugify(item_id), row_index,),
             '_index': 'duo_data_items',
-            '_type': item_id,
+            '_type': slugify(item_id),
             '_source': row
         }]
 
