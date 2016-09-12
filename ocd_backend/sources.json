@@ -26,6 +26,7 @@
       "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
       "hidden": false,
       "index_name": "data",
+      "index_names": ["data_items", "combined_index"],
       "doc_type": "@id",
       "keep_index_on_update": false,
       "csv_file": "/opt/duo/files.csv",

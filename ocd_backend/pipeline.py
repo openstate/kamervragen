@@ -71,16 +71,26 @@ def setup_pipeline(source_definition):
         source_definition, current_index_name, index_alias, current_date_and_time)
 
     # now the combined index
-    combined_source_definition = {
-        'id': 'test_source',
-        'index_name': 'combined_index',
-        'keep_index_on_update': source_definition['keep_index_on_update']
-    }
-    initialize_index(combined_source_definition, current_date_and_time)
-    current_combined_index_name = get_current_index(settings.COMBINED_INDEX)
-    new_combined_index_name = get_new_index(
-        combined_source_definition, current_combined_index_name,
-        settings.COMBINED_INDEX, current_date_and_time)
+    index_names = source_definition.get('index_names', ['combined_index'])
+
+    current_index_names = []
+    new_index_names = []
+    additional_aliases = []
+    for cur_index in index_names:
+        additional_source_definition = {
+            'id': 'test_source',
+            'index_name': cur_index,
+            'keep_index_on_update': source_definition['keep_index_on_update']
+        }
+        additional_alias = '%s_%s' % (settings.DEFAULT_INDEX_PREFIX, cur_index,)
+        additional_aliases.append(additional_alias)
+        initialize_index(additional_source_definition, current_date_and_time)
+        current_additional_index_name = get_current_index(additional_alias)
+        new_additional_index_name = get_new_index(
+            additional_source_definition, current_additional_index_name,
+            additional_alias, current_date_and_time)
+        current_index_names.append(current_additional_index_name)
+        new_index_names.append(new_additional_index_name)
 
     # now load objects and prepare the run ...
     extractor = load_object(source_definition['extractor'])(source_definition)
@@ -95,8 +105,9 @@ def setup_pipeline(source_definition):
         'current_index_name': current_index_name,
         'new_index_name': new_index_name,
         'index_alias': index_alias,
-        'current_combined_index_name': current_combined_index_name,
-        'new_combined_index_name': new_combined_index_name
+        'index_aliases': additional_aliases,
+        'current_index_names': current_index_names,
+        'new_index_names': new_index_names
     }
 
     celery_app.backend.set(params['run_identifier'], 'running')
