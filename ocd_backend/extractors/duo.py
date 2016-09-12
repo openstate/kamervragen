@@ -69,5 +69,4 @@ class DUOCSVListExtractor(CSVExtractor):
                 yield 'application/json', json.dumps(record)
             else:
                 print "Skipping %s (%s)" % (url, local_filename,)
-            "Waiting %s seconds" % (self.source_definition['wait'],)
             sleep(self.source_definition['wait'])

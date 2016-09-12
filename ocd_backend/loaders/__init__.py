@@ -9,6 +9,7 @@ import os
 import redis
 import requests
 from elasticsearch import ConflictError
+from elasticsearch.helpers import bulk
 
 from ocd_backend import celery_app
 from ocd_backend import settings
@@ -137,7 +138,7 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
     Stores data in Elasticsearch but gets external data from redis.
     """
 
-    def _process_row(self, row):
+    def _process_row(self, item_id, row, row_index):
         """
         Adds the uni fields from the row data that was given. The uni fields are
         defined in the source definition.
@@ -148,9 +149,14 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
                     row[uni_field] = row[source_field]
                 except LookupError as e:
                     pass
-        return deepcopy(row)
+        row['@row'] = row_index
+        return [{
+            '_index': 'duo_data_items',
+            '_type': item_id,
+            '_source': row
+        }]
 
-    def _get_data(self, csv_url):
+    def _get_data(self, csv_url, item_id):
         """
         Loads the data from the CSV file (on disk) and returns the data
         structure for the data itself and the field definitions.
@@ -168,22 +174,29 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
             reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
             fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
             fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
-            data = [self._process_row(r) for r in reader]
+            row_count = 0
+            for r in reader:
+                data += self._process_row(item_id, r, row_count)
+                row_count += 1
         return fields, data
 
     def load_item(
         self, combined_object_id, object_id, combined_index_doc, doc
     ):
         try:
-            fields, data = self._get_data(combined_index_doc['meta']['original_object_urls']['csv'])
+            fields, data = self._get_data(
+                combined_index_doc['meta']['original_object_urls']['csv'],
+                combined_index_doc['id'])
         except (ValueError, LookupError) as e:  # TODO: what kind of errors could there be?
             fields = []
             data = []
 
-        combined_index_doc['data'] = data
+        #combined_index_doc['data'] = data
         combined_index_doc['fields'] = fields
-        doc['data'] = data
+        #doc['data'] = data
         doc['fields'] = fields
+
+        bulk(elasticsearch, data, stats_only=True)
 
         super(ElasticsearchWithRedisDataLoader, self).load_item(
             combined_object_id, object_id, combined_index_doc, doc)
