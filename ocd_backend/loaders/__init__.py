@@ -75,9 +75,12 @@ class ElasticsearchLoader(BaseLoader):
         self.index_name = kwargs.get('new_index_name')
         self.alias = kwargs.get('index_alias')
         self.new_index_names = kwargs.get('new_index_names', [settings.COMBINED_INDEX])
-        self.combined_index_name = [
-            i for i in self.new_index_names if i.startswith(
-                '%s_' % (settings.COMBINED_INDEX,))][0]
+        try:
+            self.combined_index_name = [
+                i for i in self.new_index_names if i.startswith(
+                    '%s_' % (settings.COMBINED_INDEX,))][0]
+        except IndexError as e:
+            self.combined_index_name = settings.COMBINED_INDEX
         self.doc_type = kwargs['source_definition'].get('doc_type', 'item')
 
         if not self.index_name:

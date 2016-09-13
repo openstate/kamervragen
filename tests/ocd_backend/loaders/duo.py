@@ -1,16 +1,17 @@
 import json
-import os
+from pprint import pprint
 
-from ocd_backend.items.duo import DuoItem
+from unittest import TestCase
 
-from . import ItemTestCase
+from ocd_backend.loaders import ElasticsearchWithRedisDataLoader
 
-class DuoItemTestCase(ItemTestCase):
+class DuoLoaderTestCase(TestCase):
     def setUp(self):
-        super(DuoItemTestCase, self).setUp()
-        self.PWD = os.path.dirname(__file__)
-        dump_path = os.path.abspath(os.path.join(self.PWD, '../test_dumps/ocd_openbeelden_test.gz'))
-        self.source_definition = {
+        super(DuoLoaderTestCase, self).setUp()
+
+        self.loader = ElasticsearchWithRedisDataLoader()
+
+        self.loader.source_definition = {
             "id": "update",
             "extractor": "ocd_backend.extractors.duo.DUOCSVListExtractor",
             "transformer": "ocd_backend.transformers.BaseTransformer",
@@ -25,26 +26,16 @@ class DuoItemTestCase(ItemTestCase):
             "csv_file": "/opt/duo/files.csv",
             "csv_url_field": "bestand",
             "csv_page_field": "pagina",
-            "csv_download_path": "/opt/duo/downloads",
+            "csv_download_path": "/opt/duo/tests/ocd_backend/test_dumps",
             "fields_mapping": {
                 "uni_brin": ["brin_nummer", "brin_code"]
             }
         }
 
-
-        with open(os.path.abspath(os.path.join(self.PWD, '../test_dumps/duo.json')), 'r') as f:
-            self.raw_item = f.read()
-        with open(os.path.abspath(os.path.join(self.PWD, '../test_dumps/duo.json')), 'r') as f:
-            self.item = json.load(f)
-
-        self.collection = u'DUO'
-        self.rights = u'undefined'
-        self.original_object_id = u'378ec38535e21cd942bca13422637e6c'
         self.original_object_urls = {
             u'html': u'https://www.duo.nl/open_onderwijsdata/databestanden/vo/adressen/adressen_vo_1.jsp',
             u'csv': u'https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv'
         }
-
 
         self.duo_id = u'01.-hoofdvestigingen-vo'
         self.duo_name = u'01.-hoofdvestigingen-vo'
@@ -82,62 +73,43 @@ class DuoItemTestCase(ItemTestCase):
             {'key': u"RMC-REGIO NAAM", 'name': u"RMC-REGIO NAAM", 'label': "rmc_regio_naam"},
             {'name': u'uni_brin', 'key': u'uni_brin', 'label': u'uni_brin'}
         ]
+
+        self.loader.new_index_names = ['duo_data_items_testje']
+
         self.processed_row = {
+            u'@row': 1,
             u'brin_nummer': u'18BR',
             u'uni_brin': u'18BR'
         }
         self.processed_row_no_brin = {
+            u'@row': 1,
             u'gemeentenaam': u'UTRECHT'
         }
         self.bad_filename = "/opt/duo/tests/ocd_backend/test_dumps/badly-formatted.csv"
 
-    def _instantiate_item(self):
-        return DuoItem(self.source_definition, 'application/json',
-                             self.raw_item, self.item)
+    def test_get_data(self):
+        fields, data = self.loader._get_data(self.original_object_urls[u'csv'], self.duo_id)
+        self.assertListEqual(
+            sorted(fields, key=lambda x: x['key']),
+            sorted(self.fields, key=lambda x: x['key']))
 
-    def test_item_collection(self):
-        item = self._instantiate_item()
-        self.assertEqual(item.get_collection(), self.collection)
+    def test_process_row(self):
+        processed_row = self.loader._process_row(
+            self.duo_id, {u'brin_nummer': u'18BR'}, 1, self.loader.new_index_names[0])
+        pprint(processed_row)
+        self.assertDictEqual(processed_row[0]['_source'], self.processed_row)
+        processed_row_no_brin = self.loader._process_row(
+            self.duo_id, {u'gemeentenaam': u'UTRECHT'}, 1, self.loader.new_index_names[0])
+        self.assertDictEqual(processed_row_no_brin[0]['_source'], self.processed_row_no_brin)
 
-    def test_get_rights(self):
-        item = self._instantiate_item()
-        self.assertEqual(item.get_rights(), self.rights)
-
-    def test_get_original_object_id(self):
-        item = self._instantiate_item()
-        self.assertEqual(item.get_original_object_id(), self.original_object_id)
-
-    def test_get_original_object_urls(self):
-        item = self._instantiate_item()
-        self.assertDictEqual(item.get_original_object_urls(),
-                             self.original_object_urls)
-
-    def test_get_combined_index_data(self):
-        item = self._instantiate_item()
-        self.assertIsInstance(item.get_combined_index_data(), dict)
-
-    def test_get_duo_id(self):
-        item = self._instantiate_item()
-        data = item.get_combined_index_data()
-        self.assertEqual(data['id'], self.duo_id)
-
-    def test_get_duo_name(self):
-        item = self._instantiate_item()
-        data = item.get_combined_index_data()
-        self.assertEqual(data['name'], self.duo_name)
-
-    def test_get_index_data(self):
-        item = self._instantiate_item()
-        self.assertIsInstance(item.get_index_data(), dict)
-
-    def test_get_all_text(self):
-        item = self._instantiate_item()
-        self.assertEqual(type(item.get_all_text()), unicode)
-        #self.assertTrue(len(item.get_all_text()) > 0)
-
-    def test_combined_index_data_types(self):
-        item = self._instantiate_item()
-        data = item.get_combined_index_data()
-        for field, field_type in item.combined_index_fields.iteritems():
-            self.assertIn(field, data)
-            self.assertIsInstance(data[field], field_type)
+    # def test_get_data_lookup_error(self):
+    #     del self.item['local_filename']
+    #     item = self._instantiate_item()
+    #     with self.assertRaises(LookupError):
+    #         fields, data = item._get_data()
+    #
+    # def test_get_data_value_error(self):
+    #     self.item['local_filename'] = self.bad_filename
+    #     item = self._instantiate_item()
+    #     with self.assertRaises(ValueError):
+    #         fields, data = item._get_data()
