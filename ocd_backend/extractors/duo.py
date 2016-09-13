@@ -50,7 +50,11 @@ class DUOCSVListExtractor(CSVExtractor):
     processing.
     """
     def run(self):
+        row_count = 0
         for row in self._read():
+            row_count += 1
+            # if row_count > 1:
+            #     continue
             url = row[self.source_definition['csv_url_field']]
             local_filename = os.path.join(
                 self.source_definition['csv_download_path'],

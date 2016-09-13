@@ -37,42 +37,35 @@ class BaseCleanup(celery_app.Task):
 class CleanupElasticsearch(BaseCleanup):
 
     def run_finished(self, run_identifier, **kwargs):
+        log.info('Cleaning up after finished run...')
         current_index_name = kwargs.get('current_index_name')
         new_index_name = kwargs.get('new_index_name')
         alias = kwargs.get('index_alias')
-        current_combined_index_name = kwargs.get('current_combined_index_name')
-        new_combined_index_name = kwargs.get('new_combined_index_name')
-
+        additional_aliases = kwargs.get('index_aliases')
+        current_index_names = kwargs.get('current_index_names')
+        new_index_names = kwargs.get('new_index_names')
+        alias_changes = zip(
+            additional_aliases, current_index_names, new_index_names)
         log.info('Finished run {}. Removing alias "{}" from "{}", and '
                  'applying it to "{}"'.format(run_identifier, alias,
                                               current_index_name,
                                               new_index_name))
-        log.info('Finished run {}. Removing alias "{}" from "{}", and '
-                 'applying it to "{}"'.format(run_identifier, settings.COMBINED_INDEX,
-                                              current_combined_index_name,
-                                              new_combined_index_name))
+
+        for an_alias, a_current_name, a_new_name in alias_changes:
+            log.info('Finished run {}. Removing alias "{}" from "{}", and '
+                     'applying it to "{}"'.format(run_identifier, an_alias,
+                                                  a_current_name,
+                                                  a_new_name))
 
         # enable index refresh again
         #if source_definition['keep_index_on_update']:
-        es.indices.put_settings(index='%s,%s' % (
-            new_index_name, new_combined_index_name),
-            body={"index" : {"refresh_interval" : "1s"}})
+        # es.indices.put_settings(index='%s,%s' % (
+        #     new_index_name, ','.join(new_index_names),),
+        #     body={"index" : {"refresh_interval" : "1s"}})
 
 
         actions = {
             'actions': [
-                {
-                    'remove': {
-                        'index': current_combined_index_name,
-                        'alias': settings.COMBINED_INDEX
-                    }
-                },
-                {
-                    'add': {
-                        'index': new_combined_index_name,
-                        'alias': settings.COMBINED_INDEX
-                    }
-                },
                 {
                     'remove': {
                         'index': current_index_name,
@@ -87,6 +80,22 @@ class CleanupElasticsearch(BaseCleanup):
                 }
             ]
         }
+
+        for an_alias, a_current_name, a_new_name in alias_changes:
+            actions['actions'] += [
+                {
+                    'remove': {
+                        'index': a_current_name,
+                        'alias': an_alias
+                    }
+                },
+                {
+                    'add': {
+                        'index': a_new_name,
+                        'alias': an_alias
+                    }
+                }
+            ]
 
         # Set alias to new index
         es.indices.update_aliases(body=actions)

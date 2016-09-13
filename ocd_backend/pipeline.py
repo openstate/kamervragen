@@ -36,8 +36,8 @@ def initialize_index(source_definition, current_date_and_time):
         es.indices.put_alias(name=index_alias, index=index_name)
 
     # disable index refresh
-    if source_definition['keep_index_on_update']:
-        es.indices.put_settings(index=index_name, body={"index" : {"refresh_interval" : "-1"}})
+    # if not source_definition['keep_index_on_update']:
+    #     es.indices.put_settings(index=index_name, body={"index" : {"refresh_interval" : "-1"}})
 
     return index_alias
 
@@ -91,6 +91,7 @@ def setup_pipeline(source_definition):
             additional_alias, current_date_and_time)
         current_index_names.append(current_additional_index_name)
         new_index_names.append(new_additional_index_name)
+        print "Setting up alias for %s (-> %s)" % (cur_index, new_additional_index_name,)
 
     # now load objects and prepare the run ...
     extractor = load_object(source_definition['extractor'])(source_definition)

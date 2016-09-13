@@ -74,8 +74,10 @@ class ElasticsearchLoader(BaseLoader):
         self.current_index_name = kwargs.get('current_index_name')
         self.index_name = kwargs.get('new_index_name')
         self.alias = kwargs.get('index_alias')
-        self.combined_index_name = kwargs.get(
-            'new_combined_index_name', settings.COMBINED_INDEX)
+        self.new_index_names = kwargs.get('new_index_names', [settings.COMBINED_INDEX])
+        self.combined_index_name = [
+            i for i in self.new_index_names if i.startswith(
+                '%s_' % (settings.COMBINED_INDEX,))][0]
         self.doc_type = kwargs['source_definition'].get('doc_type', 'item')
 
         if not self.index_name:
@@ -138,7 +140,7 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
     Stores data in Elasticsearch but gets external data from redis.
     """
 
-    def _process_row(self, item_id, row, row_index):
+    def _process_row(self, item_id, row, row_index, index_name):
         """
         Adds the uni fields from the row data that was given. The uni fields are
         defined in the source definition.
@@ -152,7 +154,7 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
         row['@row'] = row_index
         return [{
             '_id': u'%s-%s' % (slugify(item_id), row_index,),
-            '_index': 'duo_data_items',
+            '_index': index_name,
             '_type': slugify(item_id),
             '_source': row
         }]
@@ -171,13 +173,17 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
         local_filename = os.path.join(
             self.source_definition['csv_download_path'],
             make_hash_filename(csv_url))
+        data_items_index_name = [
+            i for i in self.new_index_names if i.startswith(
+                '%s_' % ('duo_data_items',))][0]
         with open(local_filename) as csvfile:
             reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
             fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
             fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
             row_count = 0
             for r in reader:
-                data += self._process_row(item_id, r, row_count)
+                data += self._process_row(
+                    item_id, r, row_count, data_items_index_name)
                 row_count += 1
         return fields, data
 
