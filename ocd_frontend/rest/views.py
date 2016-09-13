@@ -189,10 +189,10 @@ def format_search_results(results, doc_type='items'):
         # del hit['_source']['hidden']
         kwargs = {
             'object_id': hit['_id'],
-            'source_id': hit['_source']['meta']['source_id'],
+            'source_id': hit['_source'].get('meta', {}).get('source_id', '-'),
             '_external': True
         }
-        hit['_source']['meta']['ocd_url'] = url_for('api.get_object', **kwargs)
+        hit['_source'].get('meta', {})['ocd_url'] = url_for('api.get_object', **kwargs)
         for key in current_app.config['EXCLUDED_FIELDS_ALWAYS']:
             try:
                 del hit['_source'][key]
@@ -432,25 +432,41 @@ def search_source(source_id, doc_type=u'items'):
         allowed_to_include=current_app.config['ALLOWED_INCLUDE_FIELDS_DEFAULT']
     )
 
+    # the fields we want to highlight in the Elasticsearch response
+    highlighted_fields = current_app.config['COMMON_HIGHLIGHTS']
+    highlighted_fields.update(
+        current_app.config['AVAILABLE_HIGHLIGHTS'][doc_type])
+
+    # start with the simple query string
+    sqs = {
+        'simple_query_string': {
+            'query': search_req['query'],
+            'default_operator': 'AND',
+            'fields':current_app.config[
+                'SIMPLE_QUERY_FIELDS'][doc_type]
+        }
+    }
+
+    # We can have nested queries. To keep things simple, add nested as a
+    # parameter. The value is assumed to be the path of the nested query
+    nested = data.get('nested', None)
+    if nested is not None:
+        del sqs['simple_query_string']['default_operator']  # not sure why, but ok
+        sqs = {
+            'nested': {
+                'path': nested,
+                'query': sqs,
+                'inner_hits': {}
+            }
+        }
+        sqs['nested']['query']['simple_query_string']['fields'] = [
+            u'%s.*' % (nested,)]
+
     # Construct the query we are going to send to Elasticsearch
     es_q = {
         'query': {
             'filtered': {
-                'query': {
-                    'simple_query_string': {
-                        'query': search_req['query'],
-                        'default_operator': 'AND',
-                        'fields': current_app.config[
-                            'SIMPLE_QUERY_FIELDS'][doc_type]
-                        # 'fields': [
-                        #     'title^3',
-                        #     'authors^2',
-                        #     'description^2',
-                        #     'meta.original_object_id',
-                        #     'all_text'
-                        # ]
-                    }
-                },
+                'query': sqs,
                 'filter': {}
             }
         },
@@ -462,6 +478,9 @@ def search_source(source_id, doc_type=u'items'):
         },
         '_source': {
             'exclude': excluded_fields
+        },
+        'highlight': {
+            'fields': highlighted_fields
         }
     }
 
@@ -473,9 +492,13 @@ def search_source(source_id, doc_type=u'items'):
             'bool': {'must': search_req['filters']}
         }
 
+    if doc_type != settings.DOC_TYPE_DEFAULT:
+        request_doc_type = doc_type
+    else:
+        request_doc_type = None
     try:
         es_r = current_app.es.search(
-            body=es_q, index=index_name, doc_type=doc_type)
+            body=es_q, index=index_name, doc_type=request_doc_type)
     except NotFoundError:
         raise OcdApiError('Source \'%s\' does not exist' % source_id, 404)
 
@@ -484,7 +507,7 @@ def search_source(source_id, doc_type=u'items'):
         hit_log = []
         for hit in es_r['hits']['hits']:
             hit_log.append({
-                'source_id': hit['_source']['meta']['source_id'],
+                'source_id': hit['_source'].get('meta', {}).get('source_id', '-'),
                 'object_id': hit['_id'],
                 'score': hit['_score']
             })
