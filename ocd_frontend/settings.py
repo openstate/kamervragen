@@ -25,7 +25,7 @@ DEFAULT_INDEX_PREFIX = 'duo'
 SORTABLE_FIELDS = {
     'items': [
         'meta.source_id', 'meta.processing_started', 'meta.processing_finished',
-        '_score', '@row']
+        '_score', 'meta.row']
 }
 
 # EXCLUDED_FIELDS_DEFAULT = ['all_text', 'source_data',

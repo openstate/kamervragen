@@ -154,7 +154,10 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
                     row[uni_field] = row[source_field]
                 except LookupError as e:
                     pass
-        row['@row'] = row_index
+        row['hidden'] = self.source_definition['hidden']
+        row['meta'] = {
+            'row': row_index
+        }
         return [{
             '_id': u'%s-%s' % (slugify(item_id), row_index,),
             '_index': index_name,
