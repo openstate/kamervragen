@@ -40,6 +40,30 @@ class DuoLoaderTestCase(TestCase):
         self.duo_id = u'01.-hoofdvestigingen-vo'
         self.duo_name = u'01.-hoofdvestigingen-vo'
 
+        self.header_map = {
+            u"PROVINCIE": "provincie",
+            u"BEVOEGD GEZAG NUMMER": "bevoegd_gezag_nummer",
+            u"BRIN NUMMER": "brin_nummer",
+            u"INSTELLINGSNAAM": "instellingsnaam",
+            u"STRAATNAAM": "straatnaam"
+        }
+
+        self.processed_field_definitions = [
+            {'key': u"PROVINCIE", 'name': u"PROVINCIE", 'label': "provincie"},
+            {'key': u"BEVOEGD GEZAG NUMMER", 'name': u"BEVOEGD GEZAG NUMMER", 'label': "bevoegd_gezag_nummer"},
+            {'key': u"BRIN NUMMER", 'name': u"BRIN NUMMER", 'label': "brin_nummer"},
+            {'key': u"INSTELLINGSNAAM", 'name': u"INSTELLINGSNAAM", 'label': "instellingsnaam"},
+            {'key': u"STRAATNAAM", 'name': u"STRAATNAAM", 'label': "straatnaam"},
+            {'name': u'uni_brin', 'key': u'uni_brin', 'label': u'uni_brin'}
+        ]
+
+        self.processed_field_definitions_no_uni_brin = [
+            {'key': u"PROVINCIE", 'name': u"PROVINCIE", 'label': "provincie"},
+            {'key': u"BEVOEGD GEZAG NUMMER", 'name': u"BEVOEGD GEZAG NUMMER", 'label': "bevoegd_gezag_nummer"},
+            {'key': u"INSTELLINGSNAAM", 'name': u"INSTELLINGSNAAM", 'label': "instellingsnaam"},
+            {'key': u"STRAATNAAM", 'name': u"STRAATNAAM", 'label': "straatnaam"}
+        ]
+
         self.fields = [
             {'key': u"PROVINCIE", 'name': u"PROVINCIE", 'label': "provincie"},
             {'key': u"BEVOEGD GEZAG NUMMER", 'name': u"BEVOEGD GEZAG NUMMER", 'label': "bevoegd_gezag_nummer"},
@@ -101,6 +125,22 @@ class DuoLoaderTestCase(TestCase):
         processed_row_no_brin = self.loader._process_row(
             self.duo_id, {u'gemeentenaam': u'UTRECHT'}, 1, self.loader.new_index_names[0])
         self.assertDictEqual(processed_row_no_brin[0]['_source'], self.processed_row_no_brin)
+
+    def test_get_field_definitions(self):
+        result = self.loader._get_field_definitions(
+            self.header_map, self.loader.source_definition["fields_mapping"])
+        self.assertEqual(
+            sorted(result, key=lambda x: x['key']),
+            sorted(self.processed_field_definitions, key=lambda x: x['key']))
+
+    def test_get_field_definitions_no_uni_brin(self):
+        del self.header_map[u"BRIN NUMMER"]
+        result = self.loader._get_field_definitions(
+            self.header_map, self.loader.source_definition["fields_mapping"])
+        self.assertEqual(
+            sorted(result, key=lambda x: x['key']),
+            sorted(self.processed_field_definitions_no_uni_brin, key=lambda x: x['key']))
+
 
     # def test_get_data_lookup_error(self):
     #     del self.item['local_filename']

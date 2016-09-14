@@ -162,6 +162,15 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
             '_source': row
         }]
 
+    def _get_field_definitions(self, header_map, fields_mapping):
+        """
+        Gets the field mapping for a dataset
+        """
+        fields = [{'key': k, 'name': k, 'label': l} for k,l in header_map.iteritems()]
+        for k,v in fields_mapping.iteritems():
+            fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for f in v if f in header_map.values()]
+        return fields
+
     def _get_data(self, csv_url, item_id):
         """
         Loads the data from the CSV file (on disk) and returns the data
@@ -181,8 +190,7 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
                 '%s_' % ('duo_data_items',))][0]
         with open(local_filename) as csvfile:
             reader = UnicodeReaderAsSlugs(csvfile, delimiter=';', encoding=encoding)
-            fields = [{'key': k, 'name': k, 'label': l} for k,l in reader.header_map.iteritems()]
-            fields += [{'key': unicode(k), 'name': unicode(k), 'label': unicode(k)} for k in self.source_definition['fields_mapping']]
+            fields = self._get_field_definitions(reader.header_map, self.source_definition['fields_mapping'])
             row_count = 0
             for r in reader:
                 data += self._process_row(
