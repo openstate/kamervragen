@@ -156,7 +156,8 @@ class ElasticsearchWithRedisDataLoader(ElasticsearchLoader):
                     pass
         row['hidden'] = self.source_definition['hidden']
         row['meta'] = {
-            'row': row_index
+            'row': row_index,
+            'source_id': item_id
         }
         return [{
             '_id': u'%s-%s' % (slugify(item_id), row_index,),

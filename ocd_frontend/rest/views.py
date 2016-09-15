@@ -217,7 +217,8 @@ def format_search_results(results, doc_type='items'):
 
     formatted_results['meta'] = {
         'total': results['hits']['total'],
-        'took': results['took']
+        'took': results['took'],
+        #'query': results['query']
     }
 
     return formatted_results
@@ -502,6 +503,7 @@ def search_source(source_id, doc_type=u'items'):
     try:
         es_r = current_app.es.search(
             body=es_q, index=index_name, doc_type=request_doc_type)
+        es_r['query'] = es_q
     except NotFoundError:
         raise OcdApiError('Source \'%s\' does not exist' % source_id, 404)
 
