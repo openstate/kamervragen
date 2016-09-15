@@ -437,13 +437,16 @@ def search_source(source_id, doc_type=u'items'):
     highlighted_fields.update(
         current_app.config['AVAILABLE_HIGHLIGHTS'][doc_type])
 
+    # {"query": "18BR", "fields": ["uni_brin"]}
+    sqs_fields = data.get('fields', None) or current_app.config[
+        'SIMPLE_QUERY_FIELDS'][doc_type]
+
     # start with the simple query string
     sqs = {
         'simple_query_string': {
             'query': search_req['query'],
             'default_operator': 'AND',
-            'fields':current_app.config[
-                'SIMPLE_QUERY_FIELDS'][doc_type]
+            'fields': sqs_fields
         }
     }
 

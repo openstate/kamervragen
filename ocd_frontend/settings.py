@@ -13,7 +13,7 @@ ELASTICSEARCH_PORT = 9200
 DEFAULT_SEARCH_SIZE = 150
 
 # The max. number of hits to return for a search request via the REST API
-MAX_SEARCH_SIZE = 400
+MAX_SEARCH_SIZE = 10000
 
 # The name of the index containing documents from all sources
 COMBINED_INDEX = 'duo_combined_index'
@@ -25,7 +25,7 @@ DEFAULT_INDEX_PREFIX = 'duo'
 SORTABLE_FIELDS = {
     'items': [
         'meta.source_id', 'meta.processing_started', 'meta.processing_finished',
-        '_score', '@row']
+        '_score', 'meta.row']
 }
 
 # EXCLUDED_FIELDS_DEFAULT = ['all_text', 'source_data',
