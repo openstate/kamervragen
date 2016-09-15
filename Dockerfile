@@ -128,6 +128,8 @@ RUN source ../bin/activate \
 
 RUN apt-get install supervisor
 
+RUN echo "27 3    * * *   root    /opt/duo/bin/download_and_update_duo_api_datasets.sh" >> /etc/crontab
+
 # Delete all DUO API files again
 RUN find . -delete
 
