@@ -32,6 +32,7 @@ class BaseTransformer(OCDBackendTaskFailureMixin, celery_app.Task):
         """
         self.source_definition = kwargs['source_definition']
         self.item_class = load_object(kwargs['source_definition']['item'])
+        self.params = kwargs
 
         item = self.deserialize_item(*args)
         return self.transform_item(*args, item=item)
@@ -72,6 +73,7 @@ class BaseTransformer(OCDBackendTaskFailureMixin, celery_app.Task):
             for the combined index (as a dict) and the item item structured
             for the source specific index.
         """
+        self.source_definition['params'] = self.params
         item = self.item_class(self.source_definition, raw_item_content_type,
                                raw_item, item)
 
