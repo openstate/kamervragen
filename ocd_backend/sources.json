@@ -34,7 +34,9 @@
       "csv_page_field": "pagina",
       "csv_download_path": "/opt/duo/downloads",
       "fields_mapping": {
-        "uni_brin": ["brin_nummer", "brin_code"]
+        "uni_brin": ["brin_nummer"],
+        "uni_bevoegd_gezag": ["bevoegd_gezag_nummer", "bevoegd_gezag", "bevoegd_gezag_school", "administratienummer"],
+        "uni_schoolnaam": ["instellingsnaam", "vestigingsnaam"]
       },
       "wait": 5
   }
