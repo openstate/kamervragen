@@ -36,7 +36,13 @@
       "fields_mapping": {
         "uni_brin": ["brin_nummer"],
         "uni_bevoegd_gezag": ["bevoegd_gezag_nummer", "bevoegd_gezag", "bevoegd_gezag_school", "administratienummer"],
-        "uni_schoolnaam": ["instellingsnaam", "vestigingsnaam"]
+        "uni_bevoegd_gezag_nummer": ["bevoegd_gezag_nummer"],
+        "uni_schoolnaam": ["instellingsnaam", "vestigingsnaam"],
+        "uni_vestigingsnummer": ["vestigingsnummer"],
+        "uni_gemeentenummer": ["gemeentenummer"],
+        "uni_gemeentenaam": ["gemeentenaam"],
+        "uni_plaatsnaam": ["plaatsnaam"],
+        "uni_provincie": ["provincie"]
       },
       "wait": 5
   }
