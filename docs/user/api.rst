@@ -31,29 +31,29 @@ Retrieve all datasets available in the API
 
       {
         "@context": {
-          "results": "http://data.duo.nl/#results",
+          "results": "https://data.duo.nl/#results",
           "dataset_url": "https://api.duo.nl/docs/#dataset_url",
           "dataset_source": "https://api.duo.nl/docs/#dataset_source",
           "dataset_query": "https://api.duo.nl/docs/#dataset_query",
           "dataset_name": "https://api.duo.nl/docs/#dataset_name",
           "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
         },
-        "@id": "http://api.duo.nl/v0/search",
+        "@id": "https://api.duo.nl/v0/search",
         "results": [
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-basisonderwijs.csv",
             "dataset_name": "01.-hoofdvestigingen-basisonderwijs",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_1.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs",
+            "dataset_url": "https://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/02.-hoofdvestigingen-speciaal-(basis)onderwijs.csv",
             "dataset_name": "02.-hoofdvestigingen-speciaal-(basis)onderwijs",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_2.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs",
+            "dataset_url": "https://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/04.-alle-vestigingen-speciaal-(basis)onderwijs.csv",
             "dataset_name": "04.-alle-vestigingen-speciaal-(basis)onderwijs",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_4.jsp"
@@ -79,29 +79,29 @@ Search for datasets based on their name
 
       {
         "@context": {
-          "results": "http://data.duo.nl/#results",
+          "results": "https://data.duo.nl/#results",
           "dataset_url": "https://api.duo.nl/docs/#dataset_url",
           "dataset_source": "https://api.duo.nl/docs/#dataset_source",
           "dataset_query": "https://api.duo.nl/docs/#dataset_query",
           "dataset_name": "https://api.duo.nl/docs/#dataset_name",
           "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
         },
-        "@id": "http://api.duo.nl/v0/search?dataset_name=hoofdvestigingen",
+        "@id": "https://api.duo.nl/v0/search?dataset_name=hoofdvestigingen",
         "results": [
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-basisonderwijs.csv",
             "dataset_name": "01.-hoofdvestigingen-basisonderwijs",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_1.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv",
             "dataset_name": "01.-hoofdvestigingen-vo",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/adressen/adressen_vo_1.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs",
+            "dataset_url": "https://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/02.-hoofdvestigingen-speciaal-(basis)onderwijs.csv",
             "dataset_name": "02.-hoofdvestigingen-speciaal-(basis)onderwijs",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_2.jsp"
@@ -126,29 +126,29 @@ Retrieve all datasets that contains a specific field name
 
       {
         "@context": {
-          "results": "http://data.duo.nl/#results",
+          "results": "https://data.duo.nl/#results",
           "dataset_url": "https://api.duo.nl/docs/#dataset_url",
           "dataset_source": "https://api.duo.nl/docs/#dataset_source",
           "dataset_query": "https://api.duo.nl/docs/#dataset_query",
           "dataset_name": "https://api.duo.nl/docs/#dataset_name",
           "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
         },
-        "@id": "http://api.duo.nl/v0/search?field_name=vestigingsnummer",
+        "@id": "https://api.duo.nl/v0/search?field_name=vestigingsnummer",
         "results": [
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs",
+            "dataset_url": "https://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/04.-alle-vestigingen-speciaal-(basis)onderwijs.csv",
             "dataset_name": "04.-alle-vestigingen-speciaal-(basis)onderwijs",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_4.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/03.-alle-vestigingen-basisonderwijs",
+            "dataset_url": "https://api.duo.nl/v0/datasets/03.-alle-vestigingen-basisonderwijs",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/03.-alle-vestigingen-basisonderwijs.csv",
             "dataset_name": "03.-alle-vestigingen-basisonderwijs",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_3.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po",
+            "dataset_url": "https://api.duo.nl/v0/datasets/09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po.csv",
             "dataset_name": "09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_9.jsp"
@@ -188,33 +188,33 @@ Search all datasets on a specific field
 
       {
         "@context": {
-          "results": "http://data.duo.nl/#results",
+          "results": "https://data.duo.nl/#results",
           "dataset_url": "https://api.duo.nl/docs/#dataset_url",
           "dataset_source": "https://api.duo.nl/docs/#dataset_source",
           "dataset_query": "https://api.duo.nl/docs/#dataset_query",
           "dataset_name": "https://api.duo.nl/docs/#dataset_name",
           "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
         },
-        "@id": "http://api.duo.nl/v0/search?brin=00LY",
+        "@id": "https://api.duo.nl/v0/search?brin=00LY",
         "results": [
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv",
-            "dataset_query": "http://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo/search?uni_brin=00LY",
+            "dataset_query": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo/search?uni_brin=00LY",
             "dataset_name": "01.-hoofdvestigingen-vo",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/adressen/adressen_vo_1.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015.csv",
-            "dataset_query": "http://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015/search?uni_brin=00LY",
+            "dataset_query": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015/search?uni_brin=00LY",
             "dataset_name": "01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/Leerlingen/leerlingen_vo_1.jsp"
           },
           {
-            "dataset_url": "http://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014",
             "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014.csv",
-            "dataset_query": "http://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014/search?uni_brin=00LY",
+            "dataset_query": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014/search?uni_brin=00LY",
             "dataset_name": "01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014",
             "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/Leerlingen/leerlingen_vo_1.jsp"
           },
@@ -249,7 +249,7 @@ Show a single dataset
           "BEVOEGD GEZAG NAAM": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#BEVOEGD%20GEZAG%20NAAM",
           "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#HUISNUMMER-TOEVOEGING%20CORRESPONDENTIEADRES",
           "STRAATNAAM CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#STRAATNAAM%20CORRESPONDENTIEADRES",
-          "results": "http://data.duo.nl/#results",
+          "results": "https://data.duo.nl/#results",
           "DENOMINATIE": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#DENOMINATIE",
           "SOORT PRIMAIR ONDERWIJS": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#SOORT%20PRIMAIR%20ONDERWIJS",
           "STRAATNAAM": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#STRAATNAAM",
@@ -258,7 +258,7 @@ Show a single dataset
           "ADMINISTRATIEKANTOORNUMMER": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#ADMINISTRATIEKANTOORNUMMER",
           "INTERNETADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#INTERNETADRES"
         },
-        "@id": "http://api.duo.nl/v0/datasets/06.-bevoegde-gezagen-speciaal-(basis)onderwijs",
+        "@id": "https://api.duo.nl/v0/datasets/06.-bevoegde-gezagen-speciaal-(basis)onderwijs",
         "results": [
           {
             "TELEFOONNUMMER": "          ",
@@ -340,7 +340,7 @@ Search a specific datasets on a specific field
           "WGR-GEBIED CODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#WGR-GEBIED%20CODE",
           "RPA-GEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#RPA-GEBIED%20NAAM",
           "RMC-REGIO NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#RMC-REGIO%20NAAM",
-          "results": "http://data.duo.nl/#results",
+          "results": "https://data.duo.nl/#results",
           "GEMEENTENAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#GEMEENTENAAM",
           "NODAAL GEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#NODAAL%20GEBIED%20NAAM",
           "STRAATNAAM CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#STRAATNAAM%20CORRESPONDENTIEADRES",
@@ -353,7 +353,7 @@ Search a specific datasets on a specific field
           "DENOMINATIE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#DENOMINATIE",
           "COROPGEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#COROPGEBIED%20NAAM"
         },
-        "@id": "http://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo/search?brin=18BR",
+        "@id": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo/search?brin=18BR",
         "results": [
           {
             "TELEFOONNUMMER": "0592340973",
