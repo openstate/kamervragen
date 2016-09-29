@@ -1,7 +1,7 @@
 DUO API Documentation
 ===================================
 
-Welcome to the documentation of the DUO API. The API makes a selection of datasets from https://data.duo.nl/ available as JSON.
+Welcome to the documentation of the DUO API. The API makes a selection of datasets from https://data.duo.nl/ available as JSON-LD.
 
 Background
 ----------
@@ -10,7 +10,6 @@ Background
    :maxdepth: 2
 
    intro
-   changes
 
 
 Using the DUO API
@@ -19,5 +18,4 @@ Using the DUO API
 .. toctree::
    :maxdepth: 2
 
-   user/quickstart
    user/api
