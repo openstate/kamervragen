@@ -9,4 +9,6 @@ service redis-server restart
 
 sleep 20
 
+./start_email.py
+
 supervisord -n -c conf/supervisor.conf
