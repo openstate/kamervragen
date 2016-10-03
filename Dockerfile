@@ -28,6 +28,7 @@ RUN apt-get update \
         software-properties-common \
         gettext \
         git \
+        dnsutils \
         vim
 
 RUN add-apt-repository ppa:mc3man/trusty-media \
