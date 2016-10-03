@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import subprocess
 from sendgrid.helpers.mail import *
 from sendgrid import *
 
@@ -20,4 +21,6 @@ def sendmail(subject, content, to=['developers@openstate.eu']):
 
     sg.client.mail.send.post(request_body=mail.get())
 
-sendmail('[DUO API] Restarted', 'This is an automated email notifying you that the DUO API has restarted (or at least the `docker_c-duo-api_1` container)')
+ip = subprocess.check_output("dig +short myip.opendns.com @resolver1.opendns.com", shell=True).strip()
+
+sendmail('[DUO API] Restarted', 'This is an automated email notifying you that the DUO API has restarted (or at least the `docker_c-duo-api_1` container) on a machine with public IP address %s' % (ip))
