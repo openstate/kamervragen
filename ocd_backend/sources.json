@@ -34,15 +34,17 @@
       "csv_page_field": "pagina",
       "csv_download_path": "/opt/duo/downloads",
       "fields_mapping": {
-        "uni_brin": ["brin_nummer"],
+        "uni_brin": ["brin_nummer", "brinvestigingsnummer"],
         "uni_bevoegd_gezag": ["bevoegd_gezag_nummer", "bevoegd_gezag", "bevoegd_gezag_school", "administratienummer"],
-        "uni_instellingsnaam": ["instellingsnaam"],
-        "uni_vestigingsnaam": ["vestigingsnaam"],
-        "uni_vestigingsnummer": ["vestigingsnummer"],
+        "uni_instellingsnaam": ["instellingsnaam", "instellingsnaam_vestiging"],
+        "uni_vestigingsnaam": ["vestigingsnaam", "instellingsnaam_vestiging"],
+        "uni_vestigingsnummer": ["vestigingsnummer", "brinvestigingsnummer"],
         "uni_gemeentenummer": ["gemeentenummer"],
         "uni_gemeentenaam": ["gemeentenaam"],
-        "uni_plaatsnaam": ["plaatsnaam"],
-        "uni_provincie": ["provincie"]
+        "uni_plaatsnaam": ["plaatsnaam", "plaatsnaam_vestiging"],
+        "uni_postcode": ["postcode", "postcode_vestiging"],
+        "uni_provincie": ["provincie"],
+        "uni_internet": ["internetadres", "internet"]
       },
       "wait": 5
   }
