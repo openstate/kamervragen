@@ -41,6 +41,7 @@ class DownloadExtractor(CSVExtractor):
             )
             # FIXME: does not actually use the request mixin right now
             download_file(url, local_filename)
+            sleep(1)
         return []
 
 
