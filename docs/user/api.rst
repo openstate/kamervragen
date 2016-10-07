@@ -164,17 +164,33 @@ Search all datasets on a specific field
 
    Use this API call to retrieve all datasets which contain a field with a specific value. Not all fields can be searched. The field names that can be searched are:
 
-   * ``brin``
-   * ``bevoegd_gezag``
-   * ``instellingsnaam``
-   * ``vestigingsnaam``
-   * ``vestigingsnummer``
-   * ``gemeentenummer``
-   * ``gemeentenaam``
-   * ``plaatsnaam``
-   * ``provincie``
+   +------------------+--------------------------------------------------------------------------------+
+   | *field_name*     | *field_name(s) in datasets*                                                    |
+   +------------------+--------------------------------------------------------------------------------+
+   | brin             | brin_nummer, brinvestigingsnummer                                              |
+   +------------------+--------------------------------------------------------------------------------+
+   | bevoegd_gezag    | bevoegd_gezag, bevoegd_gezag_nummer, bevoegd_gezag_school, administratienummer |
+   +------------------+--------------------------------------------------------------------------------+
+   | instellingsnaam  | instellingsnaam, instellingsnaam_vestiging                                     |
+   +------------------+--------------------------------------------------------------------------------+
+   | vestigingsnaam   | vestigingsnaam, instellingsnaam_vestiging                                      |
+   +------------------+--------------------------------------------------------------------------------+
+   | vestigingsnummer | vestigingsnummer, brinvestigingsnummer                                         |
+   +------------------+--------------------------------------------------------------------------------+
+   | gemeentenaam     | gemeentenaam                                                                   |
+   +------------------+--------------------------------------------------------------------------------+
+   | gemeentenummer   | gemeentenummer                                                                 |
+   +------------------+--------------------------------------------------------------------------------+
+   | plaatsnaam       | plaatsnaam, plaatsnaam_vestiging                                               |
+   +------------------+--------------------------------------------------------------------------------+
+   | postcode         | postcode, postcode_vestiging                                                   |
+   +------------------+--------------------------------------------------------------------------------+
+   | provincie        | provincie                                                                      |
+   +------------------+--------------------------------------------------------------------------------+
+   | internet         | internet, internetadres                                                        |
+   +------------------+--------------------------------------------------------------------------------+
 
-   Note that the actual field names for ``bevoegd_gezag`` are not standardized accross datasets. The field names in the datasets can be ``bevoegd_gezag``, ``bevoegd_gezag_nummer``, ``bevoegd_gezag_school`` or ``administratienummer``. This is not a problem when using this API call, because it does search all the different spellings of the ``bevoegd_gezag`` field in all datasets. Just be aware that the the field name might be different when you use the resulting datasets. The same holds for ``brin``. In the API call you use ``brin``, but all field names in the datasets are called ``brin_nummer``.
+   As you can see, some of the field names are not standardized accross datasets. For example when you search using the ``bevoegd_gezag`` field name, the actual field names in the datasets can be ``bevoegd_gezag``, ``bevoegd_gezag_nummer``, ``bevoegd_gezag_school`` or ``administratienummer``. This is not a problem when using this API call, because it does search all the different variations of the ``bevoegd_gezag`` field in all datasets. Just be aware that the the field name might be different when you use the resulting datasets.
 
    In the example below we retrieve all datasets which have a ``brin`` field with the value ``00LY``.
 
