@@ -337,7 +337,7 @@ Show a single dataset
         ]
       }
 
-Search a specific datasets on a specific field
+Search a specific dataset on a specific field
 ----------------------------------------------
 
 .. http:get:: /datasets/(dataset_name)/search?(field_name)=(value)
