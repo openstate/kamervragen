@@ -10,6 +10,8 @@ import sys
 import time
 from urlparse import urljoin
 
+sys.path.insert(0, '/opt/duo')
+
 import click
 from click.core import Command
 from click.decorators import _make_command
