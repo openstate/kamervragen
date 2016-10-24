@@ -31,32 +31,32 @@ Retrieve all datasets available in the API
 
       {
         "@context": {
-          "results": "https://data.duo.nl/#results",
-          "dataset_url": "https://api.duo.nl/docs/#dataset_url",
-          "dataset_source": "https://api.duo.nl/docs/#dataset_source",
-          "dataset_query": "https://api.duo.nl/docs/#dataset_query",
-          "dataset_name": "https://api.duo.nl/docs/#dataset_name",
-          "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
+          "dataset_documentation": "https://api.duo.nl/docs/DatasetDocumentation",
+          "dataset_name": "https://api.duo.nl/docs/DatasetName",
+          "dataset_query": "https://api.duo.nl/docs/DatasetQuery",
+          "dataset_source": "https://api.duo.nl/docs/DatasetSource",
+          "dataset_url": "https://api.duo.nl/docs/DatasetUrl",
+          "results": "https://api.duo.nl/Results"
         },
         "@id": "https://api.duo.nl/v0/search",
         "results": [
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-basisonderwijs.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_1.jsp",
             "dataset_name": "01.-hoofdvestigingen-basisonderwijs",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_1.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-basisonderwijs.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/02.-hoofdvestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_2.jsp",
             "dataset_name": "02.-hoofdvestigingen-speciaal-(basis)onderwijs",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_2.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/02.-hoofdvestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/04.-alle-vestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_4.jsp",
             "dataset_name": "04.-alle-vestigingen-speciaal-(basis)onderwijs",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_4.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/04.-alle-vestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs"
           },
           ...
         ]
@@ -79,32 +79,32 @@ Search for datasets based on their name
 
       {
         "@context": {
-          "results": "https://data.duo.nl/#results",
-          "dataset_url": "https://api.duo.nl/docs/#dataset_url",
-          "dataset_source": "https://api.duo.nl/docs/#dataset_source",
-          "dataset_query": "https://api.duo.nl/docs/#dataset_query",
-          "dataset_name": "https://api.duo.nl/docs/#dataset_name",
-          "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
+          "dataset_documentation": "https://api.duo.nl/docs/DatasetDocumentation",
+          "dataset_name": "https://api.duo.nl/docs/DatasetName",
+          "dataset_query": "https://api.duo.nl/docs/DatasetQuery",
+          "dataset_source": "https://api.duo.nl/docs/DatasetSource",
+          "dataset_url": "https://api.duo.nl/docs/DatasetUrl",
+          "results": "https://api.duo.nl/Results"
         },
         "@id": "https://api.duo.nl/v0/search?dataset_name=hoofdvestigingen",
         "results": [
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-basisonderwijs.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_1.jsp",
             "dataset_name": "01.-hoofdvestigingen-basisonderwijs",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_1.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-basisonderwijs.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/adressen/adressen_vo_1.jsp",
             "dataset_name": "01.-hoofdvestigingen-vo",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/adressen/adressen_vo_1.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/02.-hoofdvestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_2.jsp",
             "dataset_name": "02.-hoofdvestigingen-speciaal-(basis)onderwijs",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_2.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/02.-hoofdvestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/02.-hoofdvestigingen-speciaal-%28basis%29onderwijs"
           }
         ]
       }
@@ -126,32 +126,32 @@ Retrieve all datasets that contains a specific field name
 
       {
         "@context": {
-          "results": "https://data.duo.nl/#results",
-          "dataset_url": "https://api.duo.nl/docs/#dataset_url",
-          "dataset_source": "https://api.duo.nl/docs/#dataset_source",
-          "dataset_query": "https://api.duo.nl/docs/#dataset_query",
-          "dataset_name": "https://api.duo.nl/docs/#dataset_name",
-          "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
+          "dataset_documentation": "https://api.duo.nl/docs/DatasetDocumentation",
+          "dataset_name": "https://api.duo.nl/docs/DatasetName",
+          "dataset_query": "https://api.duo.nl/docs/DatasetQuery",
+          "dataset_source": "https://api.duo.nl/docs/DatasetSource",
+          "dataset_url": "https://api.duo.nl/docs/DatasetUrl",
+          "results": "https://api.duo.nl/Results"
         },
         "@id": "https://api.duo.nl/v0/search?field_name=vestigingsnummer",
         "results": [
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/04.-alle-vestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_4.jsp",
             "dataset_name": "04.-alle-vestigingen-speciaal-(basis)onderwijs",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_4.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/04.-alle-vestigingen-speciaal-(basis)onderwijs.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/04.-alle-vestigingen-speciaal-%28basis%29onderwijs"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/03.-alle-vestigingen-basisonderwijs",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/03.-alle-vestigingen-basisonderwijs.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_3.jsp",
             "dataset_name": "03.-alle-vestigingen-basisonderwijs",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_3.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/03.-alle-vestigingen-basisonderwijs.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/03.-alle-vestigingen-basisonderwijs"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po.csv",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_9.jsp",
             "dataset_name": "09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/po/adressen/adressen_po_9.jsp"
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/09.-instellingen-per-samenwerkingsverband-passend-onderwijs-po"
           },
           ...
         ]
@@ -164,17 +164,33 @@ Search all datasets on a specific field
 
    Use this API call to retrieve all datasets which contain a field with a specific value. Not all fields can be searched. The field names that can be searched are:
 
-   * ``brin``
-   * ``bevoegd_gezag``
-   * ``instellingsnaam``
-   * ``vestigingsnaam``
-   * ``vestigingsnummer``
-   * ``gemeentenummer``
-   * ``gemeentenaam``
-   * ``plaatsnaam``
-   * ``provincie``
+   +------------------+--------------------------------------------------------------------------------+
+   | *field_name*     | *field_name(s) in datasets*                                                    |
+   +------------------+--------------------------------------------------------------------------------+
+   | brin             | brin_nummer, brinvestigingsnummer                                              |
+   +------------------+--------------------------------------------------------------------------------+
+   | bevoegd_gezag    | bevoegd_gezag, bevoegd_gezag_nummer, bevoegd_gezag_school, administratienummer |
+   +------------------+--------------------------------------------------------------------------------+
+   | instellingsnaam  | instellingsnaam, instellingsnaam_vestiging                                     |
+   +------------------+--------------------------------------------------------------------------------+
+   | vestigingsnaam   | vestigingsnaam, instellingsnaam_vestiging                                      |
+   +------------------+--------------------------------------------------------------------------------+
+   | vestigingsnummer | vestigingsnummer, brinvestigingsnummer                                         |
+   +------------------+--------------------------------------------------------------------------------+
+   | gemeentenaam     | gemeentenaam                                                                   |
+   +------------------+--------------------------------------------------------------------------------+
+   | gemeentenummer   | gemeentenummer                                                                 |
+   +------------------+--------------------------------------------------------------------------------+
+   | plaatsnaam       | plaatsnaam, plaatsnaam_vestiging                                               |
+   +------------------+--------------------------------------------------------------------------------+
+   | postcode         | postcode, postcode_vestiging                                                   |
+   +------------------+--------------------------------------------------------------------------------+
+   | provincie        | provincie                                                                      |
+   +------------------+--------------------------------------------------------------------------------+
+   | internet         | internet, internetadres                                                        |
+   +------------------+--------------------------------------------------------------------------------+
 
-   Note that the actual field names for ``bevoegd_gezag`` are not standardized accross datasets. The field names in the datasets can be ``bevoegd_gezag``, ``bevoegd_gezag_nummer``, ``bevoegd_gezag_school`` or ``administratienummer``. This is not a problem when using this API call, because it does search all the different spellings of the ``bevoegd_gezag`` field in all datasets. Just be aware that the the field name might be different when you use the resulting datasets. The same holds for ``brin``. In the API call you use ``brin``, but all field names in the datasets are called ``brin_nummer``.
+   As you can see, some of the field names are not standardized accross datasets. For example when you search using the ``bevoegd_gezag`` field name, the actual field names in the datasets can be ``bevoegd_gezag``, ``bevoegd_gezag_nummer``, ``bevoegd_gezag_school`` or ``administratienummer``. This is not a problem when using this API call, because it does search all the different variations of the ``bevoegd_gezag`` field in all datasets. Just be aware that the the field name might be different when you use the resulting datasets.
 
    In the example below we retrieve all datasets which have a ``brin`` field with the value ``00LY``.
 
@@ -188,35 +204,35 @@ Search all datasets on a specific field
 
       {
         "@context": {
-          "results": "https://data.duo.nl/#results",
-          "dataset_url": "https://api.duo.nl/docs/#dataset_url",
-          "dataset_source": "https://api.duo.nl/docs/#dataset_source",
-          "dataset_query": "https://api.duo.nl/docs/#dataset_query",
-          "dataset_name": "https://api.duo.nl/docs/#dataset_name",
-          "dataset_documentation": "https://api.duo.nl/docs/#dataset_documentation"
+          "dataset_documentation": "https://api.duo.nl/docs/DatasetDocumentation",
+          "dataset_name": "https://api.duo.nl/docs/DatasetName",
+          "dataset_query": "https://api.duo.nl/docs/DatasetQuery",
+          "dataset_source": "https://api.duo.nl/docs/DatasetSource",
+          "dataset_url": "https://api.duo.nl/docs/DatasetUrl",
+          "results": "https://api.duo.nl/Results"
         },
         "@id": "https://api.duo.nl/v0/search?brin=00LY",
         "results": [
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv",
-            "dataset_query": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo/search?uni_brin=00LY",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/adressen/adressen_vo_1.jsp",
             "dataset_name": "01.-hoofdvestigingen-vo",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/adressen/adressen_vo_1.jsp"
+            "dataset_query": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo/search?uni_brin=00LY",
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015.csv",
-            "dataset_query": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015/search?uni_brin=00LY",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/Leerlingen/leerlingen_vo_1.jsp",
             "dataset_name": "01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/Leerlingen/leerlingen_vo_1.jsp"
+            "dataset_query": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015/search?uni_brin=00LY",
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2014-2015"
           },
           {
-            "dataset_url": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014",
-            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014.csv",
-            "dataset_query": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014/search?uni_brin=00LY",
+            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/Leerlingen/leerlingen_vo_1.jsp",
             "dataset_name": "01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014",
-            "dataset_documentation": "https://www.duo.nl/open_onderwijsdata/databestanden/vo/Leerlingen/leerlingen_vo_1.jsp"
+            "dataset_query": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014/search?uni_brin=00LY",
+            "dataset_source": "https://www.duo.nl/open_onderwijsdata/images/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014.csv",
+            "dataset_url": "https://api.duo.nl/v0/datasets/01.-leerlingen-vo-per-vestiging-naar-onderwijstype-2013-2014"
           },
           ...
         ]
@@ -238,71 +254,90 @@ Show a single dataset
     .. sourcecode:: http
 
       {
-        "@context": {
-          "GEMEENTENUMMER": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#GEMEENTENUMMER",
-          "POSTCODE CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#POSTCODE%20CORRESPONDENTIEADRES",
-          "PLAATSNAAM CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#PLAATSNAAM%20CORRESPONDENTIEADRES",
-          "GEMEENTENAAM": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#GEMEENTENAAM",
-          "BEVOEGD GEZAG NUMMER": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#BEVOEGD%20GEZAG%20NUMMER",
-          "PLAATSNAAM": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#PLAATSNAAM",
-          "TELEFOONNUMMER": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#TELEFOONNUMMER",
-          "BEVOEGD GEZAG NAAM": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#BEVOEGD%20GEZAG%20NAAM",
-          "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#HUISNUMMER-TOEVOEGING%20CORRESPONDENTIEADRES",
-          "STRAATNAAM CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#STRAATNAAM%20CORRESPONDENTIEADRES",
-          "results": "https://data.duo.nl/#results",
-          "DENOMINATIE": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#DENOMINATIE",
-          "SOORT PRIMAIR ONDERWIJS": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#SOORT%20PRIMAIR%20ONDERWIJS",
-          "STRAATNAAM": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#STRAATNAAM",
-          "HUISNUMMER-TOEVOEGING": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#HUISNUMMER-TOEVOEGING",
-          "POSTCODE": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#POSTCODE",
-          "ADMINISTRATIEKANTOORNUMMER": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#ADMINISTRATIEKANTOORNUMMER",
-          "INTERNETADRES": "https://www.duo.nl/open_onderwijsdata/images/06.-bevoegde-gezagen-speciaal-(basis)onderwijs.csv#INTERNETADRES"
-        },
         "@id": "https://api.duo.nl/v0/datasets/06.-bevoegde-gezagen-speciaal-(basis)onderwijs",
+        "@context": {
+          "STRAATNAAM CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/StraatnaamCorrespondentieadres",
+          "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/HuisnummerToevoegingCorrespondentieadres",
+          "BEVOEGD GEZAG NAAM": "https://www.lod.duo.nl/inf/id/begrip/BevoegdGezagNaam",
+          "TELEFOONNUMMER": "https://www.lod.duo.nl/inf/id/begrip/Telefoonnummer",
+          "PLAATSNAAM": "https://www.lod.duo.nl/inf/id/begrip/Plaatsnaam",
+          "BEVOEGD GEZAG NUMMER": "https://www.lod.duo.nl/inf/id/begrip/BevoegdGezagNummer",
+          "GEMEENTENAAM": "https://www.lod.duo.nl/inf/id/begrip/Gemeentenaam",
+          "PLAATSNAAM CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/PlaatsnaamCorrespondentieadres",
+          "SOORT PRIMAIR ONDERWIJS": "https://www.lod.duo.nl/inf/id/begrip/SoortPrimairOnderwijs",
+          "DENOMINATIE": "https://www.lod.duo.nl/inf/id/begrip/Denominatie",
+          "results": "https://api.duo.nl/Results",
+          "STRAATNAAM": "https://www.lod.duo.nl/inf/id/begrip/Straatnaam",
+          "HUISNUMMER-TOEVOEGING": "https://www.lod.duo.nl/inf/id/begrip/HuisnummerToevoeging",
+          "POSTCODE": "https://www.lod.duo.nl/inf/id/begrip/Postcode",
+          "ADMINISTRATIEKANTOORNUMMER": "https://www.lod.duo.nl/inf/id/begrip/Administratiekantoornummer",
+          "INTERNETADRES": "https://www.lod.duo.nl/inf/id/begrip/Internetadres",
+          "POSTCODE CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/PostcodeCorrespondentieadres",
+          "GEMEENTENUMMER": "https://www.lod.duo.nl/inf/id/begrip/Gemeentenummer"
+        },
         "results": [
           {
-            "TELEFOONNUMMER": "          ",
-            "SOORT PRIMAIR ONDERWIJS": "(V)SO",
-            "PLAATSNAAM CORRESPONDENTIEADRES": "TILBURG",
-            "GEMEENTENAAM": "TILBURG",
-            "BEVOEGD GEZAG NUMMER": "20233",
-            "PLAATSNAAM": "TILBURG",
-            "BEVOEGD GEZAG NAAM": "Stichting Mytylschool Tilburg",
-            "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "5022",
             "STRAATNAAM CORRESPONDENTIEADRES": "Postbus",
+            "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "5022",
+            "BEVOEGD GEZAG NAAM": "Stichting Mytylschool Tilburg",
+            "PLAATSNAAM": "TILBURG",
+            "TELEFOONNUMMER": "          ",
+            "GEMEENTENAAM": "TILBURG",
+            "PLAATSNAAM CORRESPONDENTIEADRES": "TILBURG",
+            "SOORT PRIMAIR ONDERWIJS": "(V)SO",
             "DENOMINATIE": "Rooms-Katholiek",
-            "GEMEENTENUMMER": "0855",
             "STRAATNAAM": "Professor Stoltehof",
             "HUISNUMMER-TOEVOEGING": "1",
             "POSTCODE": "5022 KE",
             "ADMINISTRATIEKANTOORNUMMER": "401",
             "INTERNETADRES": "                                                                                ",
-            "POSTCODE CORRESPONDENTIEADRES": "5004 EA"
+            "POSTCODE CORRESPONDENTIEADRES": "5004 EA",
+            "BEVOEGD GEZAG NUMMER": "20233",
+            "GEMEENTENUMMER": "0855"
           },
           {
-            "TELEFOONNUMMER": "0402902345",
-            "SOORT PRIMAIR ONDERWIJS": "(V)SO",
-            "PLAATSNAAM CORRESPONDENTIEADRES": "EINDHOVEN",
-            "GEMEENTENAAM": "EINDHOVEN",
-            "BEVOEGD GEZAG NUMMER": "21657",
-            "PLAATSNAAM": "EINDHOVEN",
-            "BEVOEGD GEZAG NAAM": "Stichting Vitus Zuid",
-            "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "1377",
             "STRAATNAAM CORRESPONDENTIEADRES": "Postbus",
+            "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "1377",
+            "BEVOEGD GEZAG NAAM": "Stichting Vitus Zuid",
+            "PLAATSNAAM": "EINDHOVEN",
+            "TELEFOONNUMMER": "0402902345",
+            "GEMEENTENAAM": "EINDHOVEN",
+            "PLAATSNAAM CORRESPONDENTIEADRES": "EINDHOVEN",
+            "SOORT PRIMAIR ONDERWIJS": "(V)SO",
             "DENOMINATIE": "Overige",
-            "GEMEENTENUMMER": "0772",
             "STRAATNAAM": "Toledolaan",
             "HUISNUMMER-TOEVOEGING": "3",
             "POSTCODE": "5629 CC",
             "ADMINISTRATIEKANTOORNUMMER": "413",
             "INTERNETADRES": "www.vituszuid.nl",
-            "POSTCODE CORRESPONDENTIEADRES": "5602 BJ"
+            "POSTCODE CORRESPONDENTIEADRES": "5602 BJ",
+            "BEVOEGD GEZAG NUMMER": "21657",
+            "GEMEENTENUMMER": "0772"
           },
-          ...
+          {
+            "STRAATNAAM CORRESPONDENTIEADRES": "Postbus",
+            "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "59264",
+            "BEVOEGD GEZAG NAAM": "Stichting VierTaal",
+            "PLAATSNAAM": "AMSTERDAM",
+            "TELEFOONNUMMER": "0206698194",
+            "GEMEENTENAAM": "AMSTERDAM",
+            "PLAATSNAAM CORRESPONDENTIEADRES": "AMSTERDAM",
+            "SOORT PRIMAIR ONDERWIJS": "(V)SO",
+            "DENOMINATIE": "Openbaar",
+            "STRAATNAAM": "Jan Sluijtersstraat",
+            "HUISNUMMER-TOEVOEGING": "3",
+            "POSTCODE": "1062 CJ",
+            "ADMINISTRATIEKANTOORNUMMER": "780",
+            "INTERNETADRES": "www.viertaal.nl",
+            "POSTCODE CORRESPONDENTIEADRES": "1040 KG",
+            "BEVOEGD GEZAG NUMMER": "21679",
+            "GEMEENTENUMMER": "0363"
+          },
+          ..
         ]
       }
 
-Search a specific datasets on a specific field
+Search a specific dataset on a specific field
 ----------------------------------------------
 
 .. http:get:: /datasets/(dataset_name)/search?(field_name)=(value)
@@ -320,64 +355,50 @@ Search a specific datasets on a specific field
     .. sourcecode:: http
 
       {
-        "@context": {
-          "TELEFOONNUMMER": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#TELEFOONNUMMER",
-          "STRAATNAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#STRAATNAAM",
-          "COROPGEBIED CODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#COROPGEBIED%20CODE",
-          "ONDERWIJSGEBIED CODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#ONDERWIJSGEBIED%20CODE",
-          "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#HUISNUMMER-TOEVOEGING%20CORRESPONDENTIEADRES",
-          "INSTELLINGSNAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#INSTELLINGSNAAM",
-          "RPA-GEBIED CODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#RPA-GEBIED%20CODE",
-          "HUISNUMMER-TOEVOEGING": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#HUISNUMMER-TOEVOEGING",
-          "RMC-REGIO CODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#RMC-REGIO%20CODE",
-          "WGR-GEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#WGR-GEBIED%20NAAM",
-          "PROVINCIE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#PROVINCIE",
-          "INTERNETADRES": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#INTERNETADRES",
-          "BEVOEGD GEZAG NUMMER": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#BEVOEGD%20GEZAG%20NUMMER",
-          "NODAAL GEBIED CODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#NODAAL%20GEBIED%20CODE",
-          "BRIN NUMMER": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#BRIN%20NUMMER",
-          "POSTCODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#POSTCODE",
-          "WGR-GEBIED CODE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#WGR-GEBIED%20CODE",
-          "RPA-GEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#RPA-GEBIED%20NAAM",
-          "RMC-REGIO NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#RMC-REGIO%20NAAM",
-          "results": "https://data.duo.nl/#results",
-          "GEMEENTENAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#GEMEENTENAAM",
-          "NODAAL GEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#NODAAL%20GEBIED%20NAAM",
-          "STRAATNAAM CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#STRAATNAAM%20CORRESPONDENTIEADRES",
-          "POSTCODE CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#POSTCODE%20CORRESPONDENTIEADRES",
-          "GEMEENTENUMMER": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#GEMEENTENUMMER",
-          "ONDERWIJSGEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#ONDERWIJSGEBIED%20NAAM",
-          "PLAATSNAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#PLAATSNAAM",
-          "ONDERWIJSSTRUCTUUR": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#ONDERWIJSSTRUCTUUR",
-          "PLAATSNAAM CORRESPONDENTIEADRES": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#PLAATSNAAM%20CORRESPONDENTIEADRES",
-          "DENOMINATIE": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#DENOMINATIE",
-          "COROPGEBIED NAAM": "https://www.duo.nl/open_onderwijsdata/images/01.-hoofdvestigingen-vo.csv#COROPGEBIED%20NAAM"
-        },
         "@id": "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-vo/search?brin=18BR",
+        "@context": {
+          "STRAATNAAM CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/StraatnaamCorrespondentieadres",
+          "NODAAL GEBIED NAAM": "https://www.lod.duo.nl/inf/id/begrip/NodaalGebiedNaam",
+          "GEMEENTENAAM": "https://www.lod.duo.nl/inf/id/begrip/Gemeentenaam",
+          "results": "https://api.duo.nl/Results",
+          "RMC-REGIO NAAM": "https://www.lod.duo.nl/inf/id/begrip/RmcRegioNaam",
+          "RPA-GEBIED NAAM": "https://www.lod.duo.nl/inf/id/begrip/RpaGebiedNaam",
+          "WGR-GEBIED CODE": "https://www.lod.duo.nl/inf/id/begrip/WgrGebiedCode",
+          "POSTCODE": "https://www.lod.duo.nl/inf/id/begrip/Postcode",
+          "POSTCODE CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/PostcodeCorrespondentieadres",
+          "GEMEENTENUMMER": "https://www.lod.duo.nl/inf/id/begrip/Gemeentenummer",
+          "ONDERWIJSGEBIED NAAM": "https://www.lod.duo.nl/inf/id/begrip/OnderwijsgebiedNaam",
+          "PLAATSNAAM": "https://www.lod.duo.nl/inf/id/begrip/Plaatsnaam",
+          "ONDERWIJSSTRUCTUUR": "https://www.lod.duo.nl/inf/id/begrip/Onderwijsstructuur",
+          "PLAATSNAAM CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/PlaatsnaamCorrespondentieadres",
+          "DENOMINATIE": "https://www.lod.duo.nl/inf/id/begrip/Denominatie",
+          "COROPGEBIED NAAM": "https://www.lod.duo.nl/inf/id/begrip/CoropgebiedNaam",
+          "BRIN NUMMER": "https://www.lod.duo.nl/inf/id/begrip/BrinNummer",
+          "NODAAL GEBIED CODE": "https://www.lod.duo.nl/inf/id/begrip/NodaalGebiedCode",
+          "BEVOEGD GEZAG NUMMER": "https://www.lod.duo.nl/inf/id/begrip/BevoegdGezagNummer",
+          "INTERNETADRES": "https://www.lod.duo.nl/inf/id/begrip/Internetadres",
+          "PROVINCIE": "https://www.lod.duo.nl/inf/id/begrip/Provincie",
+          "WGR-GEBIED NAAM": "https://www.lod.duo.nl/inf/id/begrip/WgrGebiedNaam",
+          "RMC-REGIO CODE": "https://www.lod.duo.nl/inf/id/begrip/RmcRegioCode",
+          "HUISNUMMER-TOEVOEGING": "https://www.lod.duo.nl/inf/id/begrip/HuisnummerToevoeging",
+          "RPA-GEBIED CODE": "https://www.lod.duo.nl/inf/id/begrip/RpaGebiedCode",
+          "INSTELLINGSNAAM": "https://www.lod.duo.nl/inf/id/begrip/Instellingsnaam",
+          "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "https://www.lod.duo.nl/inf/id/begrip/HuisnummerToevoegingCorrespondentieadres",
+          "ONDERWIJSGEBIED CODE": "https://www.lod.duo.nl/inf/id/begrip/OnderwijsgebiedCode",
+          "COROPGEBIED CODE": "https://www.lod.duo.nl/inf/id/begrip/CoropgebiedCode",
+          "STRAATNAAM": "https://www.lod.duo.nl/inf/id/begrip/Straatnaam",
+          "TELEFOONNUMMER": "https://www.lod.duo.nl/inf/id/begrip/Telefoonnummer"
+        },
         "results": [
           {
-            "TELEFOONNUMMER": "0592340973",
-            "STRAATNAAM": "Zwartwatersweg",
-            "COROPGEBIED CODE": "07",
-            "ONDERWIJSGEBIED CODE": "04",
-            "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "202",
-            "INSTELLINGSNAAM": "School voor Praktijkonderwijs Assen",
-            "RPA-GEBIED CODE": "03",
-            "HUISNUMMER-TOEVOEGING": "202",
-            "RMC-REGIO CODE": "07",
-            "WGR-GEBIED NAAM": "Noord- en Midden-Drenthe",
-            "PROVINCIE": "Drenthe",
-            "INTERNETADRES": "www.pro-assen.nl",
-            "BEVOEGD GEZAG NUMMER": "10053",
-            "NODAAL GEBIED CODE": "11",
-            "POSTCODE CORRESPONDENTIEADRES": "9406 NN",
-            "POSTCODE": "9406 NN",
-            "WGR-GEBIED CODE": "07",
-            "RPA-GEBIED NAAM": "Centraal-Groningen",
-            "RMC-REGIO NAAM": "Noord- en midden-Drenthe",
-            "GEMEENTENAAM": "ASSEN",
-            "NODAAL GEBIED NAAM": "Assen",
             "STRAATNAAM CORRESPONDENTIEADRES": "Zwartwatersweg",
+            "NODAAL GEBIED NAAM": "Assen",
+            "GEMEENTENAAM": "ASSEN",
+            "RMC-REGIO NAAM": "Noord- en midden-Drenthe",
+            "RPA-GEBIED NAAM": "Centraal-Groningen",
+            "WGR-GEBIED CODE": "07",
+            "POSTCODE": "9406 NN",
+            "POSTCODE CORRESPONDENTIEADRES": "9406 NN",
             "ONDERWIJSSTRUCTUUR": "PRO",
             "ONDERWIJSGEBIED NAAM": "Assen-Hoogeveen-Emmen",
             "PLAATSNAAM": "ASSEN",
@@ -385,7 +406,21 @@ Search a specific datasets on a specific field
             "PLAATSNAAM CORRESPONDENTIEADRES": "ASSEN",
             "DENOMINATIE": "Openbaar",
             "COROPGEBIED NAAM": "Noord-Drenthe",
-            "BRIN NUMMER": "18BR"
+            "BRIN NUMMER": "18BR",
+            "NODAAL GEBIED CODE": "11",
+            "BEVOEGD GEZAG NUMMER": "10053",
+            "INTERNETADRES": "www.pro-assen.nl",
+            "PROVINCIE": "Drenthe",
+            "WGR-GEBIED NAAM": "Noord- en Midden-Drenthe",
+            "RMC-REGIO CODE": "07",
+            "HUISNUMMER-TOEVOEGING": "202",
+            "RPA-GEBIED CODE": "03",
+            "INSTELLINGSNAAM": "School voor Praktijkonderwijs Assen",
+            "HUISNUMMER-TOEVOEGING CORRESPONDENTIEADRES": "202",
+            "ONDERWIJSGEBIED CODE": "04",
+            "COROPGEBIED CODE": "07",
+            "STRAATNAAM": "Zwartwatersweg",
+            "TELEFOONNUMMER": "0592340973"
           }
         ]
       }

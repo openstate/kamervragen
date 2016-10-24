@@ -117,6 +117,7 @@ ADD . /opt/duo
 
 # Install Python requirements
 RUN source ../bin/activate \
+    && pip install pycparser==2.13 \
     && pip install Cython==0.21.2 \
     && pip install -r requirements.txt
 
