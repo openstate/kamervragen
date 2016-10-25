@@ -49,6 +49,7 @@ ENV ES_VERSION 1.7.5
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${ES_VERSION}.deb
 RUN dpkg -i elasticsearch-${ES_VERSION}.deb > /dev/null
 RUN sed -i 's/#discovery.zen.ping.multicast.enabled: false/discovery.zen.ping.multicast.enabled: false/' /etc/elasticsearch/elasticsearch.yml
+RUN sed -i 's/#ES_HEAP_SIZE=2g/ES_HEAP_SIZE=10g/' /etc/default/elasticsearch
 RUN service elasticsearch start
 RUN rm elasticsearch-${ES_VERSION}.deb
 
