@@ -64,5 +64,10 @@ def main():
     if all_done:
         fix_aliases()
 
+    # Flush the Redis cache container (Note, this is not the same Redis
+    # as used by this container), as we have downloaded new data
+    redis_cache = StrictRedis('c-duo-redis')
+    redis_cache.flushdb()
+
 if __name__ == '__main__':
     main()
