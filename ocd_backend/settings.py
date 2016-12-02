@@ -63,16 +63,16 @@ TEMP_DIR_PATH = os.path.join(ROOT_PATH, 'temp')
 SOURCES_CONFIG_FILE = os.path.join(ROOT_PATH, 'sources.json')
 
 # The name of the index containing documents from all sources
-COMBINED_INDEX = 'duo_combined_index'
+COMBINED_INDEX = 'tkv_combined_index'
 
 # The default prefix used for all data
-DEFAULT_INDEX_PREFIX = 'duo'
+DEFAULT_INDEX_PREFIX = 'tkv'
 
 RESOLVER_BASE_URL = 'http://localhost:5000/v0/resolve'
-RESOLVER_URL_INDEX = 'duo_resolver'
+RESOLVER_URL_INDEX = 'tkv_resolver'
 
 # The User-Agent that is used when retrieving data from external sources
-USER_AGENT = 'DUO API/0.1 (+http://www.duo.nl/)'
+USER_AGENT = 'Kamervragen API/0.1'
 
 # URL where of the API instance that should be used for management commands
 # Should include API version and a trailing slash.

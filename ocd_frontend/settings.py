@@ -187,7 +187,7 @@ AVAILABLE_HIGHLIGHTS = {
 ALLOWED_DATE_INTERVALS = ('day', 'week', 'month', 'quarter', 'year')
 
 # Name of the Elasticsearch index used to store URL resolve documnts
-RESOLVER_URL_INDEX = 'duo_resolver'
+RESOLVER_URL_INDEX = 'tkv_resolver'
 
 # Determines if API usage events should be logged
 USAGE_LOGGING_ENABLED = True
