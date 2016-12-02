@@ -10,7 +10,7 @@ import sys
 import time
 from urlparse import urljoin
 
-sys.path.insert(0, '/opt/duo')
+sys.path.insert(0, '/opt/tkv')
 
 import click
 from click.core import Command
@@ -185,7 +185,7 @@ def dumps():
 
 
 @command('put_template')
-@click.option('--template_file', default='es_mappings/duo_template.json',
+@click.option('--template_file', default='es_mappings/tkv_template.json',
               type=click.File('rb'), help='Path to JSON file containing the template.')
 def es_put_template(template_file):
     """
@@ -200,7 +200,7 @@ def es_put_template(template_file):
     template = json.load(template_file)
     template_file.close()
 
-    es.indices.put_template('duo_template', template)
+    es.indices.put_template('tkv_template', template)
 
 
 @command('put_mapping')
@@ -234,7 +234,7 @@ def create_indexes(mapping_dir):
     """
     click.echo('Creating indexes for ES mappings in %s' % (mapping_dir))
 
-    for mapping_file_path in glob('%s/duo_mapping_*.json' % mapping_dir):
+    for mapping_file_path in glob('%s/tkv_mapping_*.json' % mapping_dir):
         # Extract the index name from the filename
         index_name = DEFAULT_INDEX_PREFIX
         mapping_file = os.path.split(mapping_file_path)[-1].split('.')[0]
