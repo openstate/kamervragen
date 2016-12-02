@@ -106,15 +106,15 @@ RUN apt-get install -y ffmpeg
 
 ##########
 
-WORKDIR /opt/duo
+WORKDIR /opt/tkv
 # Create a virtualenv project
 RUN echo 'ok'
 RUN virtualenv -q /opt
-RUN echo "source /opt/bin/activate; cd /opt/duo;" >> ~/.bashrc
+RUN echo "source /opt/bin/activate; cd /opt/tkv;" >> ~/.bashrc
 
-# Temporarily add all DUO API files on the host to the container
+# Temporarily add all tkv API files on the host to the container
 # as it contains files needed to finish the base installation
-ADD . /opt/duo
+ADD . /opt/tkv
 
 # Install Python requirements
 RUN source ../bin/activate \
@@ -131,11 +131,11 @@ RUN source ../bin/activate \
 
 RUN apt-get install supervisor
 
-RUN echo "27 3    * * *   root    /opt/duo/bin/download_and_update_duo_api_datasets.sh" >> /etc/crontab
+RUN echo "* * * * *   root    /opt/tkv/bin/update.sh" >> /etc/crontab
 
-# Delete all DUO API files again
+# Delete all tkv API files again
 RUN find . -delete
 
 # When the container is created or started run start.sh which starts
 # all required services and supervisor which starts celery and celerycam
-CMD /opt/duo/start.sh
+CMD /opt/tkv/start.sh

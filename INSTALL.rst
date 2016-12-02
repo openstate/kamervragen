@@ -15,16 +15,16 @@ Using `Docker <http://www.docker.com/>`_ is by far the easiest way to spin up a 
 
 1. Clone the DUO API git repository::
 
-   $ git clone git@github.com:openstate/duo-api.git
-   $ cd duo-api/
+   $ git clone git@github.com:openstate/kamervragen.git
+   $ cd kamervragen/
 
-2. Build an image using the Dockerfile, i.e. use Ubuntu as base and install all dependencies, and call it open-state/open-duo-api::
+2. Build an image using the Dockerfile, i.e. use Ubuntu as base and install all dependencies, and call it open-state/kamervragen::
 
-   $ docker build -t open-state/duo-api .
+   $ docker build -t open-state/kamervragen .
 
-3. Create a container based on the newly created open-state/duo-api image. The current folder on the host machine (which should be the root of the duo-api repo!) is mounted on /opt/duo in the container (so you can just develop on your host machine using your favorite development setup). Furthermore port 9200 is mapped from the container to the host machine so you can reach elasticsearch on http://127.0.0.1:9200, the same holds for port 5000 which gives access to the API::
+3. Create a container based on the newly created open-state/kamervragen image. The current folder on the host machine (which should be the root of the kamervragen repo!) is mounted on /opt/duo in the container (so you can just develop on your host machine using your favorite development setup). Furthermore port 9200 is mapped from the container to the host machine so you can reach elasticsearch on http://127.0.0.1:9200, the same holds for port 5000 which gives access to the API::
 
-   $ docker run -it --name c-duo-api -v `pwd`:/opt/duo -p 9200:9200 -p 5000:5000 open-state/duo-api
+   $ docker run -it --name c-kamervragen -v `pwd`:/opt/duo -p 9200:9200 -p 5000:5000 open-state/kamervragen
 
 4. Once connected to the container the following commands currently still have to be executed manually::
 
@@ -94,4 +94,4 @@ Automatic updating using cron
 
 The ``bin/update.sh`` script contains the instructions to update indices. In the case of docker it is the easiest to add this script to the crontab on the host machine. Using ``sudo crontab -e``, add the following line::
 
-   $ 0 1,7,13,19 * * * sudo docker exec docker_c-duo-api_1 /opt/duo/bin/update.sh
+   $ 0 1,7,13,19 * * * sudo docker exec docker_c-kamervragen_1 /opt/duo/bin/update.sh

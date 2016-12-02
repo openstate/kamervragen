@@ -1,6 +1,6 @@
 #!/bin/sh
 
 source /opt/bin/activate
-cd /opt/duo
+cd /opt/tkv
 
 # TODO: stuff?

@@ -1,6 +1,6 @@
 [
   {
-      "id": "download",
+      "id": "base",
       "extractor": "ocd_backend.extractors.duo.DownloadExtractor",
       "transformer": "ocd_backend.transformers.BaseTransformer",
       "item": "ocd_backend.items.BaseItem",
@@ -8,44 +8,8 @@
       "loader": "ocd_backend.loaders.ElasticsearchLoader",
       "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
       "hidden": false,
-      "index_name": "downloads",
+      "index_name": "base",
       "doc_type": "items",
-      "keep_index_on_update": true,
-      "csv_file": "/opt/duo/files.csv",
-      "csv_url_field": "bestand",
-      "csv_page_field": "pagina",
-      "csv_download_path": "/opt/duo/downloads"
-  },
-  {
-      "id": "update",
-      "extractor": "ocd_backend.extractors.duo.DUOCSVListExtractor",
-      "transformer": "ocd_backend.transformers.BaseTransformer",
-      "item": "ocd_backend.items.duo.DuoItem",
-      "enrichers": [],
-      "loader": "ocd_backend.loaders.ElasticsearchLoader",
-      "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
-      "hidden": false,
-      "index_name": "data",
-      "index_names": ["data_items", "combined_index"],
-      "doc_type": "@id",
-      "keep_index_on_update": false,
-      "csv_file": "/opt/duo/files.csv",
-      "csv_url_field": "bestand",
-      "csv_page_field": "pagina",
-      "csv_download_path": "/opt/duo/downloads",
-      "fields_mapping": {
-        "uni_brin": ["brin_nummer", "brinvestigingsnummer"],
-        "uni_bevoegd_gezag": ["bevoegd_gezag_nummer", "bevoegd_gezag", "bevoegd_gezag_school", "administratienummer"],
-        "uni_instellingsnaam": ["instellingsnaam", "instellingsnaam_vestiging"],
-        "uni_vestigingsnaam": ["vestigingsnaam", "instellingsnaam_vestiging"],
-        "uni_vestigingsnummer": ["vestigingsnummer", "brinvestigingsnummer"],
-        "uni_gemeentenummer": ["gemeentenummer"],
-        "uni_gemeentenaam": ["gemeentenaam"],
-        "uni_plaatsnaam": ["plaatsnaam", "plaatsnaam_vestiging"],
-        "uni_postcode": ["postcode", "postcode_vestiging"],
-        "uni_provincie": ["provincie"],
-        "uni_internet": ["internetadres", "internet"]
-      },
-      "wait": 5
+      "keep_index_on_update": true
   }
 ]
