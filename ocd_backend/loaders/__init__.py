@@ -18,9 +18,6 @@ from ocd_backend.exceptions import ConfigurationError
 from ocd_backend.log import get_source_logger
 from ocd_backend.mixins import (OCDBackendTaskSuccessMixin,
                                 OCDBackendTaskFailureMixin)
-from ocd_backend.utils.misc import (
-    slugify, get_file_encoding, make_hash_filename)
-from ocd_backend.utils.duo_csv import UnicodeReaderAsSlugs
 
 log = get_source_logger('loader')
 

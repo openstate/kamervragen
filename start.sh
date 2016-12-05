@@ -2,7 +2,7 @@
 
 source /opt/bin/activate
 
-cd /opt/duo
+cd /opt/tkv/
 
 service elasticsearch restart
 service redis-server restart
