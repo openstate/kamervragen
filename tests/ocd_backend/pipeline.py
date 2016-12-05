@@ -17,11 +17,11 @@ class PipelineMiscTestCase(TestCase):
             'index_name': 'test_data',
             'keep_index_on_update': False
         }
-        self.index_alias = 'duo_test_data'
-        self.index_no_index_name = 'duo_test_source'
+        self.index_alias = 'tkv_test_data'
+        self.index_no_index_name = 'tkv_test_source'
         self.dated = datetime.datetime(2016, 12, 31, 1, 2, 3)
-        self.dated_index_name = 'duo_test_data_20161231010203'
-        self.dated_combined_index_name = 'duo_combined_index_20161231010203'
+        self.dated_index_name = 'tkv_test_data_20161231010203'
+        self.dated_combined_index_name = 'tkv_combined_index_20161231010203'
 
         self.combined_source_definition = {
             'id': 'test_source',

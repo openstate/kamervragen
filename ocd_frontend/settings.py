@@ -16,16 +16,16 @@ DEFAULT_SEARCH_SIZE = 150
 MAX_SEARCH_SIZE = 200000
 
 # The name of the index containing documents from all sources
-COMBINED_INDEX = 'duo_combined_index'
+COMBINED_INDEX = 'tkv_combined_index'
 
 # The default prefix used for all data
-DEFAULT_INDEX_PREFIX = 'duo'
+DEFAULT_INDEX_PREFIX = 'tkv'
 
 # The fields which can be used for sorting results via the REST API
 SORTABLE_FIELDS = {
     'items': [
         'meta.source_id', 'meta.processing_started', 'meta.processing_finished',
-        '_score', 'meta.row']
+        '_score']
 }
 
 # EXCLUDED_FIELDS_DEFAULT = ['all_text', 'source_data',
@@ -114,6 +114,16 @@ COMMON_FACETS = {
 
 AVAILABLE_FACETS = {
     'items': {
+        'terms': {
+            'field': '_id',
+            'size': 10
+        }
+    },
+    'rights': {
+        'terms': {
+            'field': 'meta.rights',
+            'size': 10
+        }
     }
 }
 
@@ -192,7 +202,7 @@ RESOLVER_URL_INDEX = 'tkv_resolver'
 # Determines if API usage events should be logged
 USAGE_LOGGING_ENABLED = True
 # Name of the Elasticsearch index used to store logged events
-USAGE_LOGGING_INDEX = 'duo_usage_logs'
+USAGE_LOGGING_INDEX = 'tkv_usage_logs'
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 DUMPS_DIR = os.path.join(os.path.dirname(ROOT_PATH), 'dumps')

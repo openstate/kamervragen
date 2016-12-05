@@ -17,9 +17,9 @@ class OcdRestTestCaseMixin(object):
         app = ocd_frontend.rest.create_app()
         app.config['TESTING'] = True
         app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
-        app.config['COMBINED_INDEX'] = 'duo_test_combined_index'
-        app.config['RESOLVER_URL_INDEX'] = 'duo_test_resolver_index'
-        app.config['USAGE_LOGGING_INDEX'] = 'duo_test_usage_logging_index'
+        app.config['COMBINED_INDEX'] = 'tkv_test_combined_index'
+        app.config['RESOLVER_URL_INDEX'] = 'tkv_test_resolver_index'
+        app.config['USAGE_LOGGING_INDEX'] = 'tkv_test_usage_logging_index'
         app.config['USAGE_LOGGING_ENABLED'] = False
 
         self.es_client = app.es._es

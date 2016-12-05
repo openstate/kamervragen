@@ -16,7 +16,7 @@ class RestApiSearchTestCase(OcdRestTestCaseMixin, TestCase):
     endpoint_url = 'api.search'
     endpoint_url_args = {}
     required_indexes = [
-        'duo_test_combined_index'
+        'tkv_test_combined_index'
     ]
 
     def test_valid_search(self):
@@ -309,7 +309,7 @@ class RestApiSearchSourceTestCase(RestApiSearchTestCase):
     endpoint_url = 'api.search_source'
     endpoint_url_args = {'source_id': 'test_collection_index'}
     required_indexes = [
-        'duo_test_collection_index'
+        'tkv_test_collection_index'
     ]
 
     def test_nonexistent_source_id(self):
@@ -324,14 +324,14 @@ class RestApiSearchSourceTestCase(RestApiSearchTestCase):
 
 class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     required_indexes = [
-        'duo_test_combined_index',
-        'duo_test_collection_index'
+        'tkv_test_combined_index',
+        'tkv_test_collection_index'
     ]
 
     def test_valid_search(self):
         """Tests if a valid search request responds with a JSON and
         status 200 OK."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({}))
@@ -339,7 +339,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
         self.assert_ok_json(response)
 
     def test_valid_search_source(self):
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.similar', source_id='test_collection_index',
                       object_id=doc_id)
         response = self.post(url, content_type='application/json',
@@ -352,7 +352,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
         doesn't  exist returns a 404 JSON response (with the appropriate
         error message)."""
         source_id = 'i-do-not-exist'
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object', source_id=source_id, object_id=doc_id)
         response = self.get(url)
 
@@ -363,7 +363,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_sort_option_is_accepted(self):
         """Tests if valid use of the ``sort`` option results in a
         JSON response with a 200 OK."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         available_sort_fields = current_app.config['SORTABLE_FIELDS']['items']
         try:
@@ -379,7 +379,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_sort_order_option_is_accepted(self):
         """Test if valid use of the ``sort`` and ``order`` options
         result in a JSON response with a 200 OK."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         available_sort_fields = current_app.config['SORTABLE_FIELDS']['items']
         try:
@@ -397,7 +397,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_sort_option_with_invalid_field(self):
         """Tests if sorting on an invalid field results in a response
         with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'sort': 'not-a-sort-field'}))
@@ -406,7 +406,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_sort_option_with_invalid_order(self):
         """Test if supplying an invalid order option results in a
         response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         available_sort_fields = current_app.config['SORTABLE_FIELDS']['items']
         try:
@@ -423,7 +423,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     # def test_facets(self):
     #     """Test if requesting facets results in a 200 OK, and if the
     #     facets are actually present in the response."""
-    #     doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+    #     doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
     #     url = url_for('api.similar', object_id=doc_id)
     #
     #     available_facets = current_app.config['AVAILABLE_FACETS']
@@ -441,7 +441,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_not_available_facet(self):
         """Tests if requesting a facet that is not available results
         in a response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
 
         facets = {
@@ -459,7 +459,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_facet_size(self):
         """Tests if valid use of the facet ``size`` attribute results in
         a 200 OK JSON response."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
 
         facets = {
@@ -475,7 +475,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_invalid_facet_size(self):
         """Tests if supplying an invalid facet ``size`` value results in
         a response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
 
         facets = {
@@ -491,7 +491,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     # def test_datetime_facet(self):
     #     """Tests if valid use of the ``date`` facet results in a 200 OK
     #     JSON response."""
-    #     doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+    #     doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
     #     url = url_for('api.similar', object_id=doc_id)
     #
     #     facets = {
@@ -512,7 +512,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     # def test_datetime_facet_interval_not_string(self):
     #     """Test if supplying an invalid interval type (i.e. integer)
     #     results in a response with status code 400."""
-    #     doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+    #     doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
     #     url = url_for('api.similar', object_id=doc_id)
     #
     #     facets = {
@@ -531,7 +531,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     # def test_datetime_facet_interval_not_allowed(self):
     #     """Tests if supplying an invalid interval size results in
     #     a response with a status code 400."""
-    #     doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+    #     doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
     #     url = url_for('api.similar', object_id=doc_id)
     #
     #     facets = {
@@ -550,7 +550,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_facet_should_be_dict(self):
         """Tests if supplying a list as facet request description
         results in a response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         facets = ['some facet']
         response = self.post(url, content_type='application/json',
@@ -560,7 +560,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_from(self):
         """Test if setting the ``from`` attribute responds with JSON
         and status 200 OK."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'from': 10}))
@@ -569,7 +569,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_invalid_value_from(self):
         """Tests if supplying an invalid data type for the ``from``
         attribute results in a response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'from': 'abc'}))
@@ -578,7 +578,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_negative_value_from(self):
         """Test if supplying a negative value for the ``from`` attribute
         results in a response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'from': -1}))
@@ -587,7 +587,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_size(self):
         """Test if supplying a valid value for the ``size`` attribute
         results in a 200 OK JSON response."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'size': 10}))
@@ -596,7 +596,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_invalid_value_size(self):
         """Test if supplying an invalid type for the ``size`` attribute
         results in a response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'size': 'abc'}))
@@ -605,7 +605,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
     def test_negative_value_size(self):
         """Test if supplying a negative value for the ``size`` attribute
         results in a response with status code 400."""
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'size': -1}))
@@ -621,7 +621,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({}))
@@ -637,7 +637,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_combined_index']['item'][0]
+        doc_id = self.doc_ids['tkv_test_combined_index']['item'][0]
         url = url_for('api.similar', object_id=doc_id)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({}))
@@ -645,7 +645,7 @@ class RestApiSearchSimilarTestCase(OcdRestTestCaseMixin, TestCase):
 
 class RestApiSourcesTestCase(OcdRestTestCaseMixin, TestCase):
     required_indexes = [
-        'duo_test_combined_index'
+        'tkv_test_combined_index'
     ]
 
     def test_response_format(self):
@@ -691,12 +691,12 @@ class RestApiSourcesTestCase(OcdRestTestCaseMixin, TestCase):
 
 class RestApiGetObjectTestCase(OcdRestTestCaseMixin, TestCase):
     required_indexes = [
-        'duo_test_collection_index'
+        'tkv_test_collection_index'
     ]
 
     def test_get_existing_object(self):
         """Test getting an index document."""
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object', source_id='test_collection_index',
                       object_id=doc_id)
         response = self.get(url)
@@ -736,7 +736,7 @@ class RestApiGetObjectTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object', source_id='test_collection_index',
                       object_id=doc_id)
         response = self.get(url)
@@ -752,7 +752,7 @@ class RestApiGetObjectTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object', source_id='test_collection_index',
                       object_id=doc_id)
         self.assertFalse(mocked_log_task.called)
@@ -760,12 +760,12 @@ class RestApiGetObjectTestCase(OcdRestTestCaseMixin, TestCase):
 
 class RestApiGetObjectSourceTestCase(OcdRestTestCaseMixin, TestCase):
     required_indexes = [
-        'duo_test_collection_index'
+        'tkv_test_collection_index'
     ]
 
     def test_get_existing_object(self):
         """Test getting an index document."""
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object_source',
                       source_id='test_collection_index',
                       doc_type='items', object_id=doc_id)
@@ -811,7 +811,7 @@ class RestApiGetObjectSourceTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object_source',
                       source_id='test_collection_index', object_id=doc_id)
         response = self.get(url)
@@ -827,7 +827,7 @@ class RestApiGetObjectSourceTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object_source',
                       source_id='test_collection_index', object_id=doc_id)
         response = self.get(url)
@@ -836,13 +836,13 @@ class RestApiGetObjectSourceTestCase(OcdRestTestCaseMixin, TestCase):
 
 class RestApiGetObjectStatsTestCaste(OcdRestTestCaseMixin, TestCase):
     required_indexes = [
-        'duo_test_usage_logging_index',
-        'duo_test_collection_index'
+        'tkv_test_usage_logging_index',
+        'tkv_test_collection_index'
     ]
 
     def test_get_existing_object(self):
         """Test getting the stats of an indexed document."""
-        doc_id = self.doc_ids['duo_test_collection_index']['items'][0]
+        doc_id = self.doc_ids['tkv_test_collection_index']['items'][0]
         url = url_for('api.get_object_stats',
                       source_id='test_collection_index', object_id=doc_id)
         response = self.get(url)
@@ -871,13 +871,13 @@ class RestApiGetObjectStatsTestCaste(OcdRestTestCaseMixin, TestCase):
 
 class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
     required_indexes = [
-        'duo_test_resolver_index'
+        'tkv_test_resolver_index'
     ]
 
     def test_successful_resolve(self):
         """Test if a valid URL resolves and returns a redirect with the
         correct status, location and content type."""
-        doc_id = self.doc_ids['duo_test_resolver_index']['url'][0]
+        doc_id = self.doc_ids['tkv_test_resolver_index']['url'][0]
         url = url_for('api.resolve', url_id=doc_id)
 
         response = self.get(url, follow_redirects=False)
@@ -890,7 +890,7 @@ class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
     def test_resolve_not_whitelisted_content_type(self):
         """Test that a resolve document with an incorrent content_type resolves
         to the original url"""
-        doc_id = self.doc_ids['duo_test_resolver_index']['url'][1]
+        doc_id = self.doc_ids['tkv_test_resolver_index']['url'][1]
         url = url_for('api.resolve', url_id=doc_id)
 
         response = self.get(url, follow_redirects=False)
@@ -904,7 +904,7 @@ class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
         """Test if a valid URL resolves and returns a redirect to a thumbnailed
         image.
         """
-        doc_id = self.doc_ids['duo_test_resolver_index']['url'][0]
+        doc_id = self.doc_ids['tkv_test_resolver_index']['url'][0]
         url = url_for('api.resolve', url_id=doc_id, size='large')
 
         response = self.get(url, follow_redirects=False)
@@ -918,7 +918,7 @@ class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
     def test_invalid_thumbnail_size_json(self):
         """Test if a request with an invalid thumbnail size returns a 400 with
         proper content type"""
-        doc_id = self.doc_ids['duo_test_resolver_index']['url'][0]
+        doc_id = self.doc_ids['tkv_test_resolver_index']['url'][0]
         url = url_for('api.resolve', url_id=doc_id, size='humongous')
 
         response = self.get(url, follow_redirects=False)
@@ -931,7 +931,7 @@ class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
     def test_invalid_thumbnail_size_html(self):
         """Test if a request with an invalid thumbnail size returns a 400 with
         proper content type"""
-        doc_id = self.doc_ids['duo_test_resolver_index']['url'][0]
+        doc_id = self.doc_ids['tkv_test_resolver_index']['url'][0]
         url = url_for('api.resolve', url_id=doc_id, size='humongous')
 
         response = self.get(url, follow_redirects=False,
@@ -971,7 +971,7 @@ class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_resolver_index']['url'][0]
+        doc_id = self.doc_ids['tkv_test_resolver_index']['url'][0]
         url = url_for('api.resolve', url_id=doc_id)
         response = self.get(url, follow_redirects=False)
 
@@ -987,7 +987,7 @@ class RestApiResolveTestCase(OcdRestTestCaseMixin, TestCase):
         # Make sure the Celery task doesn't get executed
         mocked_log_task.return_value = lambda *args, **kwargs: None
 
-        doc_id = self.doc_ids['duo_test_resolver_index']['url'][0]
+        doc_id = self.doc_ids['tkv_test_resolver_index']['url'][0]
         url = url_for('api.resolve', url_id=doc_id)
         response = self.get(url,  follow_redirects=False)
         self.assertFalse(mocked_log_task.called)
@@ -998,7 +998,7 @@ class RestApiNestedSearchTestCase(OcdRestTestCaseMixin, TestCase):
     endpoint_url_args = {
     }
     required_indexes = [
-        'duo_test_nested_index'
+        'tkv_test_nested_index'
     ]
 
     def test_not_nested_data(self):
@@ -1006,7 +1006,7 @@ class RestApiNestedSearchTestCase(OcdRestTestCaseMixin, TestCase):
         status 200 OK."""
 
         # no idea why this is needed but ok
-        current_app.config['COMBINED_INDEX'] = 'duo_test_nested_index'
+        current_app.config['COMBINED_INDEX'] = 'tkv_test_nested_index'
         url = url_for(self.endpoint_url, **self.endpoint_url_args)
         response = self.post(url, content_type='application/json',
                              data=json.dumps({'query': 'vo'}))
