@@ -1,0 +1,29 @@
+version: '2'
+services:
+  c-tkv-nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    volumes:
+      - ./nginx/:/etc/nginx/
+      - ../log:/opt/nginx-load-balancer/log
+      - ../data:/usr/share/nginx/html/data
+      - ../docs/_build/html:/usr/share/nginx/html/docs
+    restart: always
+    networks:
+      - nginx-load-balancer
+      - tkv
+  c-tkv-api:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/opt/tkv
+    restart: always
+    networks:
+      - tkv
+networks:
+  tkv:
+  nginx-load-balancer:
+    external:
+      name: docker_nginx-load-balancer
