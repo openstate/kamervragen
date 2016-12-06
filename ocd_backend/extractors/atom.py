@@ -1,4 +1,5 @@
 from lxml import etree
+import json
 
 from ocd_backend.extractors.staticfile import StaticXmlExtractor
 
@@ -25,10 +26,12 @@ class AtomExtractor(StaticXmlExtractor):
 
             for item in tree.xpath(
                     self.item_xpath, namespaces=self.namespaces):
-                # print etree.tostring(item)
-                # print "---"
+                print etree.tostring(item)
+                print "---"
                 yield 'application/xml', etree.tostring(item)
-
+                # yield 'application/json', json.dumps({
+                #     'id': u''.join(item.xpath('.//atom:id//text()', namespaces=self.namespaces))
+                # })
             next_page = tree.xpath(
                 '//atom:feed/atom:link[@rel="next"]/@href',
                 namespaces=self.namespaces)
