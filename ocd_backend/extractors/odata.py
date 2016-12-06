@@ -14,7 +14,7 @@ class ODataExtractor(StaticJSONExtractor):
         of items.
         """
         static_json = json.loads(static_content)
-        item_filter = self.source_definition['filter']
+        item_filter = self.source_definition.get('filter', None)
 
         for item in static_json['value']:
             passed_filter = (item_filter is None) or (

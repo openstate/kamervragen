@@ -1,15 +1,18 @@
 [
   {
-      "id": "base",
-      "extractor": "ocd_backend.extractors.duo.DownloadExtractor",
+      "id": "persons",
+      "extractor": "ocd_backend.extractors.atom.AtomExtractor",
       "transformer": "ocd_backend.transformers.BaseTransformer",
       "item": "ocd_backend.items.BaseItem",
       "enrichers": [],
       "loader": "ocd_backend.loaders.ElasticsearchLoader",
       "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
       "hidden": false,
-      "index_name": "base",
-      "doc_type": "items",
-      "keep_index_on_update": true
+      "index_name": "persons",
+      "doc_type": "persons",
+      "keep_index_on_update": true,
+      "file_url": "https://gegevensmagazijn-a.tweedekamer.nl/OData/v1/Persoon/",
+      "default_namespace": "atom",
+      "item_xpath": "//atom:entry"
   }
 ]
