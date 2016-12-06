@@ -1,23 +1,9 @@
 from datetime import datetime
 
-from ocd_backend.items import BaseItem
+from ocd_backend.items.popolo import PersonItem
 
 
-class PersoonItem(BaseItem):
-    combined_index_fields = {
-        'hidden': bool,
-        'media_urls': list,
-        'all_text': unicode,
-        'id': unicode,
-        'first_name': unicode,
-        'middle_name': unicode,
-        'last_name': unicode,
-        'gender': unicode,
-        # 'birth_date': datetime,
-        # 'death_date': datetime,
-        'party': unicode
-    }
-
+class PersoonItem(PersonItem):
     namespaces = {
         'atom': 'http://www.w3.org/2005/Atom',
         'd': "http://schemas.microsoft.com/ado/2007/08/dataservices",
@@ -34,7 +20,6 @@ class PersoonItem(BaseItem):
 
     def get_original_object_id(self):
         return self._get_text_or_none('.//atom:id')
-        # return self.original_item['id']
 
     def get_original_object_urls(self):
         return {
@@ -49,7 +34,24 @@ class PersoonItem(BaseItem):
 
     def get_combined_index_data(self):
         combined_index_data = {}
-        combined_index_data['id'] = self._get_text_or_none('.//atom:id')
+        combined_index_data['id'] = self._get_text_or_none('.//d:Id')
+        combined_index_data['hidden'] = self.source_definition['hidden']
+        combined_index_data['identifiers'] = [
+            {
+                'scheme': 'Tweede Kamer',
+                'identifier': self._get_text_or_none('.//d:Id')
+            }
+        ]
+        name_parts = [
+            self._get_text_or_none('.//d:Voornamen'),
+            self._get_text_or_none('.//d:Tussenvoegsel'),
+            self._get_text_or_none('.//d:Achternaam'),
+        ]
+        combined_index_data['name'] = u' '.join(
+            [n for n in name_parts if n is not None])
+        combined_index_data['given_name'] = name_parts[0]
+        combined_index_data['family_name'] = u' '.join(
+            [n for n in name_parts[1:] if n is not None])
         return combined_index_data
 
     def get_index_data(self):
