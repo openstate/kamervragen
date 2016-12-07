@@ -14,5 +14,19 @@
       "file_url": "https://gegevensmagazijn-a.tweedekamer.nl/OData/v1/Persoon/",
       "default_namespace": "atom",
       "item_xpath": "//atom:entry"
+  },
+  {
+      "id": "questions",
+      "extractor": "ocd_backend.extractors.tk.TweedeKamerExtractor",
+      "transformer": "ocd_backend.transformers.BaseTransformer",
+      "item": "ocd_backend.items.vragen.SchriftelijkeVragenItem",
+      "enrichers": [],
+      "loader": "ocd_backend.loaders.ElasticsearchLoader",
+      "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
+      "hidden": false,
+      "index_name": "questions",
+      "doc_type": "questions",
+      "keep_index_on_update": false,
+      "file_url": "https://gegevensmagazijn-a.tweedekamer.nl/REST/Feed?filter=/parlementairDocument[soort=%22Schriftelijke%20vragen%22]&content=internal"
   }
 ]
