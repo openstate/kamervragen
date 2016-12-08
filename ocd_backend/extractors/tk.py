@@ -1,4 +1,5 @@
 import json
+from pprint import pprint
 
 from ocd_backend.extractors.staticfile import StaticJSONExtractor
 
