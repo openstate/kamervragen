@@ -14,7 +14,8 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         'identifiers': list,
         'classification': unicode,
         'name': unicode,
-        'date': datetime,
+        'asked': datetime,
+        'answered': datetime,
         'questions': list,
         'answers': list
     }
@@ -62,8 +63,17 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
             return combined_index_data
 
         try:
-            combined_index_data['date'] = iso8601.parse_date(
-                u''.join(xml.xpath('//datum/@isodatum')))
+            combined_index_data['asked'] = iso8601.parse_date(
+                u''.join(xml.xpath(
+                    '//kamervraagomschrijving[@type="vraag"]/datum/@isodatum')
+                    ))
+        except Exception:
+            pass
+        try:
+            combined_index_data['answered'] = iso8601.parse_date(
+                u''.join(xml.xpath(
+                    '//kamervraagomschrijving[@type="antwoord"]/datum/@isodatum')
+                    ))
         except Exception:
             pass
 
