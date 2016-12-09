@@ -15,7 +15,8 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         'classification': unicode,
         'name': unicode,
         'date': datetime,
-        'questions': list
+        'questions': list,
+        'answers': list
     }
 
     def get_original_object_id(self):
@@ -55,6 +56,7 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         except Exception as e:
             print str(e)
         combined_index_data['questions'] = []
+        combined_index_data['answers'] = []
 
         if xml is None:
             return combined_index_data
@@ -70,6 +72,15 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
                 combined_index_data['questions'].append({
                     u'number': u''.join(question.xpath('.//nr//text()')),
                     u'question': u''.join(question.xpath('.//al//text()'))
+                })
+        except Exception as e:
+            print str(e)
+
+        try:
+            for question in xml.xpath('//antwoord'):
+                combined_index_data['answers'].append({
+                    u'number': u''.join(question.xpath('.//nr//text()')),
+                    u'answer': u''.join(question.xpath('.//al//text()'))
                 })
         except Exception as e:
             print str(e)
