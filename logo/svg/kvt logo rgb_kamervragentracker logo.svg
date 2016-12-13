@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 560 200" style="enable-background:new 0 0 560 200;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#3D4A4C;}
+	.st1{font-family:'Montserrat-Bold';}
+	.st2{font-size:60px;}
+	.st3{fill:#E6E6E6;}
+	.st4{opacity:0.9;fill:none;stroke:#C33F27;stroke-width:16;stroke-linejoin:bevel;stroke-miterlimit:10;}
+	.st5{opacity:0.9;fill:none;stroke:#067172;stroke-width:16;stroke-linejoin:bevel;stroke-miterlimit:10;}
+	.st6{opacity:0.75;fill:none;stroke:#798CC6;stroke-width:16;stroke-linejoin:bevel;stroke-miterlimit:10;}
+	.st7{opacity:0.9;fill:#C33F27;}
+	.st8{opacity:0.9;fill:#067172;}
+	.st9{opacity:0.75;fill:#798CC6;}
+</style>
+<text transform="matrix(1 0 0 1 226.0938 57.9853)"><tspan x="0" y="0" class="st0 st1 st2">Kamer</tspan><tspan x="0" y="60" class="st0 st1 st2">vragen</tspan><tspan x="0" y="120" class="st0 st1 st2">tracker</tspan></text>
+<g>
+	<g>
+		<g>
+			<g>
+				<circle class="st3" cx="29.1" cy="20" r="8"/>
+			</g>
+			<g>
+				<circle class="st3" cx="29.1" cy="100" r="8"/>
+			</g>
+			<g>
+				<circle class="st3" cx="29.1" cy="180" r="8"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<circle class="st3" cx="109.1" cy="20" r="8"/>
+			</g>
+			<g>
+				<circle class="st3" cx="109.1" cy="100" r="8"/>
+			</g>
+			<g>
+				<circle class="st3" cx="109.1" cy="180" r="8"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<circle class="st3" cx="189.1" cy="20" r="8"/>
+		</g>
+		<g>
+			<circle class="st3" cx="189.1" cy="100" r="8"/>
+		</g>
+		<g>
+			<circle class="st3" cx="189.1" cy="180" r="8"/>
+		</g>
+	</g>
+	<polygon class="st4" points="80.4,37 189.4,37 189.4,61.8 189.4,117.3 80.4,117 	"/>
+	<polygon class="st5" points="167.4,37 29.4,37 167.4,160 	"/>
+	<ellipse class="st6" cx="91.5" cy="86.3" rx="43.4" ry="49.3"/>
+</g>
+</svg>

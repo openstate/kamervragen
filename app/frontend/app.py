@@ -1,14 +1,16 @@
 import simplejson as json
 
 from flask import (
-    Flask, abort, jsonify, request, redirect, stream_with_context, Response)
+    Flask, abort, jsonify, request, redirect, render_template,
+    stream_with_context, Response)
 
 app = Flask(__name__)
-# app.config['SERVER_NAME'] = 'kamervragentracker.nl'
+
 
 @app.route("/")
 def main():
-    return "Hello World!"
+    return render_template('index.html')
+
 
 def create_app():
     return app
