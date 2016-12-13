@@ -5,7 +5,7 @@ MAINTAINER Open State Foundation <developers@openstate.eu>
 RUN echo "Europe/Amsterdam" > /etc/timezone \
     && dpkg-reconfigure -f noninteractive tzdata
 
-WORKDIR /opt/duo-api-frontend
+WORKDIR /opt/app
 ADD requirements.txt .
 RUN pip install -r requirements.txt
 
