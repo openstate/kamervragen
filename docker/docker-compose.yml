@@ -24,6 +24,15 @@ services:
     restart: always
     networks:
       - tkv
+  c-tkv-app:
+    build:
+      context: ../app
+      dockerfile: Dockerfile
+    volumes:
+      - ../app:/opt/app
+    restart: always
+    networks:
+      - tkv
 networks:
   tkv:
   nginx-load-balancer:
