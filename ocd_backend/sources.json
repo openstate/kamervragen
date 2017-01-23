@@ -27,7 +27,7 @@
       "index_name": "organizations",
       "doc_type": "organizations",
       "keep_index_on_update": false,
-      "file_url": "https://gegevensmagazijn-a.tweedekamer.nl/REST/Feed?filter=/fractie&content=internal"
+      "file_url": "https://gegevensmagazijn.tweedekamer.nl/REST/Feed?filter=/fractie&content=internal"
   },
   {
       "id": "tk_questions",
@@ -41,7 +41,7 @@
       "index_name": "tk_questions",
       "doc_type": "tk_questions",
       "keep_index_on_update": false,
-      "file_url": "https://gegevensmagazijn-a.tweedekamer.nl/REST/Feed?filter=/parlementairDocument[soort=%22Schriftelijke%20vragen%22]&content=internal"
+      "file_url": "https://gegevensmagazijn.tweedekamer.nl/REST/Feed?filter=/parlementairDocument[soort=%22Schriftelijke%20vragen%22]&content=internal"
   },
   {
       "id": "ob_questions",

@@ -9,7 +9,7 @@ class TweedeKamerExtractor(StaticJSONExtractor):
         return self.http_session.get(
             url, headers={
                 'Authorization': (
-                    'Basic T3BlblN0YXRlOmJGZFYwQG9wcCRuS3NoMzAhZGsy')
+                    'Basic dG9ta3VuemxlcjpEUk4kTyRrelF4NUVaaCVsem03YQ==')
             }, verify=False)
 
     def extract_items(self, static_content):

@@ -12,5 +12,10 @@ def main():
     return render_template('index.html')
 
 
+@app.route("/zoeken")
+def search():
+    return render_template('index.html')
+
+
 def create_app():
     return app
