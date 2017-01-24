@@ -25,7 +25,7 @@ DEFAULT_INDEX_PREFIX = 'tkv'
 SORTABLE_FIELDS = {
     'items': [
         'meta.source_id', 'meta.processing_started', 'meta.processing_finished',
-        '_score', 'date']
+        '_score', 'date', 'period', 'id']
 }
 
 # EXCLUDED_FIELDS_DEFAULT = ['all_text', 'source_data',
@@ -114,15 +114,23 @@ COMMON_FACETS = {
 
 AVAILABLE_FACETS = {
     'items': {
-        'terms': {
-            'field': '_id',
-            'size': 10
-        }
-    },
-    'rights': {
-        'terms': {
-            'field': 'meta.rights',
-            'size': 10
+        'rights': {
+            'terms': {
+                'field': 'meta.rights',
+                'size': 10
+            }
+        },
+        'period': {
+            'terms': {
+                'field': 'period',
+                'size': 10
+            }
+        },
+        'id': {
+            'terms': {
+                'field': 'id',
+                'size': 10
+            }
         }
     }
 }

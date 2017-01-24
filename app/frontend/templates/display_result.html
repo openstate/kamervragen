@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+<article>
+{% include 'search.html' %}
+<section id="data">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2><a href="/{{ result.period }}/{{ result.id}}/">{{ result.name }}</a></h2>
+      <p>{{ result.date }}</p>
+    </div>
+  </div>
+</section>
+</article>
+</body>
+{% endblock %}

@@ -28,6 +28,18 @@ class BackendAPI(object):
             '%s/tk_questions/search' % (self.URL,),
             data=json.dumps(es_query)).json()
 
+    def find_by_id(self, id):
+        es_query = {
+            "filters": {
+                "id": {"terms": [id]}
+            },
+            "size": 1
+        }
+
+        return requests.post(
+            '%s/tk_questions/search' % (self.URL,),
+            data=json.dumps(es_query)).json()
+
 api = BackendAPI()
 
 
@@ -41,6 +53,17 @@ def main():
 def search():
     results = api.search_questions(request.args.get('query', None))
     return render_template('search_results.html', results=results)
+
+
+@app.route("/<period>/<id>")
+def display(period, id):
+    result = api.find_by_id(id)
+
+    if result['meta']['total'] <= 0:
+        abort(404)
+
+    return render_template(
+        'display_result.html', result=result['hits']['hits'][0])
 
 
 def create_app():
