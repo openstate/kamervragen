@@ -25,7 +25,7 @@ DEFAULT_INDEX_PREFIX = 'tkv'
 SORTABLE_FIELDS = {
     'items': [
         'meta.source_id', 'meta.processing_started', 'meta.processing_finished',
-        '_score']
+        '_score', 'date']
 }
 
 # EXCLUDED_FIELDS_DEFAULT = ['all_text', 'source_data',
