@@ -5,6 +5,7 @@ import iso8601
 
 from ocd_backend.items import BaseItem
 from ocd_backend.extractors import HttpRequestMixin
+from ocd_backend.utils.pdf import PDFToTextMixin
 
 
 class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
@@ -17,7 +18,8 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         'asked': datetime,
         'answered': datetime,
         'questions': list,
-        'answers': list
+        'answers': list,
+        'description': unicode
     }
 
     def get_original_object_id(self):
@@ -124,7 +126,7 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         return u' '.join([ti for ti in text_items if ti is not None])
 
 
-class TKWrittenQuestionItem(BaseItem):
+class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, PDFToTextMixin):
     combined_index_fields = {
         'id': unicode,
         'hidden': bool,
@@ -133,7 +135,8 @@ class TKWrittenQuestionItem(BaseItem):
         'name': unicode,
         'date': datetime,
         'period': unicode,
-        'appendix': unicode
+        'appendix': unicode,
+        'description': unicode
     }
 
     def get_property(
@@ -144,6 +147,11 @@ class TKWrittenQuestionItem(BaseItem):
             return matched_props[0][property_field]
         except LookupError:
             return default
+
+    def get_document_url(self, ref):
+        return (
+            u'https://gegevensmagazijn.tweedekamer.nl/OData/v1/Bestand'
+            u'(guid\'%s\')/$value') % (ref,)
 
     def get_original_object_id(self):
         return unicode(self.get_property(
@@ -187,6 +195,19 @@ class TKWrittenQuestionItem(BaseItem):
         combined_index_data['appendix'] = self.get_property(
             self.original_item['content']['internal']['content'],
             'aanhangselnummer', 'content')
+
+        try:
+            ref = [p for p in self.get_property(
+                self.original_item['content']['internal']['content'],
+                'bestand', 'properties') if p['name'] == 'ref'][0]['value']
+        except LookupError:
+            ref = None
+
+        if ref is not None:
+            combined_index_data['description'] = self.pdf_get_contents(
+                self.get_document_url(ref),
+                self.source_definition.get('pdf_max_pages', 20))
+
         return combined_index_data
 
     def get_index_data(self):

@@ -2,6 +2,7 @@
 <div class="row">
   <div class="col-xs-12">
     <h2><a href="/{{ result.period }}/{{ result.id}}">{{ result.name }}</a></h2>
+    <p>{{ result.meta.highlight.description[0] |safe }}</p>
     <p>{{ result.date }}</p>
   </div>
 </div>

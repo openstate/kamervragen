@@ -80,6 +80,8 @@ USER_AGENT = 'Kamervragen API/0.1'
 # to download dumps from another API instance than the one hosted by OpenState
 API_URL = 'http://127.0.0.1:5000/v0/'
 
+PDF_MAX_MEDIABOX_PIXELS = 5000000
+
 # Allow any settings to be defined in local_settings.py which should be
 # ignored in your version control system allowing for settings to be
 # defined per machine.

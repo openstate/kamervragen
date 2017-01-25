@@ -47,7 +47,7 @@ ALLOWED_INCLUDE_FIELDS_SEARCH = ['data', 'fields']
 
 SIMPLE_QUERY_FIELDS = {
     'items': [
-        'name']
+        'name', 'description']
 }
 
 DOC_TYPE_DEFAULT = u'items'
@@ -196,7 +196,12 @@ COMMON_HIGHLIGHTS = {
 
 AVAILABLE_HIGHLIGHTS = {
     'items': {
-        'name': {}
+        'name': {},
+        'description': {}
+    },
+    'tk_questions': {
+        'name': {},
+        'description': {}
     }
 }
 
