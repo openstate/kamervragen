@@ -34,7 +34,8 @@
           </div>
           <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="/">Kamervragentracker</a></li>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/stats/">Statistieken</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
@@ -89,15 +90,15 @@
     </footer>
 
     <!-- <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script> -->
+    <script src="../static/scripts/main.js"></script>
     <script src="http://cdn.datatables.net/plug-ins/be7019ee387/integration/bootstrap/3/dataTables.bootstrap.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.0/js/dataTables.buttons.min.js"></script>
-    <script type="https://cdn.datatables.net/buttons/1.2.0/js/buttons.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.0/js/buttons.bootstrap.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.min.js"></script>
     <script type="text/javascript">
     var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
-    <script src="../static/scripts/main.js"></script>
   </body>
 </html>

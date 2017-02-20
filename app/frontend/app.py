@@ -24,9 +24,18 @@ class BackendAPI(object):
         if query is not None:
             es_query['query'] = query
 
-        return requests.post(
-            '%s/tk_questions/search' % (self.URL,),
-            data=json.dumps(es_query)).json()
+        try:
+            result = requests.post(
+                '%s/tk_questions/search' % (self.URL,),
+                data=json.dumps(es_query)).json()
+        except Exception:
+            result = {
+                'hits': {
+                    'hits': [],
+                    'total': 0
+                }
+            }
+        return result
 
     def find_by_id(self, id):
         es_query = {

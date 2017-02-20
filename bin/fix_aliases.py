@@ -48,27 +48,33 @@ def fix_aliases():
         # Set alias to new index
         elasticsearch.indices.update_aliases(body=actions)
 
-def main():
+def main(argv):
     redis = StrictRedis()
     pipelines = redis.keys('pipeline_*')
+    try:
+        should_force = argv[0] == 'force'
+    except Exception:
+        should_force = False 
     all_done = True
-    for pipeline in pipelines:
-        # ignore chains
-        if pipeline.endswith('_chains'):
-            all_done = False
-            continue
-        pipeline_chains = '%s_chains' % (pipeline,)
-        # but do check if there is an accompanying chain (still running)
-        if pipeline_chains in pipelines:
-            all_done = False
-            continue
-        pipeline_status = redis.get(pipeline)
-        print "Pipeline %s is %s" % (pipeline, pipeline_status,) 
-        all_done = all_done and (pipeline_status == 'done')
+
+    if not should_force:
+        for pipeline in pipelines:
+            # ignore chains
+            if pipeline.endswith('_chains'):
+                all_done = False
+                continue
+            pipeline_chains = '%s_chains' % (pipeline,)
+            # but do check if there is an accompanying chain (still running)
+            if pipeline_chains in pipelines:
+                all_done = False
+                continue
+            pipeline_status = redis.get(pipeline)
+            print "Pipeline %s is %s" % (pipeline, pipeline_status,)
+            all_done = all_done and (pipeline_status == 'done')
 
     if all_done:
         fix_aliases()
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

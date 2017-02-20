@@ -49,6 +49,7 @@ class TweedeKamerExtractor(StaticJSONExtractor):
         piket_url = self.redis_client.get('tk_piketpaaltje_url')
         if not piket_url:
             piket_url = self.file_url
+        else:
             print "Got piketpaaltje, skipping to the last URL:"
         print piket_url
         r = self._get_feed_url(piket_url)
