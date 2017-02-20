@@ -1,10 +1,14 @@
 import json
 from pprint import pprint
 
+import redis
+
 from ocd_backend.extractors.staticfile import StaticJSONExtractor
 
 
 class TweedeKamerExtractor(StaticJSONExtractor):
+    redis_client = None
+
     def _get_feed_url(self, url):
         return self.http_session.get(
             url, headers={
@@ -29,6 +33,8 @@ class TweedeKamerExtractor(StaticJSONExtractor):
                 result = self._get_feed_url(next_links[0]['href'])
                 if result.status_code >= 200 and result.status_code < 300:
                     page_number += 1
+                    self.redis_client.set(
+                        'tk_piketpaaltje_url', next_links[0]['href'])
                     static_json = result.json()
                 else:
                     print "Get status code : %s" % (result.status_code,)
@@ -37,7 +43,15 @@ class TweedeKamerExtractor(StaticJSONExtractor):
         # Retrieve the static content from the source
         # TODO: disable ssl verification fro now since the
         # almanak implementation (of ssl) is broken.
-        r = self._get_feed_url(self.file_url)
+
+        self.redis_client = redis.StrictRedis()
+
+        piket_url = self.redis_client.get('tk_piketpaaltje_url')
+        if not piket_url:
+            piket_url = self.file_url
+            print "Got piketpaaltje, skipping to the last URL:"
+        print piket_url
+        r = self._get_feed_url(piket_url)
         r.raise_for_status()
 
         static_content = r.json()
