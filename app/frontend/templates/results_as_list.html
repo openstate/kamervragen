@@ -2,7 +2,9 @@
 <div class="row">
   <div class="col-xs-12">
     <h2><a href="/{{ result.period }}/{{ result.id}}">{{ result.name }}</a></h2>
+    {% if "highlight" in result.meta %}
     <p>{{ result.meta.highlight.description[0] |safe }}</p>
+    {% endif %}
     <p>{{ result.date }}</p>
   </div>
 </div>
