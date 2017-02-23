@@ -43,10 +43,11 @@ class PersoonItem(PersonItem):
             }
         ]
         name_parts = [
-            self._get_text_or_none('.//d:Voornamen'),
+            self._get_text_or_none('.//d:Roepnaam') or self._get_text_or_none('.//d:Voornamen'),
             self._get_text_or_none('.//d:Tussenvoegsel'),
             self._get_text_or_none('.//d:Achternaam'),
         ]
+        print name_parts
         combined_index_data['name'] = u' '.join(
             [n for n in name_parts if n is not None])
         combined_index_data['given_name'] = name_parts[0]

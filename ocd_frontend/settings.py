@@ -47,7 +47,9 @@ ALLOWED_INCLUDE_FIELDS_SEARCH = ['data', 'fields']
 
 SIMPLE_QUERY_FIELDS = {
     'items': [
-        'name', 'description']
+        'name', 'description'],
+    'persons': [
+        'name', 'id']
 }
 
 DOC_TYPE_DEFAULT = u'items'

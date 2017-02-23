@@ -11,7 +11,7 @@
       "index_name": "persons",
       "doc_type": "persons",
       "keep_index_on_update": false,
-      "file_url": "https://gegevensmagazijn-a.tweedekamer.nl/OData/v1/Persoon/",
+      "file_url": "https://gegevensmagazijn.tweedekamer.nl/OData/v1/Persoon/",
       "default_namespace": "atom",
       "item_xpath": "//atom:entry"
   },
