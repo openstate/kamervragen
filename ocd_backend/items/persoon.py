@@ -19,7 +19,10 @@ class PersoonItem(PersonItem):
         return None
 
     def get_original_object_id(self):
-        return self._get_text_or_none('.//atom:id')
+        return unicode(self._get_text_or_none('.//d:Id'))
+
+    def get_object_id(self):
+        return unicode(self._get_text_or_none('.//d:Id'))
 
     def get_original_object_urls(self):
         return {

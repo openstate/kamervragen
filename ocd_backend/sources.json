@@ -17,7 +17,7 @@
   },
   {
       "id": "parties",
-      "extractor": "ocd_backend.extractors.tk.TweedeKamerExtractor",
+      "extractor": "ocd_backend.extractors.atom.AtomExtractor",
       "transformer": "ocd_backend.transformers.BaseTransformer",
       "item": "ocd_backend.items.fractie.FractieItem",
       "enrichers": [],
@@ -27,7 +27,9 @@
       "index_name": "organizations",
       "doc_type": "organizations",
       "keep_index_on_update": false,
-      "file_url": "https://gegevensmagazijn.tweedekamer.nl/REST/Feed?filter=/fractie&content=internal"
+      "file_url": "https://gegevensmagazijn-a.tweedekamer.nl/OData/v1/Fractie/",
+      "default_namespace": "atom",
+      "item_xpath": "//atom:entry"
   },
   {
       "id": "tk_questions",

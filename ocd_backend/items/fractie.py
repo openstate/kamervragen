@@ -5,34 +5,57 @@ from ocd_backend.items.popolo import OrganisationItem
 
 
 class FractieItem(OrganisationItem):
-    def get_property(
-            self, props, prop_name, property_field='value', default=None
-    ):
-        matched_props = [p for p in props if p['name'] == prop_name]
-        try:
-            return matched_props[0][property_field]
-        except LookupError:
-            return default
+    namespaces = {
+        'atom': 'http://www.w3.org/2005/Atom',
+        'd': "http://schemas.microsoft.com/ado/2007/08/dataservices",
+        'm': "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    }
+
+    def _get_text_or_none(self, xpath_expression):
+        node = self.original_item.find(
+            xpath_expression, namespaces=self.namespaces)
+        if node is not None and node.text is not None:
+            return unicode(node.text)
+
+        return None
 
     def get_original_object_id(self):
-        return unicode(self.get_property(
-            self.original_item['content']['internal']['properties'],
-            'id'))
+        return unicode(self._get_text_or_none('.//d:Id'))
+
+    def get_object_id(self):
+        return unicode(self._get_text_or_none('.//d:Id'))
 
     def get_original_object_urls(self):
         return {
+            'xml': self._get_text_or_none('.//atom:id')
         }
 
     def get_collection(self):
-        return u'Personen'
+        return u'Fracties'
 
     def get_rights(self):
         return u'Unknown'
 
     def get_combined_index_data(self):
         combined_index_data = {}
-        combined_index_data['id'] = self.get_original_object_id()
+        combined_index_data['id'] = self._get_text_or_none('.//d:Id')
         combined_index_data['hidden'] = self.source_definition['hidden']
+        combined_index_data['identifiers'] = [
+            {
+                'scheme': 'Tweede Kamer',
+                'identifier': self._get_text_or_none('.//d:Id')
+            }
+        ]
+
+        combined_index_data['name'] = self._get_text_or_none('.//d:Afkorting')
+        combined_index_data['other_names'] = [
+            {
+                'name': self._get_text_or_none('.//d:NaamNL')
+            },
+            {
+                'name': self._get_text_or_none('.//d:NaamEN')
+            }
+        ]
         return combined_index_data
 
     def get_index_data(self):
