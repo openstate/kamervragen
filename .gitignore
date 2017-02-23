@@ -64,3 +64,4 @@ log/*log*
 log/*err*
 log/*.pid
 downloads/*
+**/nvd3-src
