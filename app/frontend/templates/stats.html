@@ -3,9 +3,48 @@
 {% block content %}
 <body>
 <article>
+
+<script type="text/javascript">
+var chart_data = {{ results.facets.dates.entries |tojson|safe }};
+</script>
+
 <section id="data">
-{{ results }}
+  <div id='chart'>
+    <svg style='height:500px'> </svg>
+  </div>
 </section>
+
+<script type="text/javascript">
+$(document).ready(function () {
+  function exampleData() {
+    return [{
+      'key': 'Kamervragen',
+      values: chart_data.map(function (d) {
+        return {
+          label: d.time,
+          value: d.count
+        }
+      })
+    }];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.discreteBarChart()
+        .x(function(d) { return d.label })    //Specify the data accessors.
+        .y(function(d) { return d.value })
+        .tooltips(true)        //Don't show tooltips
+        ;
+
+    d3.select('#chart svg')
+        .datum(exampleData())
+        .transition().duration(350).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+});
+</script>
+
 </article>
 </body>
 {% endblock %}
