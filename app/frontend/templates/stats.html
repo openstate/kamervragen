@@ -29,10 +29,16 @@ $(document).ready(function () {
   }
   nv.addGraph(function() {
     var chart = nv.models.discreteBarChart()
-        .x(function(d) { return d.label })    //Specify the data accessors.
-        .y(function(d) { return d.value })
+        .staggerLabels(true)
+        .x(function(d) { return new Date(d.label).toDateString(); })    //Specify the data accessors.
+        .y(function(d) { return d.value; })
         .tooltips(true)        //Don't show tooltips
         ;
+
+    chart.xAxis.tickFormat(function (d) {
+      return d;
+    });
+    chart.yAxis.tickFormat(d3.format(',d'));
 
     d3.select('#chart svg')
         .datum(exampleData())

@@ -20,6 +20,7 @@ class BackendAPI(object):
             "size": 0,
             "facets": {
                 "dates": {
+                    "interval": "year"
                 }
             }
         }
