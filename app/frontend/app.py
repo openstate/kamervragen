@@ -15,6 +15,33 @@ class BackendAPI(object):
     def sources(self):
         return requests.get('%s/sources' % (self.URL,)).json()
 
+    def stats_questions(self):
+        es_query = {
+            "size": 0,
+            "facets": {
+                "dates": {
+                }
+            }
+        }
+
+        try:
+            result = requests.post(
+                '%s/tk_questions/search' % (self.URL,),
+                data=json.dumps(es_query)).json()
+        except Exception:
+            result = {
+                'facets': {
+                    'dates': {
+                        'entries': []
+                    }
+                },
+                'hits': {
+                    'hits': [],
+                    'total': 0
+                }
+            }
+        return result
+
     def search_questions(self, query=None):
         es_query = {
             "sort": "date",
@@ -56,6 +83,12 @@ api = BackendAPI()
 def main():
     results = api.search_questions()
     return render_template('index.html', results=results)
+
+
+@app.route("/stats")
+def stats():
+    results = api.stats_questions()
+    return render_template('stats.html', results=results)
 
 
 @app.route("/zoeken")

@@ -126,6 +126,12 @@ AVAILABLE_FACETS = {
                 'size': 10
             }
         },
+        'dates': {
+            'date_histogram': {
+                'field': 'date',
+                'interval': 'month'
+            }
+        },
         'id': {
             'terms': {
                 'field': 'id',
