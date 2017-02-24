@@ -6,7 +6,7 @@ import iso8601
 from ocd_backend.items import BaseItem
 from ocd_backend.extractors import HttpRequestMixin
 from ocd_backend.utils.pdf import PDFToTextMixin
-
+from ocd_backend.utils.api import FrontendAPIMixin
 
 class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
     combined_index_fields = {
@@ -126,7 +126,7 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         return u' '.join([ti for ti in text_items if ti is not None])
 
 
-class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, PDFToTextMixin):
+class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, FrontendAPIMixin, PDFToTextMixin):
     combined_index_fields = {
         'id': unicode,
         'hidden': bool,

@@ -12,8 +12,17 @@ class FrontendAPIMixin(object):
     Interface for the frontend API.
     """
 
+    def api_item(self, index_name, doc_type, item_id, *args, **kwargs):
+        api_url = u'%s%s/%s/%s' % (
+            self.source_definition.get('frontend_api_url', settings.API_URL),
+            index_name, doc_type, item_id,)
+
+        r = self.http_session.get(api_url)
+        r.raise_for_status()
+        return r.json()
+
     def api_request(self, index_name, doc_type, query=None, *args, **kwargs):
-        api_url = u'%s%s/%s/search' % (
+        api_url = u'%s%s/search' % (
             self.source_definition.get('frontend_api_url', settings.API_URL),
             index_name, doc_type,)
 
