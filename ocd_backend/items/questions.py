@@ -1,5 +1,6 @@
 from datetime import datetime
 from lxml import etree
+from pprint import pprint
 
 import iso8601
 
@@ -7,6 +8,7 @@ from ocd_backend.items import BaseItem
 from ocd_backend.extractors import HttpRequestMixin
 from ocd_backend.utils.pdf import PDFToTextMixin
 from ocd_backend.utils.api import FrontendAPIMixin
+
 
 class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
     combined_index_fields = {
@@ -19,7 +21,7 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         'answered': datetime,
         'questions': list,
         'answers': list,
-        'description': unicode
+        'description': unicode,
     }
 
     def get_original_object_id(self):
@@ -126,7 +128,9 @@ class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
         return u' '.join([ti for ti in text_items if ti is not None])
 
 
-class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, FrontendAPIMixin, PDFToTextMixin):
+class TKWrittenQuestionItem(
+    BaseItem, HttpRequestMixin, FrontendAPIMixin, PDFToTextMixin
+):
     combined_index_fields = {
         'id': unicode,
         'hidden': bool,
@@ -136,7 +140,11 @@ class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, FrontendAPIMixin, PDFToT
         'date': datetime,
         'period': unicode,
         'appendix': unicode,
-        'description': unicode
+        'description': unicode,
+        'person_id': unicode,
+        'person': dict,
+        'organization_id': unicode,
+        'organization': dict
     }
 
     def get_property(
@@ -154,6 +162,11 @@ class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, FrontendAPIMixin, PDFToT
             u'(guid\'%s\')/$value') % (ref,)
 
     def get_original_object_id(self):
+        return unicode(self.get_property(
+            self.original_item['content']['internal']['properties'],
+            'id'))
+
+    def get_object_id(self):
         return unicode(self.get_property(
             self.original_item['content']['internal']['properties'],
             'id'))
@@ -196,6 +209,50 @@ class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, FrontendAPIMixin, PDFToT
             self.original_item['content']['internal']['content'],
             'aanhangselnummer', 'content')
 
+        # get person
+        try:
+            signer_content = self.get_property(
+                self.original_item['content']['internal']['content'],
+                'ondertekenaar', 'content')
+        except LookupError:
+            signer_content = None
+
+        if signer_content is not None:
+            try:
+                combined_index_data['person_id'] = [
+                    p for p in self.get_property(
+                        signer_content, 'persoon', 'properties'
+                    ) if p['name'] == 'ref'][0]['value']
+            except LookupError:
+                combined_index_data['person_id'] = None
+            try:
+                combined_index_data['organization_id'] = [
+                    p for p in self.get_property(
+                        signer_content, 'fractie', 'properties'
+                    ) if p['name'] == 'ref'][0]['value']
+            except LookupError:
+                combined_index_data['organization_id'] = None
+
+        print "Found person: %s" % (
+            combined_index_data.get('person_id', None),)
+        print "Found organization: %s" % (
+            combined_index_data.get('organization_id', None),)
+
+        if combined_index_data.get('person_id', None) is not None:
+            try:
+                combined_index_data['person'] = self.api_item(
+                    'persons', 'persons', combined_index_data['person_id'])
+            except Exception:
+                pass
+        if combined_index_data.get('organization_id', None) is not None:
+            try:
+                combined_index_data['organization'] = self.api_item(
+                    'organizations', 'organizations',
+                    combined_index_data['organization_id'])
+            except Exception:
+                pass
+
+        # get associated file with contents
         try:
             ref = [p for p in self.get_property(
                 self.original_item['content']['internal']['content'],
@@ -203,11 +260,12 @@ class TKWrittenQuestionItem(BaseItem, HttpRequestMixin, FrontendAPIMixin, PDFToT
         except LookupError:
             ref = None
 
+        print "We should get file %s now ..." % (ref,)
         if ref is not None:
             combined_index_data['description'] = self.pdf_get_contents(
                 self.get_document_url(ref),
                 self.source_definition.get('pdf_max_pages', 20))
-
+        print "All done for this item!"
         return combined_index_data
 
     def get_index_data(self):

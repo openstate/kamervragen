@@ -10,7 +10,7 @@
       "hidden": false,
       "index_name": "persons",
       "doc_type": "persons",
-      "keep_index_on_update": false,
+      "keep_index_on_update": true,
       "file_url": "https://gegevensmagazijn.tweedekamer.nl/OData/v1/Persoon/",
       "default_namespace": "atom",
       "item_xpath": "//atom:entry"
@@ -42,7 +42,7 @@
       "hidden": false,
       "index_name": "tk_questions",
       "doc_type": "tk_questions",
-      "keep_index_on_update": false,
+      "keep_index_on_update": true,
       "file_url": "https://gegevensmagazijn.tweedekamer.nl/REST/Feed?filter=/parlementairDocument[soort=%22Schriftelijke%20vragen%22]&content=internal"
   },
   {
@@ -56,7 +56,7 @@
       "hidden": false,
       "index_name": "ob_questions",
       "doc_type": "ob_questions",
-      "keep_index_on_update": false,
+      "keep_index_on_update": true,
       "feed_url": "https://zoek.officielebekendmakingen.nl/kamervragen_zonder_antwoord/rss",
       "feed_keys": ["link", "category", "title", "description"]
   },
@@ -71,7 +71,7 @@
       "hidden": false,
       "index_name": "ob_answers",
       "doc_type": "ob_answers",
-      "keep_index_on_update": false,
+      "keep_index_on_update": true,
       "feed_url": "https://zoek.officielebekendmakingen.nl/kamervragen_aanhangsel/rss",
       "feed_keys": ["link", "category", "title", "description"]
   }

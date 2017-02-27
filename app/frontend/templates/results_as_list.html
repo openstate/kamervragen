@@ -3,9 +3,12 @@
   <div class="col-xs-12">
     <h2><a href="/{{ result.period }}/{{ result.id}}">{{ result.name }}</a></h2>
     {% if "highlight" in result.meta %}
-    <p>{{ result.meta.highlight.description[0] |safe }}</p>
+      {% if 'description' in result.meta.highlight %}
+        <p>{{ result.meta.highlight.description[0] |safe }}</p>
+      {% endif %}
     {% endif %}
     <p>{{ result.date }}</p>
+    <p><a href="http://api.kamervragentracker.nl/{{ result.meta._type }}/{{ result.meta._type }}/{{ result.meta.original_object_id }}" target="_blank">source</a></p>
   </div>
 </div>
 {% endfor %}

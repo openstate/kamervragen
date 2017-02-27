@@ -7,6 +7,8 @@ from urllib2 import HTTPError
 
 from OpenSSL.SSL import ZeroReturnError
 
+from magic import Magic
+
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -15,6 +17,9 @@ from pdfminer.pdfpage import PDFPage
 import requests
 
 from ocd_backend import settings
+
+m = Magic(mime=True)
+
 
 def convert(fname, pages=None):
     if not pages:
@@ -73,8 +78,15 @@ class PDFToTextMixin(object):
         tf = self.pdf_download(url)
         if tf is not None:
             print "Download went ok, now trying to convert ..."
-            result = self.pdf_to_text(tf.name, max_pages)
-            print "Conversion was ok ..."
+            try:
+                result = self.pdf_to_text(tf.name, max_pages)
+                print "Conversion was ok ..."
+            except Exception as e:
+                print "Conversion was not ok ..."
+                print e
+                t = m.from_file(tf.name)
+                print t
+                result = u''
             return result
         else:
             print "Download did not go ok ..."
