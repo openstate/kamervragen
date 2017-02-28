@@ -33,8 +33,10 @@ class TweedeKamerExtractor(StaticJSONExtractor):
                 result = self._get_feed_url(next_links[0]['href'])
                 if result.status_code >= 200 and result.status_code < 300:
                     page_number += 1
+                    piket_id = 'tk_piketpaaltje_url_%s' % (
+                        self.source_definition['id'],)
                     self.redis_client.set(
-                        'tk_piketpaaltje_url', next_links[0]['href'])
+                        piket_id, next_links[0]['href'])
                     static_json = result.json()
                 else:
                     print "Get status code : %s" % (result.status_code,)
@@ -46,7 +48,8 @@ class TweedeKamerExtractor(StaticJSONExtractor):
 
         self.redis_client = redis.StrictRedis()
 
-        piket_url = self.redis_client.get('tk_piketpaaltje_url')
+        piket_id = 'tk_piketpaaltje_url_%s' % (self.source_definition['id'],)
+        piket_url = self.redis_client.get(piket_id)
         if not piket_url:
             piket_url = self.file_url
         else:

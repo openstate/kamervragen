@@ -46,6 +46,20 @@
       "file_url": "https://gegevensmagazijn.tweedekamer.nl/REST/Feed?filter=/parlementairDocument[soort=%22Schriftelijke%20vragen%22]&content=internal"
   },
   {
+      "id": "tk_answers",
+      "extractor": "ocd_backend.extractors.tk.TweedeKamerExtractor",
+      "transformer": "ocd_backend.transformers.BaseTransformer",
+      "item": "ocd_backend.items.questions.TKWrittenAnswerItem",
+      "enrichers": [],
+      "loader": "ocd_backend.loaders.ElasticsearchLoader",
+      "cleanup": "ocd_backend.tasks.CleanupElasticsearch",
+      "hidden": false,
+      "index_name": "tk_answers",
+      "doc_type": "tk_answers",
+      "keep_index_on_update": true,
+      "file_url": "https://gegevensmagazijn.tweedekamer.nl/REST/Feed?filter=/parlementairDocument[soort=%22Antwoord%22]&content=internal"
+  },
+  {
       "id": "ob_questions",
       "extractor": "ocd_backend.extractors.ob.OBExtrator",
       "transformer": "ocd_backend.transformers.BaseTransformer",
