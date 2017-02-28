@@ -24,8 +24,8 @@ class FrontendAPIMixin(object):
     def api_request(self, index_name, doc_type, query=None, *args, **kwargs):
         api_url = u'%s%s/search' % (
             self.source_definition.get('frontend_api_url', settings.API_URL),
-            index_name, doc_type,)
-
+            index_name,)
+        print api_url
         # TODO: facets (better), sorting
         api_query = {
             "facets": {},
@@ -33,7 +33,8 @@ class FrontendAPIMixin(object):
             "from": 0,
             "size": 10,
             "sort": "_score",
-            "order": "asc"
+            "order": "asc",
+            "fields": None
         }
 
         if query is not None:
@@ -55,4 +56,4 @@ class FrontendAPIMixin(object):
             data=json.dumps(api_query)
         )
         r.raise_for_status()
-        return r.json()[doc_type]
+        return r.json()

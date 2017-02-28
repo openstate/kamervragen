@@ -1,5 +1,7 @@
 from datetime import datetime
 from lxml import etree
+import re
+from pprint import pprint
 
 import iso8601
 
@@ -252,6 +254,24 @@ class TKWrittenAnswerItem(TKWrittenQuestionItem):
 class TKWrittenAdditionalAnswerItem(TKWrittenQuestionItem):
     def get_collection(self):
         return u"Nader antwoord"
+
+    def get_combined_index_data(self):
+        combined_index_data = super(
+            TKWrittenAdditionalAnswerItem, self).get_combined_index_data()
+        matches = re.match(
+            r'Nader antwoord op (vraag|vragen) van (het|de) (lid|leden).*? over (.*)',
+            combined_index_data['name'], re.U)
+        if matches is not None:
+            search_title = matches.group(4)
+            print combined_index_data['name']
+            print "Zoek op: %s" % (search_title,)
+            result = self.api_request(
+                'tk_questions', 'tk_questions', search_title, fields=['name'])
+            if result['meta']['total'] > 0:
+                print result['hits']['hits'][0]['name']
+            else:
+                print "Could not find"
+        return combined_index_data
 
 
 class TKWrittenExtensionItem(TKWrittenQuestionItem):
