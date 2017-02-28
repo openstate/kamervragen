@@ -1,6 +1,5 @@
 from datetime import datetime
 from lxml import etree
-from pprint import pprint
 
 import iso8601
 
@@ -8,6 +7,7 @@ from ocd_backend.items import BaseItem
 from ocd_backend.extractors import HttpRequestMixin
 from ocd_backend.utils.api import FrontendAPIMixin
 from ocd_backend.utils.to_text import FileToTextMixin
+
 
 class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
     combined_index_fields = {
@@ -247,3 +247,13 @@ class TKWrittenQuestionItem(
 class TKWrittenAnswerItem(TKWrittenQuestionItem):
     def get_collection(self):
         return u'Antwoorden'
+
+
+class TKWrittenAdditionalAnswerItem(TKWrittenQuestionItem):
+    def get_collection(self):
+        return u"Nader antwoord"
+
+
+class TKWrittenExtensionItem(TKWrittenQuestionItem):
+    def get_collection(self):
+        return u"Mededeling (uitstel antwoord)"
