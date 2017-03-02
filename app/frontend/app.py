@@ -1,3 +1,4 @@
+import datetime
 import simplejson as json
 
 from flask import (
@@ -15,11 +16,48 @@ class BackendAPI(object):
     def sources(self):
         return requests.get('%s/sources' % (self.URL,)).json()
 
+    def get_stats_in_period(self, date_from, date_to=None):
+        es_query = {
+            "size": 0,
+            "filters": {
+                "date": {
+                    "from": date_from
+                }
+            },
+            "facets": {
+                "classification": {},
+                "answer_classification": {},
+                "additional_answer_classification": {},
+                "extension_classification": {}
+            }
+        }
+
+        if date_to is not None:
+            es_query["filters"]["date"]["to"] = date_to
+
+        try:
+            result = requests.post(
+                '%s/tk_questions/search' % (self.URL,),
+                data=json.dumps(es_query)).json()
+        except Exception:
+            result = {
+                'facets': {
+                    'dates': {
+                        'entries': []
+                    }
+                },
+                'hits': {
+                    'hits': [],
+                    'total': 0
+                }
+            }
+        return result
+
     def stats_questions(self):
         es_query = {
             "size": 0,
             "facets": {
-                "dates": {
+                "date": {
                     "interval": "year"
                 }
             }
@@ -83,7 +121,9 @@ api = BackendAPI()
 @app.route("/")
 def main():
     results = api.search_questions()
-    return render_template('index.html', results=results)
+    today = datetime.datetime.now()
+    stats = api.get_stats_in_period("%s-01-01T00:00:00" % (today.year,))
+    return render_template('index.html', results=results, stats=stats)
 
 
 @app.route("/stats")

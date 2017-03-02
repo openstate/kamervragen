@@ -128,10 +128,30 @@ AVAILABLE_FACETS = {
                 'size': 10
             }
         },
-        'dates': {
+        'date': {
             'date_histogram': {
                 'field': 'date',
                 'interval': 'month'
+            }
+        },
+        'classification': {
+            'terms': {
+                'field': 'classification'
+            }
+        },
+        'extension_classification': {
+            'terms': {
+                'field': 'extension.classification'
+            }
+        },
+        'additional_answer_classification': {
+            'terms': {
+                'field': 'additional_answer.classification'
+            }
+        },
+        'answer_classification': {
+            'terms': {
+                'field': 'answer.classification'
             }
         },
         'id': {
