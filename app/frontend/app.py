@@ -20,6 +20,11 @@ app = Flask(__name__)
 def do_iso8601_to_str(s, format):
     return iso8601.parse_date(s).strftime(format)
 
+@app.template_filter('iso8601_delay_in_days')
+def do_iso8601_delay_in_days(q, a=None):
+    s = a or datetime.datetime.now().isoformat()
+    delay = iso8601.parse_date(s) - iso8601.parse_date(q)
+    return delay.days
 
 class BackendAPI(object):
     URL = 'http://c-tkv-nginx/v0'
