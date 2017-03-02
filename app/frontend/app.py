@@ -1,13 +1,24 @@
 import datetime
+import locale
 import simplejson as json
 
 from flask import (
     Flask, abort, jsonify, request, redirect, render_template,
     stream_with_context, Response)
+
+from jinja2 import Markup
+
+import iso8601
 import requests
 
+# locale.setlocale(locale.LC_TIME, "nl_NL")
 
 app = Flask(__name__)
+
+
+@app.template_filter('iso8601_to_str')
+def do_iso8601_to_str(s, format):
+    return iso8601.parse_date(s).strftime(format)
 
 
 class BackendAPI(object):

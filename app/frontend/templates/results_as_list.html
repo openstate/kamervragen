@@ -7,8 +7,14 @@
         <p>{{ result.meta.highlight.description[0] |safe }}</p>
       {% endif %}
     {% endif %}
-    <p>{{ result.date }}</p>
-    <p><a href="http://api.kamervragentracker.nl/{{ result.meta._type }}/{{ result.meta._type }}/{{ result.meta.original_object_id }}" target="_blank">source</a></p>
+    <p class="pull-left">{{ result.date|iso8601_to_str("%d-%m-%Y") }}</p>
+    <p class="pull-right"><a href="http://api.kamervragentracker.nl/{{ result.meta._type }}/{{ result.meta._type }}/{{ result.meta.original_object_id }}" target="_blank">source</a></p>
+    {% if 'extension' in result %}
+      <p class="pull-right secondary">{{ result.extension.date|iso8601_to_str("%d-%m-%Y") }}</p>
+    {% endif %}
+    {% if 'answer' in result %}
+      <p class="pull-right primary">{{ result.answer.date|iso8601_to_str("%d-%m-%Y") }}</p>
+    {% endif %}
   </div>
 </div>
 {% endfor %}
