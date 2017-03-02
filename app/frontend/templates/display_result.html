@@ -8,8 +8,14 @@
   <div class="row">
     <div class="col-xs-12">
       <h2><a href="/{{ result.period }}/{{ result.id}}/">{{ result.name }}</a></h2>
-      <pre>{{ result.description }}</pre>
-      <p>{{ result.date }}</p>
+
+      {% if 'answer' in result %}
+        <pre>{{ result.answer.description }}</pre>
+        <p>{{ result.answer.date }}</p>
+      {% else %}
+        <pre>{{ result.description }}</pre>
+        <p>{{ result.date }}</p>
+      {% endif %}
     </div>
   </div>
 </section>
