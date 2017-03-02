@@ -246,34 +246,65 @@ class TKWrittenQuestionItem(
         return u' '.join([ti for ti in text_items if ti is not None])
 
 
-class TKWrittenAnswerItem(TKWrittenQuestionItem):
-    def get_collection(self):
-        return u'Antwoorden'
+class TKWrittenQuestionUpdateForItem(TKWrittenQuestionItem):
+    combined_index_fields = {
+        'id': unicode,
+        'hidden': bool,
+        'doc': dict
+    }
 
+    def _get_question_name(self):
+        return self.get_property(
+            self.original_item['content']['internal']['content'],
+            'onderwerp', 'content')
 
-class TKWrittenAdditionalAnswerItem(TKWrittenQuestionItem):
-    def get_collection(self):
-        return u"Nader antwoord"
+    def _find_question(self, title):
+        orig_q = getattr(self, 'original_question', None)
 
-    def get_combined_index_data(self):
-        combined_index_data = super(
-            TKWrittenAdditionalAnswerItem, self).get_combined_index_data()
+        if orig_q is not None:
+            print "We have a cached question: %s" % (orig_q['name'])
+            return orig_q
+
         matches = re.match(
-            r'Nader antwoord op (vraag|vragen) van (het|de) (lid|leden).*? over (.*)',
-            combined_index_data['name'], re.U)
+            self.source_definition['tk_title_prefix'] +
+            r' van (het|de) (lid|leden).*? over (.*)',
+            title, re.U)
         if matches is not None:
             search_title = matches.group(4)
-            print combined_index_data['name']
-            print "Zoek op: %s" % (search_title,)
+            print "Found a title: %s" % (search_title,)
             result = self.api_request(
                 'tk_questions', 'tk_questions', search_title, fields=['name'])
             if result['meta']['total'] > 0:
-                print result['hits']['hits'][0]['name']
-            else:
-                print "Could not find"
-        return combined_index_data
+                setattr(self, 'original_question', result['hits']['hits'][0])
+                return result['hits']['hits'][0]
 
+    def get_original_object_id(self):
+        question = self._find_question(self._get_question_name())
+        if question is not None:
+            return unicode(question['meta']['original_object_id'])
+        else:
+            return unicode(self.get_property(
+                self.original_item['content']['internal']['properties'],
+                'id'))
 
-class TKWrittenExtensionItem(TKWrittenQuestionItem):
+    def get_object_id(self):
+        question = self._find_question(self._get_question_name())
+        if question is not None:
+            return unicode(question['meta']['original_object_id'])
+        else:
+            return unicode(self.get_property(
+                self.original_item['content']['internal']['properties'],
+                'id'))
+
     def get_collection(self):
-        return u"Mededeling (uitstel antwoord)"
+        return unicode(self.source_definition['tk_collection'])
+
+    def get_combined_index_data(self):
+        combined_index_data = super(
+            TKWrittenQuestionUpdateForItem, self).get_combined_index_data()
+        doc = {
+            'doc': {
+                self.source_definition['tk_field']: combined_index_data
+            }
+        }
+        return doc
