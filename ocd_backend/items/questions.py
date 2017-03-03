@@ -258,12 +258,7 @@ class TKWrittenQuestionUpdateForItem(TKWrittenQuestionItem):
             self.original_item['content']['internal']['content'],
             'onderwerp', 'content')
 
-    def _get_question_date(self):
-        return datetime.strptime(self.get_property(
-            self.original_item['content']['internal']['content'],
-            'datum', 'content'), '%Y-%m-%d')
-
-    def _find_question(self, title, question_date):
+    def _find_question(self, title):
         orig_q = getattr(self, 'original_question', None)
 
         if orig_q is not None:
@@ -278,21 +273,13 @@ class TKWrittenQuestionUpdateForItem(TKWrittenQuestionItem):
             search_title = matches.group(4)
             print "Found a title: %s" % (search_title,)
             result = self.api_request(
-                'tk_questions', 'tk_questions', search_title,
-                fields=['name'], filters={
-                    "date": {
-                        "from": (
-                            question_date - datetime.timedelta(days=60)
-                        ).isoformat()
-                    }
-                })
+                'tk_questions', 'tk_questions', search_title, fields=['name'])
             if result['meta']['total'] > 0:
                 setattr(self, 'original_question', result['hits']['hits'][0])
                 return result['hits']['hits'][0]
 
     def get_original_object_id(self):
-        question = self._find_question(
-            self._get_question_name(), self._get_question_date())
+        question = self._find_question(self._get_question_name())
         if question is not None:
             return unicode(question['meta']['original_object_id'])
         else:
