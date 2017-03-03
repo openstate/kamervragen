@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from lxml import etree
 import re
 from pprint import pprint
@@ -258,6 +258,11 @@ class TKWrittenQuestionUpdateForItem(TKWrittenQuestionItem):
             self.original_item['content']['internal']['content'],
             'onderwerp', 'content')
 
+    def _get_question_date(self):
+        return datetime.strptime(self.get_property(
+            self.original_item['content']['internal']['content'],
+            'datum', 'content'), '%Y-%m-%d')
+
     def _find_question(self, title):
         orig_q = getattr(self, 'original_question', None)
 
@@ -272,8 +277,13 @@ class TKWrittenQuestionUpdateForItem(TKWrittenQuestionItem):
         if matches is not None:
             search_title = matches.group(4)
             print "Found a title: %s" % (search_title,)
+            print self._get_question_date()
+            earliest_date = (self._get_question_date() - timedelta(
+                days=60)).isoformat()
+            print earliest_date
             result = self.api_request(
-                'tk_questions', 'tk_questions', search_title, fields=['name'])
+                'tk_questions', 'tk_questions', search_title, fields=['name'],
+                filters={'date': {'from': earliest_date}})
             if result['meta']['total'] > 0:
                 setattr(self, 'original_question', result['hits']['hits'][0])
                 return result['hits']['hits'][0]
