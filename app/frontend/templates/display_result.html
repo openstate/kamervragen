@@ -35,11 +35,11 @@
       <h2><a href="/{{ result.period }}/{{ result.id}}/">{{ result.name }}</a></h2>
 
       {% if 'answer' in result %}
-        <pre>{{ result.answer.description }}</pre>
+        {{ result.answer.description |nl2br |safe }}
         <p>Ingediend: {{ result.date }}</p>
         <p>Beantwoord: {{ result.answer.date }}</p>
       {% else %}
-        <pre>{{ result.description }}</pre>
+        {{ result.description |nl2br |safe }}
         <p>Ingediend: {{ result.date }}</p>
       {% endif %}
     </div>

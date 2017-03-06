@@ -1,6 +1,6 @@
 import datetime
-import locale
 import simplejson as json
+import re
 
 from flask import (
     Flask, abort, jsonify, request, redirect, render_template,
@@ -20,11 +20,18 @@ app = Flask(__name__)
 def do_iso8601_to_str(s, format):
     return iso8601.parse_date(s).strftime(format)
 
+
 @app.template_filter('iso8601_delay_in_days')
 def do_iso8601_delay_in_days(q, a=None):
     s = a or datetime.datetime.now().isoformat()
     delay = iso8601.parse_date(s) - iso8601.parse_date(q)
     return delay.days
+
+
+@app.template_filter('nl2br')
+def do_nl2br(s):
+    return s.replace('\n', '<br>')
+
 
 class BackendAPI(object):
     URL = 'http://c-tkv-nginx/v0'
