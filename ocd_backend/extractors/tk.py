@@ -20,8 +20,14 @@ class TweedeKamerExtractor(StaticJSONExtractor):
         # TODO: implement piket paaltjes stuff ....
         page_number = 1
         static_json = static_content
+        max_pages = self.source_definition.get('max_pages', 0)
         while static_json:
             print "Processing page number %s ..." % (page_number,)
+
+            if max_pages > 0 and page_number > max_pages:
+                print "Got maximum number of pages, quitting"
+                static_json = None
+                continue
 
             for item in static_json['entries']:
                 yield 'application/json', json.dumps(item)

@@ -10,7 +10,6 @@ from ocd_backend.extractors import HttpRequestMixin
 from ocd_backend.utils.api import FrontendAPIMixin
 from ocd_backend.utils.to_text import FileToTextMixin
 
-
 class OBWrittenQuestionItem(BaseItem, HttpRequestMixin):
     combined_index_fields = {
         'id': unicode,
@@ -162,6 +161,45 @@ class TKWrittenQuestionItem(
             u'https://gegevensmagazijn.tweedekamer.nl/OData/v1/Bestand'
             u'(guid\'%s\')/$value') % (ref,)
 
+    def get_questions_as_text(self, text_content):
+        questions = []
+        in_question = False
+        for line in text_content.split(u'\n'):
+            is_question_starter = re.match(r'\s*(Vraag|Vragen)\s+(\d+)', line)
+            if is_question_starter:
+                in_question = True
+            if in_question and line.strip() != u'':
+                # questions.append(re.sub(r'(\d+\))\.?\s*$', '\\1', line))
+                questions.append(line.strip())
+            if (
+                not is_question_starter and
+                in_question and
+                line.strip() == u''
+            ):
+                in_question = False
+        return u' '.join(questions)
+
+    def get_document_as_text(self):
+        dt = getattr(self, 'document_text', None)
+
+        if dt is not None:
+            return dt
+
+        # get associated file with contents
+        try:
+            ref = [p for p in self.get_property(
+                self.original_item['content']['internal']['content'],
+                'bestand', 'properties') if p['name'] == 'ref'][0]['value']
+        except LookupError:
+            ref = None
+
+        if ref is not None:
+            dt = self.text_get_contents(
+                self.get_document_url(ref),
+                self.source_definition.get('pdf_max_pages', 20))
+            setattr(self, 'document_text', dt)
+            return dt
+
     def get_original_object_id(self):
         return unicode(self.get_property(
             self.original_item['content']['internal']['properties'],
@@ -209,19 +247,11 @@ class TKWrittenQuestionItem(
         combined_index_data['appendix'] = self.get_property(
             self.original_item['content']['internal']['content'],
             'aanhangselnummer', 'content')
+        combined_index_data['description'] = self.get_document_as_text()
 
-        # get associated file with contents
-        try:
-            ref = [p for p in self.get_property(
-                self.original_item['content']['internal']['content'],
-                'bestand', 'properties') if p['name'] == 'ref'][0]['value']
-        except LookupError:
-            ref = None
-
-        if ref is not None:
-            combined_index_data['description'] = self.text_get_contents(
-                self.get_document_url(ref),
-                self.source_definition.get('pdf_max_pages', 20))
+        shingles = self.get_questions_as_text(
+            combined_index_data['description'])
+        pprint(shingles)
 
         print "All done for this item!"
         return combined_index_data
