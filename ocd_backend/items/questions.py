@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from lxml import etree
 import re
 from pprint import pprint
+import hashlib
 
 import iso8601
 
@@ -144,7 +145,8 @@ class TKWrittenQuestionItem(
         'person_id': unicode,
         'person': dict,
         'organization_id': unicode,
-        'organization': dict
+        'organization': dict,
+        'questions_hash': unicode
     }
 
     def get_property(
@@ -200,6 +202,12 @@ class TKWrittenQuestionItem(
             setattr(self, 'document_text', dt)
             return dt
 
+    def get_questions_hash(self, document_text):
+        return hashlib.sha1(
+            self.get_questions_as_text(
+                document_text).encode('ascii', 'ignore')
+            ).hexdigest()
+
     def get_original_object_id(self):
         return unicode(self.get_property(
             self.original_item['content']['internal']['properties'],
@@ -248,10 +256,8 @@ class TKWrittenQuestionItem(
             self.original_item['content']['internal']['content'],
             'aanhangselnummer', 'content')
         combined_index_data['description'] = self.get_document_as_text()
-
-        shingles = self.get_questions_as_text(
-            combined_index_data['description'])
-        pprint(shingles)
+        combined_index_data['questions_hash'] = unicode(
+            self.get_questions_hash(combined_index_data['description']))
 
         print "All done for this item!"
         return combined_index_data

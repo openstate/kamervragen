@@ -159,6 +159,12 @@ AVAILABLE_FACETS = {
                 'field': 'id',
                 'size': 10
             }
+        },
+        'questions_hash': {
+            'terms': {
+                'field': 'questions_hash',
+                'size': 10
+            }
         }
     }
 }
