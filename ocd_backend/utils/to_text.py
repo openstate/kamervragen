@@ -25,6 +25,11 @@ class FileToTextMixin(PDFToTextMixin, WordToTextMixin):
         try:
             # GO has no wildcard domain for SSL
             r = self.http_session.get(url, verify=False)
+
+            if r.status_code < 200 or r.status_code >= 300:
+                print "Got faulty http status code"
+                return None
+
             tf = tempfile.NamedTemporaryFile()
             tf.write(r.content)
             tf.seek(0)
@@ -37,16 +42,26 @@ class FileToTextMixin(PDFToTextMixin, WordToTextMixin):
             print "Some other exception %s" % (url,)
 
     def text_get_contents(self, url, max_pages=20):
-        tf = self.word_download(url)
+        tf = self.text_download(url)
         if tf is None:
             return u''
 
         mime_type = m.from_file(tf.name)
 
+        print mime_type
+
         if mime_type in [
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/msword'
         ]:
-            return self.word_to_text(tf.name, max_pages)
+            try:
+                return self.word_to_text(tf.name, max_pages)
+            except Exception as e:
+                print e
+                return u''
         else:
-            return self.pdf_to_text(tf.name, max_pages)
+            try:
+                return self.pdf_to_text(tf.name, max_pages)
+            except Exception as e:
+                print e
+                return u''

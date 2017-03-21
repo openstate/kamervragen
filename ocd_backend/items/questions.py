@@ -146,7 +146,8 @@ class TKWrittenQuestionItem(
         'person': dict,
         'organization_id': unicode,
         'organization': dict,
-        'questions_hash': unicode
+        'questions_hash': unicode,
+        'questions': unicode
     }
 
     def get_property(
@@ -182,7 +183,10 @@ class TKWrittenQuestionItem(
         return u' '.join(questions)
 
     def get_document_as_text(self):
-        dt = getattr(self, 'document_text', None)
+        try:
+            dt = self.document_text
+        except AttributeError:
+            dt = None
 
         if dt is not None:
             return dt
@@ -199,6 +203,7 @@ class TKWrittenQuestionItem(
             dt = self.text_get_contents(
                 self.get_document_url(ref),
                 self.source_definition.get('pdf_max_pages', 20))
+            print dt
             setattr(self, 'document_text', dt)
             return dt
 
@@ -223,7 +228,8 @@ class TKWrittenQuestionItem(
         }
 
     def get_collection(self):
-        return u'Schriftelijke Vragen'
+        return unicode(self.source_definition.get(
+            'collection', u'Schriftelijke Vragen'))
 
     def get_rights(self):
         return u'Unknown'
@@ -256,10 +262,13 @@ class TKWrittenQuestionItem(
             self.original_item['content']['internal']['content'],
             'aanhangselnummer', 'content')
         combined_index_data['description'] = self.get_document_as_text()
+        combined_index_data['questions'] = unicode(
+            self.get_questions_as_text(combined_index_data['description']))
         combined_index_data['questions_hash'] = unicode(
             self.get_questions_hash(combined_index_data['description']))
 
         print "All done for this item!"
+        pprint(combined_index_data)
         return combined_index_data
 
     def get_index_data(self):
@@ -300,29 +309,36 @@ class TKWrittenQuestionUpdateForItem(TKWrittenQuestionItem):
             'datum', 'content'), '%Y-%m-%d')
 
     def _find_question(self, title):
-        orig_q = getattr(self, 'original_question', None)
+        print "Going to try to find question for %s" % (title,)
 
-        if orig_q is not None:
-            print "We have a cached question: %s" % (orig_q['name'])
+        try:
+            orig_q = getattr(self, 'original_question', None)
+            orig_q_tried = getattr(self, 'original_question_tried', False)
+        except Exception as e:
+            print e
+            orig_q = None
+            orig_q_tried = False
+
+        if orig_q_tried:
+            if orig_q is not None:
+                print "We have tried a cached question: %s" % (orig_q['name'])
             return orig_q
 
-        matches = re.match(
-            self.source_definition['tk_title_prefix'] +
-            r' van (het|de) (lid|leden).*? over (.*)',
-            title, re.U)
-        if matches is not None:
-            search_title = matches.group(4)
-            print "Found a title: %s" % (search_title,)
-            print self._get_question_date()
-            earliest_date = (self._get_question_date() - timedelta(
-                days=60)).isoformat()
-            print earliest_date
-            result = self.api_request(
-                'tk_questions', 'tk_questions', search_title, fields=['name'],
-                filters={'date': {'from': earliest_date}})
-            if result['meta']['total'] > 0:
-                setattr(self, 'original_question', result['hits']['hits'][0])
-                return result['hits']['hits'][0]
+        print "No cached question, so going to try the document now"
+        description = self.get_document_as_text()
+        print "Try to get the hash"
+        questions_hash = unicode(self.get_questions_hash(description))
+
+        result = self.api_request(
+            'tk_questions', 'tk_questions', None,
+            filters={'questions_hash': {'terms': [questions_hash]}})
+        setattr(self, 'original_question_tried', True)
+        if result['meta']['total'] > 0:
+            setattr(self, 'original_question', result['hits']['hits'][0])
+            print "Got hit for %s" % (result['hits']['hits'][0]['name'],)
+            return result['hits']['hits'][0]
+        else:
+            print "Got no hit for %s" % (title,)
 
     def get_original_object_id(self):
         question = self._find_question(self._get_question_name())
