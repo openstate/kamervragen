@@ -1,4 +1,7 @@
 from datetime import datetime, timedelta
+from pprint import pprint
+
+from shingling import getInstance
 import iso8601
 
 from ocd_backend.items import BaseItem
@@ -15,12 +18,14 @@ class QaMatcherItem(
         'doc': dict,
     }
 
-    # def __init__(self, source_definition, data_content_type, data, item,
-    #              processing_started=None):
-    #     super(QaMatcherItem, self).__init__(
-    #         source_definition, data_content_type, data, item,
-    #         processing_started)
-    #     print "Init of QA matcher object ..."
+    def __init__(self, source_definition, data_content_type, data, item,
+                 processing_started=None):
+        super(QaMatcherItem, self).__init__(
+            source_definition, data_content_type, data, item,
+            processing_started)
+        print "Init of QA matcher object ..."
+        sh = getInstance()
+        shingles = sh.wshingling(self.original_item['questions'])
 
     def get_original_object_id(self):
         return unicode(self.original_item['id'])
