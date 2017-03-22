@@ -51,6 +51,7 @@ class FrontendAPIMixin(object):
                 else:
                     api_query["filters"][k] = v
 
+        # pprint(api_query)
         r = self.http_session.post(
             api_url,
             data=json.dumps(api_query)
