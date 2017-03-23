@@ -23,11 +23,15 @@ class QaMatcherItem(
         super(QaMatcherItem, self).__init__(
             source_definition, data_content_type, data, item,
             processing_started)
-        print "Init of QA matcher object ..."
         sh = getInstance()
-        shingles = sh.wshingling(self.original_item['name'])
+        name_shingles = sh.wshingling(self.original_item['name'])
+        if 'questions' in self.original_item:
+            question_shingles = sh.wshingling(self.original_item['questions'])
+        else:
+            question_shingles = None
         docs = self.get_candidate_documents()
-        result = self.get_top_candidate(sh, shingles, docs)
+        result = self.get_top_candidate(
+            sh, name_shingles, question_shingles, docs)
 
     def jc_sim(self, shingles, doc_shingles):
         intersection = []
@@ -38,26 +42,29 @@ class QaMatcherItem(
         union = list(set(str_shingles) | set(str_doc_shingles))
         return float(len(intersection))/float(len(union))
 
-    def get_top_candidate(self, sh, shingles, docs):
+    def get_top_candidate(self, sh, name_shingles, question_shingles, docs):
         result = None
         scores = {}
         for doc in docs:
-            # if 'questions' not in doc:
-            #     continue
-            # if doc['questions'].strip() == u'':
-            #     continue
-            doc_shingles = sh.wshingling(doc['name'])
-            scores[doc['id']] = self.jc_sim(shingles, doc_shingles)
+            if (
+                ('questions' not in doc) or
+                (doc['questions'].strip == u'')
+            ):
+                doc_shingles = sh.wshingling(doc['name'])
+                scores[doc['id']] = self.jc_sim(name_shingles, doc_shingles)
+            else:
+                doc_shingles = sh.wshingling(doc['questions'])
+                scores[doc['id']] = self.jc_sim(
+                    question_shingles, doc_shingles)
             if scores[doc['id']] > 0.0:
-                print doc['name']
+                print "VRAAG: %s - %s" % (doc['date'], doc['name'],)
         return result
 
     def get_candidate_documents(self):
-        print self.original_item['name']
-        print "Answer date is : %s" % (self.original_item['date'],)
+        print "ANTWOORD: %s - %s" % (
+            self.original_item['date'], self.original_item['name'],)
         date = iso8601.parse_date(self.original_item['date'])
         start_date = date - timedelta(days=90)
-        print "Should scan from start date: %s" % (start_date,)
         candidates = []
         results_count = 1
         offset = 0
@@ -74,13 +81,11 @@ class QaMatcherItem(
             self.source_definition['match_index_name'],
             self.source_definition['match_doc_type'])
         while results_count > 0:
-            print "Getting results, offset %s" % (offset,)
             results = self.api_request(*args, **api_args)
             candidates += results['hits']['hits']
             results_count = len(results['hits']['hits'])
             offset += results_count
             api_args['from'] = offset
-        print "Found %s results" % (results['meta']['total'],)
         return candidates
 
     def get_original_object_id(self):

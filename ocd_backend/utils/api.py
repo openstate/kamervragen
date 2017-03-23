@@ -25,7 +25,6 @@ class FrontendAPIMixin(object):
         api_url = u'%s%s/search' % (
             self.source_definition.get('frontend_api_url', settings.API_URL),
             index_name,)
-        print api_url
         # TODO: facets (better), sorting
         api_query = {
             "facets": {},

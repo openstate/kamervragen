@@ -80,7 +80,9 @@
       "keep_index_on_update": true,
       "frontend_index": "tk_answers",
       "frontend_type": "tk_answers",
-      "frontend_args": {},
+      "frontend_args": {
+        "size": 100
+      },
       "match_index_name": "tk_questions",
       "match_doc_type": "tk_questions"
   },
