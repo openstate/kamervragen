@@ -22,7 +22,7 @@ class FrontendAPIExtractor(BaseExtractor, HttpRequestMixin, FrontendAPIMixin):
         api_page = 1
         api_offset = 0
         # TODO: implement actual paging .... ;) (let's)
-        while api_results > 0 and api_page < 250:
+        while api_results > 0 and api_page < 2:
             print "Fetching page %s ..." % (api_page,)
             api_args['from'] = api_offset
             results = self.api_request(

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from pprint import pprint
 from operator import itemgetter
+import traceback
 
 from shingling import getInstance
 import iso8601
@@ -34,21 +35,37 @@ class QaMatcherItem(
 
     def __init__(self, source_definition, data_content_type, data, item,
                  processing_started=None):
-        super(QaMatcherItem, self).__init__(
-            source_definition, data_content_type, data, item,
-            processing_started)
+        try:
+            super(QaMatcherItem, self).__init__(
+                source_definition, data_content_type, data, item,
+                processing_started)
+        except Exception as e:
+            print e
+            traceback.print_exc()
         sh = getInstance()
+        print "shingling name"
         name_shingles = sh.wshingling(self.original_item['name'])
+        print "shingling questions"
         if 'questions' in self.original_item:
             question_shingles = sh.wshingling(self.original_item['questions'])
         else:
             question_shingles = None
+        print "Getting candidate docs"
         docs = self.get_candidate_documents()
+        print "Get top candidate"
         self.match = self.get_top_candidate(
             sh, name_shingles, question_shingles, docs)
+        print "check if match"
         if self.match is not None:
             print "ANTWOORD: %s - %s" % (
                 self.match['date'], self.match['name'],)
+
+        # On init, all data should be available to construct self.meta
+        # and self.combined_item
+        self._construct_object_meta(processing_started)
+        self._construct_combined_index_data()
+
+        self.index_data = self.get_index_data()
 
     def jc_sim(self, shingles, doc_shingles):
         intersection = []
@@ -126,10 +143,15 @@ class QaMatcherItem(
 
     def get_combined_index_data(self):
         combined_index_data = self.original_item
+        del combined_index_data['meta']
+        combined_index_data['date'] = iso8601.parse_date(
+            combined_index_data['date'])
         combined_index_data['hidden'] = self.source_definition['hidden']
 
-        if self.match is not None:
-            combined_index_data['answer'] = self.match
+        self_match = getattr(self, 'match', None)
+
+        if self_match is not None:
+            combined_index_data['answer'] = self_match
 
         return combined_index_data
 
