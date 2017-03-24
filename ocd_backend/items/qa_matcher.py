@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from pprint import pprint
+from operator import itemgetter
 
 from shingling import getInstance
 import iso8601
@@ -15,7 +16,20 @@ class QaMatcherItem(
     combined_index_fields = {
         'id': unicode,
         'hidden': bool,
-        'doc': dict,
+        'identifiers': list,
+        'classification': unicode,
+        'name': unicode,
+        'date': datetime,
+        'period': unicode,
+        'appendix': unicode,
+        'description': unicode,
+        'person_id': unicode,
+        'person': dict,
+        'organization_id': unicode,
+        'organization': dict,
+        'questions_hash': unicode,
+        'questions': unicode,
+        'answer': dict
     }
 
     def __init__(self, source_definition, data_content_type, data, item,
@@ -30,8 +44,11 @@ class QaMatcherItem(
         else:
             question_shingles = None
         docs = self.get_candidate_documents()
-        result = self.get_top_candidate(
+        self.match = self.get_top_candidate(
             sh, name_shingles, question_shingles, docs)
+        if self.match is not None:
+            print "ANTWOORD: %s - %s" % (
+                self.match['date'], self.match['name'],)
 
     def jc_sim(self, shingles, doc_shingles):
         intersection = []
@@ -43,25 +60,27 @@ class QaMatcherItem(
         return float(len(intersection))/float(len(union))
 
     def get_top_candidate(self, sh, name_shingles, question_shingles, docs):
-        result = None
-        scores = {}
+        scores = []
         for doc in docs:
             if (
                 ('questions' not in doc) or
                 (doc['questions'].strip == u'')
             ):
                 doc_shingles = sh.wshingling(doc['name'])
-                scores[doc['id']] = self.jc_sim(name_shingles, doc_shingles)
+                jc_sim = self.jc_sim(name_shingles, doc_shingles)
             else:
                 doc_shingles = sh.wshingling(doc['questions'])
-                scores[doc['id']] = self.jc_sim(
+                jc_sim = self.jc_sim(
                     question_shingles, doc_shingles)
-            if scores[doc['id']] > 0.0:
-                print "VRAAG: %s - %s" % (doc['date'], doc['name'],)
-        return result
+            if jc_sim > 0.0:
+                scores.append((jc_sim, doc,))
+        try:
+            return max(scores, key=itemgetter(0))[1]
+        except ValueError:
+            return None
 
     def get_candidate_documents(self):
-        print "ANTWOORD: %s - %s" % (
+        print "VRAAG: %s - %s" % (
             self.original_item['date'], self.original_item['name'],)
         date = iso8601.parse_date(self.original_item['date'])
         start_date = date - timedelta(days=90)
@@ -106,11 +125,12 @@ class QaMatcherItem(
         return u'Unknown'
 
     def get_combined_index_data(self):
-        combined_index_data = {
-            'id': unicode(self.original_item['id']),
-            'hidden': self.source_definition['hidden'],
-            'doc': {}
-        }
+        combined_index_data = self.original_item
+        combined_index_data['hidden'] = self.source_definition['hidden']
+
+        if self.match is not None:
+            combined_index_data['answer'] = self.match
+
         return combined_index_data
 
     def get_index_data(self):
