@@ -1,4 +1,5 @@
 import datetime
+import math
 import simplejson as json
 import re
 
@@ -14,6 +15,13 @@ import requests
 # locale.setlocale(locale.LC_TIME, "nl_NL")
 
 app = Flask(__name__)
+
+
+@app.template_filter('wordcloud_font_size')
+def do_wordcloud_fontsize(c, total):
+    max_size = 100 + 25 * math.log(total, 2)
+    cur_size = 100 + 25 * math.log(c, 2)
+    return '{p:.1f}%'.format(p=100 + ((cur_size * 100.0) / max_size))
 
 
 @app.template_filter('tk_questions_format')
@@ -88,7 +96,9 @@ class BackendAPI(object):
             "facets": {
                 "date": {
                     "interval": "year"
-                }
+                },
+                "description": {"size": 200},
+                "answer_description": {"size": 200}
             }
         }
 

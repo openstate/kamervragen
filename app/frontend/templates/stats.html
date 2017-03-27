@@ -9,9 +9,29 @@ var chart_data = {{ results.facets.date.entries |tojson|safe }};
 </script>
 
 <section id="data">
+  <h2> Aantal vragen per jaar</h2>
   <div id='chart'>
     <svg style='height:500px'> </svg>
   </div>
+
+  <h2>Woorden in vragen</h2>
+  <div id="questions">
+    <ul class="wordcloud">
+    {% for word in results.facets.description.terms %}
+      <li style="font-size: {{ word.count |wordcloud_font_size(results.facets.description.terms[0].count) }};">{{ word.term }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+
+  <h2>Woorden in Antwoorden</h2>
+  <div id="answers">
+    <ul class="wordcloud">
+    {% for word in results.facets.answer_description.terms %}
+      <li style="font-size: {{ word.count |wordcloud_font_size(results.facets.answer_description.terms[0].count) }};">{{ word.term }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+
 </section>
 
 <script type="text/javascript">

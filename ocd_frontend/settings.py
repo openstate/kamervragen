@@ -165,7 +165,19 @@ AVAILABLE_FACETS = {
                 'field': 'questions_hash',
                 'size': 10
             }
-        }
+        },
+        'description': {
+            'terms': {
+                'field': 'description',
+                'size': 10
+            }
+        },
+        'answer_description': {
+            'terms': {
+                'field': 'answer.description',
+                'size': 10
+            }
+        },
     }
 }
 

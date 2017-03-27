@@ -26,3 +26,6 @@
   background-color: white;
   color: #ec117e;
 }
+
+ul.wordcloud { list-style-type: none; }
+ul.wordcloud li { display: inline-block; }
