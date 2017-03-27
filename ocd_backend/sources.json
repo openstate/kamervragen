@@ -81,7 +81,13 @@
       "frontend_index": "tk_questions",
       "frontend_type": "tk_questions",
       "frontend_args": {
-        "size": 100
+        "size": 100,
+        "sort": "date",
+        "order": "desc",
+        "date": {
+            "from": "2017-01-01T00:00:00",
+            "to": "2017-04-30T23:59:59"
+        }
       },
       "match_index_name": "tk_answers",
       "match_doc_type": "tk_answers"

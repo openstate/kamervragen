@@ -60,7 +60,7 @@ class BackendAPI(object):
 
         try:
             result = requests.post(
-                '%s/tk_questions/search' % (self.URL,),
+                '%s/tk_qa_matches/search' % (self.URL,),
                 data=json.dumps(es_query)).json()
         except Exception:
             result = {
@@ -88,7 +88,7 @@ class BackendAPI(object):
 
         try:
             result = requests.post(
-                '%s/tk_questions/search' % (self.URL,),
+                '%s/tk_qa_matches/search' % (self.URL,),
                 data=json.dumps(es_query)).json()
         except Exception:
             result = {
@@ -115,7 +115,7 @@ class BackendAPI(object):
 
         try:
             result = requests.post(
-                '%s/tk_questions/search' % (self.URL,),
+                '%s/tk_qa_matches/search' % (self.URL,),
                 data=json.dumps(es_query)).json()
         except Exception:
             result = {
@@ -135,7 +135,7 @@ class BackendAPI(object):
         }
 
         return requests.post(
-            '%s/tk_questions/search' % (self.URL,),
+            '%s/tk_qa_matches/search' % (self.URL,),
             data=json.dumps(es_query)).json()
 
 api = BackendAPI()

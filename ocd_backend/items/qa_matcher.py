@@ -43,29 +43,33 @@ class QaMatcherItem(
             print e
             traceback.print_exc()
         sh = getInstance()
-        print "shingling name"
         name_shingles = sh.wshingling(self.original_item['name'])
-        print "shingling questions"
         if 'questions' in self.original_item:
             question_shingles = sh.wshingling(self.original_item['questions'])
         else:
             question_shingles = None
-        print "Getting candidate docs"
         docs = self.get_candidate_documents()
-        print "Get top candidate"
-        self.match = self.get_top_candidate(
-            sh, name_shingles, question_shingles, docs)
-        print "check if match"
-        if self.match is not None:
-            print "ANTWOORD: %s - %s" % (
-                self.match['date'], self.match['name'],)
+        try:
+            self.match = self.get_top_candidate(
+                sh, name_shingles, question_shingles, docs)
+        except Exception as e:
+            print e
+            traceback.print_exc()
 
-        # On init, all data should be available to construct self.meta
-        # and self.combined_item
-        self._construct_object_meta(processing_started)
-        self._construct_combined_index_data()
+        try:
+            if getattr(self, 'match', None) is not None:
+                print "ANTWOORD: %s - %s" % (
+                    self.match['date'], self.match['name'],)
 
-        self.index_data = self.get_index_data()
+            # On init, all data should be available to construct self.meta
+            # and self.combined_item
+            self._construct_object_meta(processing_started)
+            self._construct_combined_index_data()
+
+            self.index_data = self.get_index_data()
+        except Exception as e:
+            print e
+            traceback.print_exc()
 
     def jc_sim(self, shingles, doc_shingles):
         intersection = []
@@ -79,16 +83,21 @@ class QaMatcherItem(
     def get_top_candidate(self, sh, name_shingles, question_shingles, docs):
         scores = []
         for doc in docs:
-            if (
-                ('questions' not in doc) or
-                (doc['questions'].strip == u'')
-            ):
-                doc_shingles = sh.wshingling(doc['name'])
-                jc_sim = self.jc_sim(name_shingles, doc_shingles)
-            else:
-                doc_shingles = sh.wshingling(doc['questions'])
-                jc_sim = self.jc_sim(
-                    question_shingles, doc_shingles)
+            # if (
+            #     ('questions' not in doc) or
+            #     (doc['questions'].strip == u'')
+            # ):
+            #     doc_shingles = sh.wshingling(doc['name'])
+            #     jc_sim = self.jc_sim(name_shingles, doc_shingles)
+            # else:
+            #     doc_shingles = sh.wshingling(doc['questions'])
+            #     try:
+            #         jc_sim = self.jc_sim(
+            #             question_shingles, doc_shingles)
+            #     except TypeError:
+            #         jc_sim = 0.0
+            doc_shingles = sh.wshingling(doc['name'])
+            jc_sim = self.jc_sim(name_shingles, doc_shingles)
             if jc_sim > 0.0:
                 scores.append((jc_sim, doc,))
         try:
@@ -99,16 +108,16 @@ class QaMatcherItem(
     def get_candidate_documents(self):
         print "VRAAG: %s - %s" % (
             self.original_item['date'], self.original_item['name'],)
-        date = iso8601.parse_date(self.original_item['date'])
-        start_date = date - timedelta(days=90)
+        date = self.original_item['date']
+        start_date = date + timedelta(days=90)
         candidates = []
         results_count = 1
         offset = 0
         page_size = 100
         api_args = {
             'date': {
-                'from': start_date.isoformat(),
-                'to': date.isoformat()
+                'from': date.isoformat(),
+                'to': start_date.isoformat()
             },
             'from': offset,
             'size': page_size
@@ -122,6 +131,8 @@ class QaMatcherItem(
             results_count = len(results['hits']['hits'])
             offset += results_count
             api_args['from'] = offset
+        # for candidate in candidates:
+        #     print "KANDIDAAT: %s - %s" % (candidate['date'], candidate['name'],)
         return candidates
 
     def get_original_object_id(self):
@@ -143,9 +154,11 @@ class QaMatcherItem(
 
     def get_combined_index_data(self):
         combined_index_data = self.original_item
-        del combined_index_data['meta']
-        combined_index_data['date'] = iso8601.parse_date(
-            combined_index_data['date'])
+        if 'meta' in combined_index_data:
+            del combined_index_data['meta']
+        if isinstance(combined_index_data['date'], basestring):
+            combined_index_data['date'] = iso8601.parse_date(
+                combined_index_data['date'])
         combined_index_data['hidden'] = self.source_definition['hidden']
 
         self_match = getattr(self, 'match', None)

@@ -35,13 +35,24 @@
       <h2><a href="/{{ result.period }}/{{ result.id}}/">{{ result.name }}</a></h2>
 
       {% if 'answer' in result %}
-        {{ result.answer.description |nl2br |safe }}
-        <p>Ingediend: {{ result.date }}</p>
-        <p>Beantwoord: {{ result.answer.date }}</p>
+        {{ result.answer.description |default('De tekst van deze vraag is helaas nog niet beschikbaar') |nl2br |safe }}
       {% else %}
-        {{ result.description |nl2br |safe }}
-        <p>Ingediend: {{ result.date }}</p>
+        {{ result.description |default('De tekst van deze vraag is helaas nog niet beschikbaar') |nl2br |safe }}
       {% endif %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li class="list-group-item">
+          Ingediend: <span class="badge">{{ result.date |iso8601_to_str("%d-%m-%Y") }}</span>
+        </li>
+        {% if 'answer' in result %}
+        <li class="list-group-item">
+          Beantwoord: <span class="badge">{{ result.answer.date |iso8601_to_str("%d-%m-%Y") }}</span>
+        </li>
+        {% endif %}
+      </ul>
     </div>
   </div>
 </section>
