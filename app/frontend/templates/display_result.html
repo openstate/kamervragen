@@ -35,9 +35,9 @@
       <h2><a href="/{{ result.period }}/{{ result.id}}/">{{ result.name }}</a></h2>
 
       {% if 'answer' in result %}
-        {{ result.answer.description |default('De tekst van deze vraag is helaas nog niet beschikbaar') |nl2br |safe }}
+        {{ result.answer.description |default('De tekst van deze vraag is helaas nog niet beschikbaar') |tk_questions_format |nl2br |safe }}
       {% else %}
-        {{ result.description |default('De tekst van deze vraag is helaas nog niet beschikbaar') |nl2br |safe }}
+        {{ result.description |default('De tekst van deze vraag is helaas nog niet beschikbaar') |tk_questions_format |nl2br |safe }}
       {% endif %}
     </div>
   </div>

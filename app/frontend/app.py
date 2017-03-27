@@ -16,6 +16,12 @@ import requests
 app = Flask(__name__)
 
 
+@app.template_filter('tk_questions_format')
+def do_tk_questions_format(s):
+    return re.sub(
+        r'^\s*(Vraag|Antwoord)\s+(\d+)', r"<h2>\1 \2</h2>", s, 0, re.M)
+
+
 @app.template_filter('iso8601_to_str')
 def do_iso8601_to_str(s, format):
     return iso8601.parse_date(s).strftime(format)
