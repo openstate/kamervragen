@@ -83,22 +83,24 @@ class QaMatcherItem(
     def get_top_candidate(self, sh, name_shingles, question_shingles, docs):
         scores = []
         for doc in docs:
-            # if (
-            #     ('questions' not in doc) or
-            #     (doc['questions'].strip == u'')
-            # ):
-            #     doc_shingles = sh.wshingling(doc['name'])
-            #     jc_sim = self.jc_sim(name_shingles, doc_shingles)
-            # else:
-            #     doc_shingles = sh.wshingling(doc['questions'])
-            #     try:
-            #         jc_sim = self.jc_sim(
-            #             question_shingles, doc_shingles)
-            #     except TypeError:
-            #         jc_sim = 0.0
-            doc_shingles = sh.wshingling(doc['name'])
-            jc_sim = self.jc_sim(name_shingles, doc_shingles)
-            if jc_sim > 0.0:
+            if (
+                ('questions' not in doc) or
+                (doc['questions'].strip == u'')
+            ):
+                doc_shingles = sh.wshingling(doc['name'])
+                jc_sim = self.jc_sim(name_shingles, doc_shingles)
+                jc_min = 0.001
+            else:
+                doc_shingles = sh.wshingling(doc['questions'])
+                jc_min = 0.1
+                try:
+                    jc_sim = self.jc_sim(
+                        question_shingles, doc_shingles)
+                except TypeError:
+                    jc_sim = 0.0
+            #doc_shingles = sh.wshingling(doc['name'])
+            # jc_sim = self.jc_sim(name_shingles, doc_shingles)
+            if jc_sim > jc_min:
                 scores.append((jc_sim, doc,))
         try:
             return max(scores, key=itemgetter(0))[1]
