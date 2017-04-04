@@ -89,10 +89,10 @@ class QaMatcherItem(
             ):
                 doc_shingles = sh.wshingling(doc['name'])
                 jc_sim = self.jc_sim(name_shingles, doc_shingles)
-                jc_min = 0.001
+                jc_min = 0.05
             else:
                 doc_shingles = sh.wshingling(doc['questions'])
-                jc_min = 0.1
+                jc_min = 0.5
                 try:
                     jc_sim = self.jc_sim(
                         question_shingles, doc_shingles)

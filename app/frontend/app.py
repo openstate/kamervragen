@@ -5,7 +5,7 @@ import re
 
 from flask import (
     Flask, abort, jsonify, request, redirect, render_template,
-    stream_with_context, Response)
+    stream_with_context, Response, url_for)
 
 from jinja2 import Markup
 
@@ -15,6 +15,15 @@ import requests
 # locale.setlocale(locale.LC_TIME, "nl_NL")
 
 app = Flask(__name__)
+
+PAGE_SIZE = 20
+
+
+@app.template_filter('url_for_search_page')
+def do_url_for_search_page(page):
+    args = request.args.copy()
+    args['page'] = page
+    return url_for(request.endpoint, **args)
 
 
 @app.template_filter('wordcloud_font_size')
@@ -120,10 +129,12 @@ class BackendAPI(object):
             }
         return result
 
-    def search_questions(self, query=None):
+    def search_questions(self, query=None, page=1):
         es_query = {
             "sort": "date",
-            "order": "desc"
+            "order": "desc",
+            "from": (page - 1) * PAGE_SIZE,
+            "size": PAGE_SIZE
         }
 
         if query is not None:
@@ -159,10 +170,15 @@ api = BackendAPI()
 
 @app.route("/")
 def main():
-    results = api.search_questions()
+    page = int(request.args.get('page', '1'))
+    query = None
+    results = api.search_questions(query, page)
+    max_pages = int(math.ceil(results['meta']['total'] / PAGE_SIZE))
     today = datetime.datetime.now()
     stats = api.get_stats_in_period("%s-01-01T00:00:00" % (today.year,))
-    return render_template('index.html', results=results, stats=stats)
+    return render_template(
+        'index.html', results=results, stats=stats, query=query, page=page,
+        max_pages=max_pages)
 
 
 @app.route("/stats")
@@ -173,8 +189,13 @@ def stats():
 
 @app.route("/zoeken")
 def search():
-    results = api.search_questions(request.args.get('query', None))
-    return render_template('search_results.html', results=results)
+    page = int(request.args.get('page', '1'))
+    query = request.args.get('query', None)
+    results = api.search_questions(query, page)
+    max_pages = int(math.ceil(results['meta']['total'] / PAGE_SIZE))
+    return render_template(
+        'search_results.html', results=results, query=query, page=page,
+        max_pages=max_pages)
 
 
 @app.route("/<period>/<id>")

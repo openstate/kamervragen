@@ -18,3 +18,24 @@
   </div>
 </div>
 {% endfor %}
+
+<nav id="pager" class="text-center">
+  <ul class="pagination">
+    {% if page <= 1 %}
+    <li class="prev previous_page disabled">
+      <a href="#" rel="prev">Vorige</a>
+    {% else %}
+    <li class="prev previous_page">
+      <a href="{{ (page - 1) |url_for_search_page }}" rel="prev">Vorige</a>
+    {% endif %}
+    </li>
+    {% if page >= max_pages %}
+    <li class="next next_page disabled">
+      <a href="#" rel="next">Volgende</a>
+    {% else %}
+    <li class="next next_page">
+      <a href="{{ (page + 1) |url_for_search_page }}" rel="next">Volgende</a>
+    {% endif %}
+    </li>
+  </ul>
+</nav>
