@@ -11,7 +11,7 @@ class TweedeKamerExtractor(StaticJSONExtractor):
 
     def _get_feed_url(self, url):
         return self.http_session.get(
-            url, headers={
+            url.replace(u'/REST/Feed?', u'/REST/Feed.json?'), headers={
                 'Authorization': (
                     'Basic dG9ta3VuemxlcjpEUk4kTyRrelF4NUVaaCVsem03YQ==')
             }, verify=False)
