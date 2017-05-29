@@ -29,7 +29,8 @@ RUN apt-get update \
         gettext \
         git \
         dnsutils \
-        vim
+        vim \
+        antiword
 
 RUN add-apt-repository ppa:mc3man/trusty-media \
     && apt-get update \
