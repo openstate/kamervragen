@@ -2,6 +2,9 @@ import json
 from pprint import pprint
 import re
 
+import iso8601
+import timestring
+
 from ocd_backend.extractors import BaseExtractor, HttpRequestMixin
 from ocd_backend.exceptions import ConfigurationError
 from ocd_backend.utils.api import FrontendAPIMixin
@@ -18,6 +21,19 @@ class FrontendAPIExtractor(BaseExtractor, HttpRequestMixin, FrontendAPIMixin):
             self.source_definition.get('frontend_index') or
             self.source_definition['index_name'])
         api_args = self.source_definition['frontend_args']
+
+        # TODO: this stuff is hacky but no real idea to fix it in a good way
+        try:
+            from_date = iso8601.parse_date(api_args['date']['from'])
+        except iso8601.ParseError:
+            from_date = timestring.Range(api_args['date']['from']).start.date
+        try:
+            to_date = iso8601.parse_date(api_args['date']['to'])
+        except iso8601.ParseError:
+            to_date = timestring.Range(api_args['date']['to']).start.date
+        api_args['date']['from'] = from_date.isoformat()[0:19]
+        api_args['date']['to'] = to_date.isoformat()[0:19]
+
         api_results = 1
         api_page = 1
         api_offset = 0
