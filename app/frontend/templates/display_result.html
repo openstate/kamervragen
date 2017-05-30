@@ -21,13 +21,14 @@
       {% endif %}
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <!--
       <form action="/subscribe" class="form">
         <div class="form-group">
           <label>Email</label>
           <input type="text" name="email" class="form-control">
         </div>
         <input type="submit" class="btn btn-default" value="Hou me op de hoogte">
-      </form>
+      </form> -->
     </div>
   </div>
 </section>
@@ -35,7 +36,7 @@
 <section id="data">
   <div class="row">
     <div class="col-xs-12">
-      <h2><a href="/{{ result.period }}/{{ result.id}}/">{{ result.name }}</a></h2>
+      <h2>{{ result.name }}</h2>
 
       {% if 'answer' in result %}
         {{ result.answer.description |default('De tekst van deze vraag is helaas nog niet beschikbaar') |tk_questions_format |nl2br |safe }}
