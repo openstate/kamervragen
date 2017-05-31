@@ -85,7 +85,7 @@
         "sort": "date",
         "order": "desc",
         "date": {
-            "from": "1 week ago",
+            "from": "10 weeks ago",
             "to": "now"
         }
       },
