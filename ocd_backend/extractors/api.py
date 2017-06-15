@@ -37,7 +37,6 @@ class FrontendAPIExtractor(BaseExtractor, HttpRequestMixin, FrontendAPIMixin):
         api_results = 1
         api_page = 1
         api_offset = 0
-        # TODO: implement actual paging .... ;) (let's)
         while api_results > 0 and api_page < 250:
             print "Fetching page %s ..." % (api_page,)
             api_args['from'] = api_offset
@@ -46,7 +45,6 @@ class FrontendAPIExtractor(BaseExtractor, HttpRequestMixin, FrontendAPIMixin):
                 self.source_definition['frontend_type'],
                 **api_args)   # 100 for now ...
             for result in results[u'hits'][u'hits']:
-                print "%s - %s" % (result['name'], result['date'],)
                 yield 'application/json', json.dumps(result)
             api_results = len(results[u'hits'][u'hits'])
             api_offset += api_results
