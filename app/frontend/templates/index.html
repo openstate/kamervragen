@@ -7,13 +7,21 @@
 <section id="stats">
   <div class="row" style="margin-left: 0; margin-right: 0;">
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 counter primary">
+      {% if stats.facets.classification %}
       {{ stats.facets.classification.terms[0].count |default('0') }}
+      {% else %}
+      0
+      {% endif %}
     </div>
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 expl primary-rev">
       vragen gesteld dit jaar
     </div>
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 counter secondary">
+      {% if stats.facets.answer_classification %}
       {{ stats.facets.answer_classification.missing |default('0') }}
+      {% else %}
+      0
+      {% endif %}
     </div>
     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 expl secondary-rev">
       wachten nog op antwoord
