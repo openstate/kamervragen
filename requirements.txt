@@ -22,7 +22,7 @@ indicsyllabifier==0.3
 ipaddress==1.0.17
 iso8601==0.1.10
 itsdangerous==0.24
-Jinja2==2.8
+Jinja2==2.11.3
 kombu==3.0.37
 lxml==3.3.5
 MarkupSafe==0.23
