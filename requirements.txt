@@ -56,6 +56,6 @@ spyne==2.11.0
 suds==0.4
 timestring==1.6.2
 translitcodec==0.4.0
-urllib3==1.19.1
+urllib3==1.26.5
 uWSGI==2.0.14
 Werkzeug==0.11.11
