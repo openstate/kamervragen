@@ -24,7 +24,7 @@ iso8601==0.1.10
 itsdangerous==0.24
 Jinja2==2.8
 kombu==3.0.37
-lxml==3.3.5
+lxml==4.6.5
 MarkupSafe==0.23
 mock==1.0.1
 msgpack-python==0.4.2
