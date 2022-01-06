@@ -3,7 +3,7 @@ anyjson==0.3.3
 -e git+https://github.com/mikeboers/PyAV.git@34d568f924e7dbb49a6f337e7791204c64fd8c52#egg=av
 BeautifulSoup==3.2.1
 billiard==3.3.0.23
-celery==3.1.17
+celery==5.2.2
 cffi==1.9.1
 chardet==2.3.0
 click==2.1
